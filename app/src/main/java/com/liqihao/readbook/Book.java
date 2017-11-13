@@ -1,0 +1,37 @@
+package com.liqihao.readbook;
+
+import java.io.Serializable;
+
+/**
+ * Created by liqihao on 2017/11/13.
+ */
+
+public class Book implements Serializable{
+    private String name;
+    private String path;
+    private String encoding;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+}

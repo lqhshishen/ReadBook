@@ -10,6 +10,11 @@ public class Book implements Serializable{
     private String name;
     private String path;
     private String encoding;
+    public Book(){}
+    public Book(String name,String path) {
+        this.name = name;
+        this.path = path;
+    }
 
     public String getName() {
         return name;

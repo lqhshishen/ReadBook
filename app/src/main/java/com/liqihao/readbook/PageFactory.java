@@ -6,15 +6,20 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by liqihao on 2017/11/13.
@@ -87,12 +92,13 @@ public class PageFactory {
         begin = spHelper.getBookmarkStart(book.getName());
         end = spHelper.getBookmarkEnd(book.getName());
         File file = new File(book.getPath());
+
         fileLength = (int) file.length();
         try {
             randomFile = new RandomAccessFile(file,"r");
             mappedFile = randomFile.getChannel().map(FileChannel.MapMode.READ_ONLY,0,(long)fileLength);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("nmb",Log.getStackTraceString(e));
             Toast.makeText(mContext, "打开失败!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -178,6 +184,162 @@ public class PageFactory {
                     break;
                 }
             }
+            if(strParagraph.length() > 0) {
+                try {
+                    end -= (strParagraph).getBytes(encoding).length;
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    //上翻页
+    private void pageUp() {
+        String strParagraph="";
+        List<String> tempList = new ArrayList<>();
+        while (tempList.size() < lineNumber && begin > 0) {
+            byte[] byteTemp = readParagraphBack(begin);
+            begin -= byteTemp.length;
+            try {
+                strParagraph = new String(byteTemp,encoding);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            strParagraph = strParagraph.replaceAll("\r\n","  ");
+            strParagraph = strParagraph.replaceAll("\n","  ");
+            while(strParagraph.length() > 0){
+                int size = mPaint.breakText(strParagraph,true,pageWidth,null);
+                tempList.add(strParagraph.substring(0, size));
+                strParagraph = strParagraph.substring(size);
+                if(tempList.size() >= lineNumber){
+                    break;
+                }
+            }
+            if(strParagraph.length() > 0){
+                try{
+                    begin+= strParagraph.getBytes(encoding).length;
+                }catch (UnsupportedEncodingException u){
+                    u.printStackTrace();
+                }
+            }
+        }
+    }
+    public void printPage() {
+        if (content.size() > 0) {
+            int y = margin;
+            mCanvas.drawColor(mContext.getResources().getColor(R.color.dayModeTextColor));
+            for(String line : content) {
+                y += fontSize+lineSpace;
+                mCanvas.drawText(line,margin,y,mPaint);
+            }
+            float percent = (float) begin / fileLength *100;
+            DecimalFormat format = new DecimalFormat("#0.00");
+            String readingProgress = format.format(percent) + "%";
+            int length = (int) mPaint.measureText(readingProgress);
+            mCanvas.drawText(readingProgress,(screenWidth - length) / 3
+                    ,screenHeight - margin,mPaint);
+        }
+    }
+
+    private int serchPositionByKey (int beginPos,String key) {
+        int position = begin;
+        try {
+            randomFile.seek(beginPos);
+            String keyString = new String(key.getBytes(encoding), StandardCharsets.ISO_8859_1);
+            String temp;
+            long pointer;
+            for(;;) {
+                pointer = randomFile.getFilePointer();
+                temp = randomFile.readLine();
+                if(temp != null && temp.contains(keyString)) {
+                    position = (int) pointer;
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return position;
+    }
+    public void nextPage() {
+        if (end >= fileLength) {
+            return;
+        }else{
+            content.clear();
+            begin = end;
+            pageDown();
+        }
+        printPage();
+    }
+    public void prePage() {
+        if(begin <= 0) {
+            return;
+        }else{
+            content.clear();
+            pageUp();
+            end = begin;
+            pageDown();
+        }
+        printPage();
+    }
+    public void saveBookmark() {
+        SPHelper.getInstance().setBookmarkEnd(book.getName(),begin);
+        SPHelper.getInstance().setBookmarkStart(book.getName(),begin);
+    }
+    public int getFileLength() {
+        return fileLength;
+    }
+    public MappedByteBuffer getMappedFile() {
+        return mappedFile;
+    }
+
+    public void setPosition(int position) {
+
+        end = position;
+        nextPage();
+    }
+    public int getProgress() {
+        return begin * 100 / fileLength;
+    }
+    public int setProgress(int i) {
+        int origin = begin;
+        end = fileLength * i/100;
+        if (end == fileLength) {
+            end--;
+        }
+        if(end == 0) {
+            nextPage();
+        }else{
+            nextPage();
+            prePage();
+            nextPage();
+        }
+        return origin;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+    public String getEncoding() {
+        return encoding;
+    }
+    public int getCurrentEnd() {
+        return end;
+    }
+    public int getCurrentBegin() {
+        return begin;
+    }
+
+    public static void close() {
+        if(instance != null) {
+            try {
+                instance.randomFile.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            instance = null;
         }
     }
 }

@@ -2,6 +2,9 @@ package com.liqihao.readbook;
 
 import android.app.Activity;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -9,100 +12,88 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toolbar;
 
 import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
     Activity mContext;
 
-//    BindView(R.id.LN_main)
+    //    BindView(R.id.LN_main)
 //        LinearLayout main;
 //    BindView(R.id.toolbar)
 //        android.support.v7.widget.Toolbar toolbar;
-    @BindView(R.id.pv)
-        PageView pv;
+//    @BindView(R.id.top_view)
+    View topView;
+//    @BindView(R.id.bottom_view)
+    View bottomView;
+//    @BindView(R.id.top_rela)
+    RelativeLayout topRela;
+//    @BindView(R.id.bottom_rela)
+    RelativeLayout bottomRela;
+//    @BindView(R.id.aa)
+    ImageView aa;
+//    @BindView(R.id.content)
+    ImageView content;
+//    @BindView(R.id.day_night_mode)
+    ImageView mode;
+//    @BindView(R.id.more)
+    ImageView more;
+//    @BindView(R.id.Ln_main)
+    CoordinatorLayout getmCoordinator;
 
-    android.support.v7.widget.Toolbar toolbar;
+    View.OnClickListener clickListener;
 
-    private com.liqihao.readbook.PageFactory mPageFactory;
-
+    private DrawerLayout mDrawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppDayTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
         ButterKnife.bind(mContext);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        Book book = new Book("chenxizhijian","/storage/emulated/0/Download/晨曦之剑.txt");
-        book.setEncoding("UTF-8");
-        pv.setSystemUiVisibility(View.INVISIBLE);
-        mPageFactory = com.liqihao.readbook.PageFactory.getInstance(pv,book);
-        mPageFactory.nextPage();
-        Log.i("a112233",book.getPath());
-
-        pv.setOnClickCallback(new PageView.OnClickCallback() {
+        mDrawerLayout = findViewById(R.id.side_content);
+        topRela = findViewById(R.id.top_rela);
+        topView = findViewById(R.id.top_view);
+        bottomView = findViewById(R.id.bottom_view);
+        bottomRela = findViewById(R.id.bottom_rela);
+        aa = findViewById(R.id.aa);
+        content = findViewById(R.id.content);
+        mode = findViewById(R.id.day_night_mode);
+        more = findViewById(R.id.more);
+        getmCoordinator = findViewById(R.id.Ln_main);
+        getmCoordinator.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLeftClick() {
-                mPageFactory.prePage();
-            }
-
-            @Override
-            public void onMiddleClick() {
-
-            }
-
-            @Override
-            public void onRightClick() {
-                mPageFactory.nextPage();
-            }
-        });
-        pv.setOnScrollListener(new PageView.OnScrollListener() {
-            @Override
-            public void onLeftScroll() {
-                mPageFactory.nextPage();
-            }
-
-            @Override
-            public void onRightScroll() {
-                mPageFactory.prePage();
+            public void onClick(View v) {
+                if (topView.getVisibility() == View.GONE) {
+                    topView.setVisibility(View.VISIBLE);
+                    bottomRela.setVisibility(View.VISIBLE);
+                    topRela.setVisibility(View.VISIBLE);
+                    bottomView.setVisibility(View.VISIBLE);
+                } else {
+                    topView.setVisibility(View.GONE);
+                    bottomRela.setVisibility(View.GONE);
+                    topRela.setVisibility(View.GONE);
+                    bottomView.setVisibility(View.GONE);
+                }
             }
         });
+        more.setOnClickListener(clickListener);
+        mode.setOnClickListener(clickListener);
+        content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+        aa.setOnClickListener(clickListener);
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mPageFactory.saveBookmark();
-    }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if(isActionB)
-//    }
-
-    private BottomSheetBehavior<CardView> bottomSheetBehavior;
-    private int originPosition = -1;
-
-    private boolean hadOtherWidgetShown() {
-        if(isAnimating) {
-            return true;
-        }
-        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            originPosition = -1;
-            return true;
-        }
-        return false;
-    }
-    private boolean isAnimating;
-
 
 }

@@ -25,29 +25,30 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorBlack"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="55dp"
         android:id="@+id/top_view"
         android:visibility="gone">
     </View>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="57dp"
-            android:background="@color/colorBlack"
-            android:id="@+id/bottom_view"
-            android:visibility="gone">
-        </View>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
         android:id="@+id/bottom_rela"
         android:visibility="gone">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/colorBlack"
+            android:id="@+id/bottom_view"
+            android:visibility="gone">
+        </View>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:orientation="horizontal">
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
             <ImageView
                 android:id="@+id/content"
                 android:layout_width="match_parent"
@@ -76,10 +77,12 @@
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
     <fragment
+        android:clickable="true"
         android:name="com.liqihao.readbook.Content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        android:focusable="true">
     </fragment>
 </android.support.v4.widget.DrawerLayout>

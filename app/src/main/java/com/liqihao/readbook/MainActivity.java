@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.openDrawer(GravityCompat.START);
+                mDrawerLayout.setClickable(true);
             }
         });
         aa.setOnClickListener(clickListener);

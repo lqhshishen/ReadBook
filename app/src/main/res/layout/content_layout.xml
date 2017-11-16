@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="#FFF"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:fitsSystemWindows="true">
 
     <TextView
         android:id="@+id/textView"

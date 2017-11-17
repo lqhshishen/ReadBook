@@ -54,6 +54,12 @@ public class SPHelper {
     public void deleteBookMark(String bookName){
         bookmarkEditor.remove(bookName).apply();
     }
+    public String getBookEncoding(Book book){
+        return config.getString(book.getPath(),"");
+    }
+    public void setBookEncoding(Book book,String encoding){
+        configEditor.putString(book.getPath(),encoding).apply();
+    }
 
 
 

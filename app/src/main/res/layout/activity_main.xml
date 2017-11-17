@@ -11,6 +11,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/Ln_main">
+        <com.liqihao.readbook.PageView
+            android:id="@+id/pageview"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
 
         <RelativeLayout
             android:id="@+id/top_rela"
@@ -91,7 +95,6 @@
                 app:srcCompat="@drawable/read_more"
                 android:layout_gravity="center"/>
         </LinearLayout>
-
     </RelativeLayout>
     <fragment
         android:clickable="true"

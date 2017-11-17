@@ -32,6 +32,7 @@ public class PageFactory {
     private int lineSpace = 5;
     private int fileLength;
     private int fontSize;
+
     private static final int margin = 5;
     private Paint mPaint;
     private int begin;//当前阅读的字节数_开始
@@ -97,8 +98,8 @@ public class PageFactory {
         begin = spHelper.getBookmarkStart(book.getName());
         end = spHelper.getBookmarkEnd(book.getName());
         File file = new File(book.getPath());
-
         fileLength = (int) file.length();
+        Log.i("文件长度",String.valueOf(fileLength));
         try {
             randomFile = new RandomAccessFile(file,"r");
             mappedFile = randomFile.getChannel().map(FileChannel.MapMode.READ_ONLY,0,(long)fileLength);
@@ -128,7 +129,6 @@ public class PageFactory {
             before = b0;
             i++;
         }
-
         i = Math.min(fileLength-1,i);
         int nParaSize = i - end + 1;
 
@@ -300,7 +300,9 @@ public class PageFactory {
     public MappedByteBuffer getMappedFile() {
         return mappedFile;
     }
-
+    public MappedByteBuffer getMappedFilf() {
+        return mappedFile;
+    }
     public void setPosition(int position) {
 
         end = position;

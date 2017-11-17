@@ -15,6 +15,11 @@ public class Book implements Serializable{
         this.name = name;
         this.path = path;
     }
+    public Book(String name,String path,String encoding) {
+        this.name = name;
+        this.path = path;
+        this.encoding = encoding;
+    }
 
     public String getName() {
         return name;

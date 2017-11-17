@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
     ImageView content;
     @BindView(R.id.aa)
     ImageView aa;
-
     @BindView(R.id.more)
     ImageView more;
+
     private PageFactory mPageFactory;
     private PageView pageView;
     private int originPosition = -1;
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         more = findViewById(R.id.more);
         relativeLayout = findViewById(R.id.Ln_main);
         pageView = findViewById(R.id.pageview);
-        Book book = new Book("chenxizhijian","/storage/emulated/0/电影/晨曦之剑.txt","UTF-8");
+        Book book = new Book("chenxizhijian","/storage/emulated/0/Download/晨曦之剑.txt","GB18030");
         mPageFactory = com.liqihao.readbook.PageFactory.getInstance(pageView,book);
         mPageFactory.nextPage();
         more.setOnClickListener(clickListener);
@@ -155,6 +155,4 @@ public class MainActivity extends AppCompatActivity {
         bottomView.setVisibility(View.VISIBLE);
         pageView.setSystemUiVisibility(View.VISIBLE);
     }
-
-
 }

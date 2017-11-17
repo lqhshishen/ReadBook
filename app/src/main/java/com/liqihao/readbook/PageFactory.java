@@ -29,11 +29,11 @@ public class PageFactory {
     private int screenHeight, screenWidth; //屏幕尺寸
     private int pageHeight,pageWidth;    //文字排版页面尺寸
     private int lineNumber;//行数
-    private int lineSpace = 5;
+    private int lineSpace = (int)(GetContext.getContext().getResources().getDisplayMetrics().density * 5);;
     private int fileLength;
     private int fontSize;
 
-    private static final int margin = 5;
+    private static final int margin = (int)(GetContext.getContext().getResources().getDisplayMetrics().density * 5);
     private Paint mPaint;
     private int begin;//当前阅读的字节数_开始
     private int end;//当前阅读的字节数_结束
@@ -238,13 +238,14 @@ public class PageFactory {
             for(String line : content) {
                 y += fontSize+lineSpace;
                 mCanvas.drawText(line,margin,y,mPaint);
+                Log.e("小说内容",line);
             }
-            float percent = (float) begin / fileLength *100;
-            DecimalFormat format = new DecimalFormat("#0.00");
-            String readingProgress = format.format(percent) + "%";
-            int length = (int) mPaint.measureText(readingProgress);
-            mCanvas.drawText(readingProgress,(screenWidth - length) / 2
-                    ,screenHeight - margin,mPaint);
+//            float percent = (float) begin / fileLength *100;
+//            DecimalFormat format = new DecimalFormat("#0.00");
+//            String readingProgress = format.format(percent) + "%";
+//            int length = (int) mPaint.measureText(readingProgress);
+//            mCanvas.drawText(readingProgress,(screenWidth - length) / 2
+//                    ,screenHeight - margin,mPaint);
         }
         mView.invalidate();
     }

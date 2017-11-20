@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mDrawerLayout = findViewById(R.id.side_content);
         topRela = findViewById(R.id.top_rela);
-        topView = findViewById(R.id.top_view);
         bottomView = findViewById(R.id.bottom_view);
         bottomLin = findViewById(R.id.bottom_lin);
         aa = findViewById(R.id.aa);
@@ -135,21 +134,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private boolean isShowMenu(){
-        if (topView.getVisibility() == View.GONE){
+        if (topRela.getVisibility() == View.GONE){
             return false;
         }else
             return true;
     }
 
     private void disMissState(){
-        topView.setVisibility(View.GONE);
         bottomLin.setVisibility(View.GONE);
         topRela.setVisibility(View.GONE);
         bottomView.setVisibility(View.GONE);
         pageView.setSystemUiVisibility(View.INVISIBLE);
     }
     private void showState() {
-        topView.setVisibility(View.VISIBLE);
         bottomLin.setVisibility(View.VISIBLE);
         topRela.setVisibility(View.VISIBLE);
         bottomView.setVisibility(View.VISIBLE);

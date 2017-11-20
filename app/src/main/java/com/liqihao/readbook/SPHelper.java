@@ -31,7 +31,7 @@ public class SPHelper {
     }
 
     public int getFontSize() {
-        return config.getInt("font_size",45);
+        return config.getInt("font_size",35);
     }
     public void setFontSize(int size) {
         configEditor.putInt("font_size",size).apply();

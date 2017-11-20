@@ -1,10 +1,16 @@
 package com.liqihao.readbook;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.os.BatteryManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,8 +24,13 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by liqihao on 2017/11/13.
@@ -33,7 +44,7 @@ public class PageFactory {
     private int fileLength;
     private int fontSize;
 
-    private static final int margin = (int)(GetContext.getContext().getResources().getDisplayMetrics().density * 5);
+    private static final int margin = (int)(GetContext.getContext().getResources().getDisplayMetrics().density * 20);
     private Paint mPaint;
     private int begin;//当前阅读的字节数_开始
     private int end;//当前阅读的字节数_结束
@@ -53,7 +64,7 @@ public class PageFactory {
 
     private static PageFactory instance;
 
-
+    private Paint xPaint;
     private PageFactory(PageView view){
         DisplayMetrics metrics = new DisplayMetrics();
         mContext = view.getContext();
@@ -65,8 +76,11 @@ public class PageFactory {
         fontSize = spHelper.getFontSize();
         pageHeight = screenHeight - margin*2 - fontSize;
         pageWidth = screenWidth - margin*2;
-        lineNumber = pageHeight/(fontSize+lineSpace);
+        lineNumber = (pageHeight/(fontSize+lineSpace))-1;
 
+        xPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        xPaint.setTextSize(15);
+        xPaint.setColor(mContext.getResources().getColor(R.color.colorGrey));
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setTextSize(fontSize);
         mPaint.setColor(mContext.getResources().getColor(R.color.dayModeTextColor));
@@ -74,6 +88,7 @@ public class PageFactory {
         Bitmap bitmap = Bitmap.createBitmap(screenWidth,screenHeight,Bitmap.Config.ARGB_8888);
         mView.setBitmap(bitmap);
         mCanvas = new Canvas(bitmap);
+        mBatteryPait = new Paint();
     }
 
     public static PageFactory getInstance(){
@@ -171,17 +186,22 @@ public class PageFactory {
     //下一页的内容
     private void pageDown() {
         String strParagraph = "";
-        while (content.size() < lineNumber) {
+//        String src="";
+        while ((content.size() < lineNumber) && end <fileLength) {
             byte [] byteTemp = readParagraphForward(end);
             end += byteTemp.length;
             try {
-                strParagraph = new String(byteTemp,encoding);
+                 strParagraph = new String(byteTemp,encoding);
+                 Log.i("下一页",strParagraph);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            strParagraph = strParagraph.replaceAll("\r\n","  ");
-            strParagraph = strParagraph.replaceAll("\n","  ");
-            while(strParagraph.length() >= 0) {
+//            Pattern p = Pattern.compile("\t\r\n");
+//            Matcher m = p.matcher(src);
+//            strParagraph = m.replaceAll(" ");
+            strParagraph = strParagraph.replace("\r\n"," ");
+            strParagraph = strParagraph.replace("\n"," ");
+            while(strParagraph.length() > 0) {
                 int size = mPaint.breakText(strParagraph,true,pageWidth,null);
                 content.add(strParagraph.substring(0,size));
                 strParagraph = strParagraph.substring(size);
@@ -231,23 +251,62 @@ public class PageFactory {
             }
         }
     }
+    private Paint mBatteryPait;
+    private int mPower = 100;
+
+    @SuppressLint("ResourceAsColor")
     public void printPage() {
         if (content.size() > 0) {
-            int y = margin;
-            mCanvas.drawColor(mContext.getResources().getColor(R.color.dayModeTextColor));
+            int y = (int)(GetContext.getContext().getResources().getDisplayMetrics().density * 50);
+            mCanvas.drawColor(mContext.getResources().getColor(R.color.colorDay));
             for(String line : content) {
                 y += fontSize+lineSpace;
                 mCanvas.drawText(line,margin,y,mPaint);
                 Log.e("小说内容",line);
             }
-//            float percent = (float) begin / fileLength *100;
-//            DecimalFormat format = new DecimalFormat("#0.00");
-//            String readingProgress = format.format(percent) + "%";
-//            int length = (int) mPaint.measureText(readingProgress);
-//            mCanvas.drawText(readingProgress,(screenWidth - length) / 2
-//                    ,screenHeight - margin,mPaint);
+            //绘制电池
+            float strokeWidth = Util.getPXWithDP(50);
+            RectF rect = new RectF(Util.getPXWithDP(20),
+                    screenHeight - Util.getPXWithDP(29),
+                    Util.getPXWithDP(10) + Util.getPXWithDP(20),
+                    screenHeight  - Util.getPXWithDP(15));
+            mBatteryPait.setColor(R.color.colorBlack);
+            mBatteryPait.setStyle(Paint.Style.STROKE);
+            mCanvas.drawRect(rect, mBatteryPait);
+            mBatteryPait.setStrokeWidth(0);
+            RectF rect2 = new RectF(Util.getPXWithDP(20),
+                    screenHeight + Util.getPXWithDP(getBatteryPower()) - Util.getPXWithDP(29),
+                    Util.getPXWithDP(10) + Util.getPXWithDP(20),
+                    screenHeight - Util.getPXWithDP(15));
+            mBatteryPait.setStyle(Paint.Style.FILL);
+            mCanvas.drawRect(rect2, mBatteryPait);
+            RectF headRect = new RectF(Util.getPXWithDP(3) + Util.getPXWithDP(20),
+                    screenHeight - Util.getPXWithDP(31),
+                    Util.getPXWithDP(7) + Util.getPXWithDP(20),
+                    screenHeight - Util.getPXWithDP(29));
+            mCanvas.drawRect(headRect, mBatteryPait);
+            /*
+            显示时间
+             */
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.CHINA);
+            String time = simpleDateFormat.format(new Date(System.currentTimeMillis()));
+            mBatteryPait.setTextSize(30);
+            mCanvas.drawText(time,Util.getPXWithDP(45),screenHeight - Util.getPXWithDP(18),mBatteryPait);
         }
         mView.invalidate();
+    }
+
+    private int getBatteryPower() {
+        float b;
+        int batteryPower;
+        Intent batteryIntent = mContext.registerReceiver
+                (null,new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        int scaledLevel = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL,-1);
+        int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE,-1);
+        float a;
+        a = (scaledLevel / scale);
+            batteryPower = (int)(14 * (1 - a));
+        return batteryPower = 5;
     }
 
     private int serchPositionByKey (int beginPos,String key) {

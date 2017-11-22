@@ -13,10 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.liqihao.readbook.Util.GetContext;
 import com.liqihao.readbook.ReadPage.PageFactory;
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.Util.GetContext;
+import com.liqihao.readbook.Util.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +37,9 @@ public class Content extends Fragment implements ContentFactory.LoadCallback{
     private ChapterAdapter mAdapter;
     private ContentFactory contentFactory;
     private RecyclerView recyclerView;
+    private RecyclerView xrectclerView;
 
+    private BookmarkAdapter xAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
@@ -46,16 +50,25 @@ public class Content extends Fragment implements ContentFactory.LoadCallback{
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(GetContext.getContext()));
 
-        contentFactory = new ContentFactory();
 
+        xrectclerView = view.findViewById(R.id.bookmark_re);
+        xrectclerView.setLayoutManager(new LinearLayoutManager(GetContext.getContext()));
+        BookmarkBean bookmarkBean = new BookmarkBean
+                ("第一章 xxxx","11-22 14:49","大叔大婶大所大所多","14");
+        List<BookmarkBean> data = new ArrayList<>();
+        data.add(bookmarkBean);
+        xAdapter = new BookmarkAdapter(GetContext.getContext(),data);
+        xrectclerView.setAdapter(xAdapter);
+
+
+
+        contentFactory = new ContentFactory();
         contentImageGrey = view.findViewById(R.id.content_grey);
         contentImageRed = view.findViewById(R.id.content_red);
         contentWord = view.findViewById(R.id.content);
         bookMarkImageGrey = view.findViewById(R.id.bookmark_grey);
         bookMarkImageRed = view.findViewById(R.id.bookmark_red);
         bookMark = view.findViewById(R.id.bookmark);
-
-
         contentImageGrey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,8 +80,11 @@ public class Content extends Fragment implements ContentFactory.LoadCallback{
                         (GetContext.getContext().getResources().getColor(R.color.contentTextColor));
                 bookMarkImageRed.setVisibility(View.GONE);
                 bookMarkImageGrey.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                xrectclerView.setVisibility(View.GONE);
             }
         });
+
         bookMarkImageGrey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,8 +96,13 @@ public class Content extends Fragment implements ContentFactory.LoadCallback{
                 contentImageGrey.setVisibility(View.VISIBLE);
                 bookMark.setTextColor
                         (GetContext.getContext().getResources().getColor(R.color.colorRed));
+                recyclerView.setVisibility(View.GONE);
+              xrectclerView.setVisibility(View.VISIBLE);
             }
         });
+
+
+
         mAdapter.setOnItemClickListener(new ChapterAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Chapter chapter) {
@@ -94,29 +115,10 @@ public class Content extends Fragment implements ContentFactory.LoadCallback{
         return view;
     }
 
-//    private void showDialog() {
-//        progressDialog = new ProgressDialog(GetContext.getContext(),R.style.AppDialogTheme);
-//        progressDialog.setMax(100);
-//        progressDialog.setProgress(0);
-//        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//        progressDialog.setMessage("正在加载中.....");
-//        progressDialog.show();
-//        progressDialog.setCancelable(false);
-//    }
     private void loadChapters() {
         String key = ContentFactory.KETWORD_ZHANG;
         mAdapter.clearData();
         mAdapter.notifyDataSetChanged();
-//        showDialog();
-//        contentFactory.setProgressCallback(new ContentFactory.ProgressCallback() {
-//            @Override
-//            public void currentPercentage(int percent) {
-//                if(progressDialog.getProgress() != percent){
-//                    progressDialog.setProgress(percent);
-//                    progressDialog.setMessage("正在加载章节中...");
-//                }
-//            }
-//        });
         contentFactory.setKeyword(key);
         contentFactory.getChapterFromFile(this);
     }
@@ -127,15 +129,16 @@ public class Content extends Fragment implements ContentFactory.LoadCallback{
         mAdapter.setCurrentChapter(chapterNumber);
         mAdapter.clearData();
         mAdapter.addData(List);
-        recyclerView.scrollToPosition(chapterNumber);
-//        progressDialog.dismiss();
+        /*
+        滚到chapterNumber的章节
+         */
+//        recyclerView.scrollToPosition(chapterNumber);
     }
 
     @Override
     public void onNotFound() {
         Toast.makeText(GetContext.getContext(), "未发现章节",
                 Toast.LENGTH_SHORT).show();
-//        progressDialog.dismiss();
     }
     private int getChapterNumber(int position,List<Chapter> list) {
         position -= 2;

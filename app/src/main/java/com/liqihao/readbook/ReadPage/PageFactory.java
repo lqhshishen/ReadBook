@@ -14,8 +14,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.liqihao.readbook.Util.GetContext;
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.Util.GetContext;
 import com.liqihao.readbook.Util.SPHelper;
 import com.liqihao.readbook.Util.Util;
 
@@ -40,11 +40,11 @@ public class PageFactory {
     private int screenHeight, screenWidth; //屏幕尺寸
     private int pageHeight,pageWidth;    //文字排版页面尺寸
     private int lineNumber;//行数
-    private int lineSpace = (int)(GetContext.getContext().getResources().getDisplayMetrics().density * 5);;
+    private int lineSpace = Util.getPXWithDP(5);
     private int fileLength;
     private int fontSize;
 
-    private static final int margin = (int)(GetContext.getContext().getResources().getDisplayMetrics().density * 20);
+    private static final int margin = (int)(Util.getPXWithDP(20));
     private Paint mPaint;
     private int begin;//当前阅读的字节数_开始
     private int end;//当前阅读的字节数_结束

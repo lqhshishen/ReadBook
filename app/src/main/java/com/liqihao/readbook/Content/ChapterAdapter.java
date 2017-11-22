@@ -52,14 +52,14 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
         public ChapterViewHolder(View itemView) {
             super(itemView);
             text = itemView.findViewById(R.id.chapter_item_text);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mListener != null) {
-                        mListener.onItemClick(data.get(getAdapterPosition()));
-                    }
-                }
-            });
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (mListener != null) {
+//                        mListener.onItemClick(data.get(getAdapterPosition()));
+//                    }
+//                }
+//            });
         }
     }
 
@@ -78,6 +78,6 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
         currentChapter = number;
     }
     public interface OnItemClickListener {
-        void onItemClick (Chapter chapter);
+        abstract void onItemClick(Chapter chapter);
     }
 }

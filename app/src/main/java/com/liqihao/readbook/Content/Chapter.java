@@ -1,10 +1,12 @@
 package com.liqihao.readbook.Content;
 
+import com.liqihao.readbook.ReadPage.Book;
+
 /**
  * Created by liqihao on 2017/11/21.
  */
 
-public class Chapter extends Book{
+public class Chapter extends Book {
     private String chapterName;
     private int chapterBytePosition, chapterParagraphPsition;
 

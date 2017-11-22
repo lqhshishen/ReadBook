@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="第一节 科学边界"
-        android:textSize="12px"
+        android:textSize="12dp"
         android:layout_weight="1"/>
 
     <TextView
@@ -24,14 +24,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="13"
-        android:textSize="12px" />
+        android:textSize="12dp" />
 </LinearLayout>
 
     <TextView
         android:id="@+id/set_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10px"
+        android:textSize="10dp"
         android:text="11-11 22:07"
         android:layout_marginTop="8dp"/>
 
@@ -39,7 +39,7 @@
         android:id="@+id/bookmark_text"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:textSize="12px"
+        android:textSize="12dp"
         android:text="大楼顶上出现了一个娇小的身影"
         android:layout_marginTop="8dp"/>
 
@@ -49,6 +49,6 @@
     android:layout_height="1dp"
     android:background="@color/colorGrey"
     android:layout_gravity="bottom"
-    android:layout_marginTop="21dp"
+
     />
 </LinearLayout>

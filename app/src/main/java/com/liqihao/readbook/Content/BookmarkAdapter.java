@@ -1,31 +1,48 @@
 package com.liqihao.readbook.Content;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.liqihao.readbook.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by liqihao on 2017/11/22.
  */
 
 public class BookmarkAdapter extends RecyclerView.Adapter <BookmarkAdapter.BookmarkViewHolder> {
+    private List<BookmarkBean> data = new ArrayList<>();
+
+    public BookmarkAdapter (Context context,List<BookmarkBean> list) {
+        data = list;
+    }
 
     @Override
     public BookmarkViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.bookmark_item,parent,false);
+        BookmarkViewHolder holder = new BookmarkViewHolder(view);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(BookmarkViewHolder holder, int position) {
-
+        holder.bookmarkText.setText(data.get(position).getBookmarkText());
+        holder.title.setText(data.get(position).getBookmarkTitle());
+        holder.page.setText(data.get(position).getBookmarkpage());
+        holder.time.setText(data.get(position).getBookmarkTime());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return data.size();
     }
 
     public class BookmarkViewHolder extends RecyclerView.ViewHolder {

@@ -13,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.liqihao.readbook.ReadPage.Book;
+import com.liqihao.readbook.ReadPage.PageFactory;
+import com.liqihao.readbook.ReadPage.PageView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.more)
     ImageView more;
 
+    ImageView bookmarkGrey;
+
+    ImageView bookmarkRed;
+
     private PageFactory mPageFactory;
     private PageView pageView;
     private int originPosition = -1;
@@ -64,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
         mContext = MainActivity.this;
         ButterKnife.bind(this);
         mDrawerLayout = findViewById(R.id.side_content);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+        bookmarkGrey = findViewById(R.id.main_bookmark_grey);
+        bookmarkRed = findViewById(R.id.main_bookmark_red);
+
         topRela = findViewById(R.id.top_rela);
         bottomView = findViewById(R.id.bottom_view);
         bottomLin = findViewById(R.id.bottom_lin);
@@ -74,10 +86,24 @@ public class MainActivity extends AppCompatActivity {
         relativeLayout = findViewById(R.id.Ln_main);
         pageView = findViewById(R.id.pageview);
         Book book = new Book("chenxizhijian","/storage/emulated/0/Download/晨曦之剑.txt","GB18030");
-        mPageFactory = com.liqihao.readbook.PageFactory.getInstance(pageView,book);
+        mPageFactory = PageFactory.getInstance(pageView,book);
         mPageFactory.nextPage();
         more.setOnClickListener(clickListener);
         mode.setOnClickListener(clickListener);
+        bookmarkRed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bookmarkRed.setVisibility(View.GONE);
+                bookmarkGrey.setVisibility(View.VISIBLE);
+            }
+        });
+        bookmarkGrey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bookmarkGrey.setVisibility(View.GONE);
+                bookmarkRed.setVisibility(View.VISIBLE);
+            }
+        });
         content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

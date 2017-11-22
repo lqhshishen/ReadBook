@@ -11,7 +11,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/Ln_main">
-        <com.liqihao.readbook.PageView
+        <com.liqihao.readbook.ReadPage.PageView
             android:id="@+id/pageview"
             android:layout_height="match_parent"
             android:layout_width="match_parent" />
@@ -39,15 +39,27 @@
                 android:src="@drawable/navbar_back_gray"
                 android:layout_marginTop="50dp"
                 android:layout_marginStart="20dp" />
+            <ImageView
+                android:id="@+id/main_bookmark_red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_bookmark_red"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="45dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/colorWhite"
+                android:visibility="gone"/>
 
             <ImageView
+                android:id="@+id/main_bookmark_grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_bookmark_gray"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="45dp"
                 android:layout_marginRight="20dp"
-                android:background="@color/colorWhite"/>
+                android:background="@color/colorWhite"
+                android:visibility="visible"/>
 
         </RelativeLayout>
 
@@ -111,7 +123,7 @@
     </RelativeLayout>
     <fragment
         android:clickable="true"
-        android:name="com.liqihao.readbook.Content"
+        android:name="com.liqihao.readbook.Content.Content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"

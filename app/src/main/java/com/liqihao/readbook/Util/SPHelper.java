@@ -1,7 +1,9 @@
-package com.liqihao.readbook;
+package com.liqihao.readbook.Util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.liqihao.readbook.ReadPage.Book;
 
 /**
  * Created by liqihao on 2017/11/13.

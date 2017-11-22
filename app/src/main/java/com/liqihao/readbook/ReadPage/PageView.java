@@ -1,4 +1,4 @@
-package com.liqihao.readbook;
+package com.liqihao.readbook.ReadPage;
 
 import android.content.Context;
 import android.graphics.Bitmap;

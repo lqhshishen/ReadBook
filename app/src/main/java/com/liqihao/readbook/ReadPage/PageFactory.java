@@ -1,4 +1,4 @@
-package com.liqihao.readbook;
+package com.liqihao.readbook.ReadPage;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.BatteryManager;
@@ -15,22 +14,23 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.liqihao.readbook.Util.GetContext;
+import com.liqihao.readbook.R;
+import com.liqihao.readbook.Util.SPHelper;
+import com.liqihao.readbook.Util.Util;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by liqihao on 2017/11/13.
@@ -183,22 +183,21 @@ public class PageFactory {
         return buf;
     }
 
+    int allPage;
     //下一页的内容
     private void pageDown() {
         String strParagraph = "";
-//        String src="";
+        int length = 0;
         while ((content.size() < lineNumber) && end <fileLength) {
             byte [] byteTemp = readParagraphForward(end);
             end += byteTemp.length;
+            length += byteTemp.length;
             try {
                  strParagraph = new String(byteTemp,encoding);
                  Log.i("下一页",strParagraph);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-//            Pattern p = Pattern.compile("\t\r\n");
-//            Matcher m = p.matcher(src);
-//            strParagraph = m.replaceAll(" ");
             strParagraph = strParagraph.replace("\r\n"," ");
             strParagraph = strParagraph.replace("\n"," ");
             while(strParagraph.length() > 0) {
@@ -217,6 +216,8 @@ public class PageFactory {
                 }
             }
         }
+        allPage = ((fileLength - 1) / (length + 1) );
+        Log.e("文件页数",String.valueOf(allPage));
     }
 
 
@@ -265,7 +266,6 @@ public class PageFactory {
                 Log.e("小说内容",line);
             }
             //绘制电池
-            float strokeWidth = Util.getPXWithDP(50);
             RectF rect = new RectF(Util.getPXWithDP(20),
                     screenHeight - Util.getPXWithDP(29),
                     Util.getPXWithDP(10) + Util.getPXWithDP(20),
@@ -297,16 +297,14 @@ public class PageFactory {
     }
 
     private int getBatteryPower() {
-        float b;
         int batteryPower;
         Intent batteryIntent = mContext.registerReceiver
                 (null,new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         int scaledLevel = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL,-1);
         int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE,-1);
-        float a;
-        a = (scaledLevel / scale);
-            batteryPower = (int)(14 * (1 - a));
-        return batteryPower = 5;
+        float a = (scaledLevel / scale);
+        batteryPower = (int)(14 * (1 - a));
+        return batteryPower;
     }
 
     private int serchPositionByKey (int beginPos,String key) {
@@ -358,9 +356,6 @@ public class PageFactory {
         return fileLength;
     }
     public MappedByteBuffer getMappedFile() {
-        return mappedFile;
-    }
-    public MappedByteBuffer getMappedFilf() {
         return mappedFile;
     }
     public void setPosition(int position) {

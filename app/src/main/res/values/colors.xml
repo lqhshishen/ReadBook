@@ -10,4 +10,7 @@
     <color name="colorWhite">#FFF</color>
     <color name="colorDayMode">#FFFDFA</color>
     <color name="colorDay">#FAFAFA</color>
+    <color name="colorRed">#FF0000</color>
+    <color name="contentBackground">#F7F7F5</color>
+    <color name="contentTextColor">#565966</color>
 </resources>

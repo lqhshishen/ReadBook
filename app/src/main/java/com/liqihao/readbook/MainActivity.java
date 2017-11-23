@@ -7,20 +7,27 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.liqihao.readbook.ReadPage.Book;
-import com.liqihao.readbook.ReadPage.PageFactory;
-import com.liqihao.readbook.ReadPage.PageView;
+import com.liqihao.readbook.Content.bean.GetPositionEventBean;
+import com.liqihao.readbook.ReadPage.View.PageFactory;
+import com.liqihao.readbook.ReadPage.View.PageView;
+import com.liqihao.readbook.ReadPage.contract.PageContract;
+import com.liqihao.readbook.ReadPage.presenter.PagePresenter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PageContract{
 
     Activity mContext;
     //    BindView(R.id.LN_main)
@@ -57,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 666;
     View.OnClickListener clickListener;
 
+    private PagePresenter mPagePresenter;
+
+    int a;
+
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -68,14 +79,30 @@ public class MainActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //            //this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);}
         }
-        mContext = MainActivity.this;
+        EventBus.getDefault().register(this);
         ButterKnife.bind(this);
+        bindView();
+        mPagePresenter = new PagePresenter();
+        mPageFactory = PageFactory.getInstance(pageView,mPagePresenter.getBook());
+        mPageFactory.nextPage();
+        onClick();
+        Log.e("aaa", String.valueOf(a));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRecieve(GetPositionEventBean positionEventBean) {
+        a = positionEventBean.getI();
+        PageFactory.getInstance().setPosition(a);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        Log.e("position位置", String.valueOf(a));
+    }
+
+
+    private void bindView() {
         mDrawerLayout = findViewById(R.id.side_content);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
         bookmarkGrey = findViewById(R.id.main_bookmark_grey);
         bookmarkRed = findViewById(R.id.main_bookmark_red);
-
         topRela = findViewById(R.id.top_rela);
         bottomView = findViewById(R.id.bottom_view);
         bottomLin = findViewById(R.id.bottom_lin);
@@ -85,11 +112,9 @@ public class MainActivity extends AppCompatActivity {
         more = findViewById(R.id.more);
         relativeLayout = findViewById(R.id.Ln_main);
         pageView = findViewById(R.id.pageview);
-        Book book = new Book("chenxizhijian","/storage/emulated/0/Download/晨曦之剑.txt","GB18030");
-        mPageFactory = PageFactory.getInstance(pageView,book);
-        mPageFactory.nextPage();
-        more.setOnClickListener(clickListener);
-        mode.setOnClickListener(clickListener);
+    }
+
+    private void onClick() {
         bookmarkRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,25 +182,35 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-    private boolean isShowMenu(){
+
+    @Override
+    public boolean isShowMenu(){
         if (topRela.getVisibility() == View.GONE){
             return false;
         }else
             return true;
     }
 
-    private void disMissState(){
+    @Override
+    public void disMissState(){
         bottomLin.setVisibility(View.GONE);
         topRela.setVisibility(View.GONE);
         bottomView.setVisibility(View.GONE);
         pageView.setSystemUiVisibility(View.INVISIBLE);
     }
-    private void showState() {
+    @Override
+    public void showState() {
         bottomLin.setVisibility(View.VISIBLE);
         topRela.setVisibility(View.VISIBLE);
         bottomView.setVisibility(View.VISIBLE);
         pageView.setSystemUiVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void onDestory(){
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
 }

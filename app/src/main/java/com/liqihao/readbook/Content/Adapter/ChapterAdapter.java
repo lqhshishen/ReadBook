@@ -1,4 +1,4 @@
-package com.liqihao.readbook.Content;
+package com.liqihao.readbook.Content.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.liqihao.readbook.Content.bean.Chapter;
 import com.liqihao.readbook.R;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
             }else {
                 holder.text.setTextColor(mContext.getResources().getColor(R.color.colorBlack));
             }
+
     }
 
     @Override
@@ -52,14 +54,14 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
         public ChapterViewHolder(View itemView) {
             super(itemView);
             text = itemView.findViewById(R.id.chapter_item_text);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (mListener != null) {
-//                        mListener.onItemClick(data.get(getAdapterPosition()));
-//                    }
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        mListener.onItemClick(data.get(getAdapterPosition()));
+                    }
+                }
+            });
         }
     }
 
@@ -78,6 +80,6 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
         currentChapter = number;
     }
     public interface OnItemClickListener {
-        abstract void onItemClick(Chapter chapter);
+        void onItemClick(Chapter chapter);
     }
 }

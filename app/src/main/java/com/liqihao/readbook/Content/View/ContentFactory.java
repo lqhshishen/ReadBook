@@ -1,9 +1,11 @@
-package com.liqihao.readbook.Content;
+package com.liqihao.readbook.Content.View;
 
 import android.os.Looper;
 import android.util.Log;
 
-import com.liqihao.readbook.ReadPage.Book;
+import com.liqihao.readbook.Content.bean.Chapter;
+import com.liqihao.readbook.Content.contract.ContentContract;
+import com.liqihao.readbook.ReadPage.bean.Book;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -110,7 +112,7 @@ public class ContentFactory {
                 Log.e("start", "insert data");
                 for (int a = 0; a < chapters.size(); a++) {
                     chapter = chapters.get(a);
-                    chapter.setChapterParagraphPsition
+                    chapter.setChapterBytePosition
                             (positions.get(Math.max(chapter.getChapterParagraphPsition()-1,0)));
                 }
             }
@@ -193,4 +195,5 @@ public class ContentFactory {
     public interface ProgressCallback {
         void currentPercentage(int percent);
     }
+
 }

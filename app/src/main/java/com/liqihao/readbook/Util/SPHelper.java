@@ -3,7 +3,7 @@ package com.liqihao.readbook.Util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.liqihao.readbook.ReadPage.Book;
+import com.liqihao.readbook.ReadPage.bean.Book;
 
 /**
  * Created by liqihao on 2017/11/13.

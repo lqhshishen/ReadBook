@@ -1,4 +1,4 @@
-package com.liqihao.readbook.ReadPage;
+package com.liqihao.readbook.ReadPage.View;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -15,6 +15,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.ReadPage.bean.Book;
 import com.liqihao.readbook.Util.GetContext;
 import com.liqihao.readbook.Util.SPHelper;
 import com.liqihao.readbook.Util.Util;
@@ -263,7 +264,7 @@ public class PageFactory {
             for(String line : content) {
                 y += fontSize+lineSpace;
                 mCanvas.drawText(line,margin,y,mPaint);
-                Log.e("小说内容",line);
+//                Log.e("小说内容",line);
             }
             //绘制电池
             RectF rect = new RectF(Util.getPXWithDP(20),
@@ -292,6 +293,16 @@ public class PageFactory {
             String time = simpleDateFormat.format(new Date(System.currentTimeMillis()));
             mBatteryPait.setTextSize(30);
             mCanvas.drawText(time,Util.getPXWithDP(45),screenHeight - Util.getPXWithDP(18),mBatteryPait);
+            /*
+            页数
+             */
+            String now = "13/2048";
+            mCanvas.drawText(now,screenWidth-Util.getPXWithDP(90),screenHeight-Util.getPXWithDP(18),mBatteryPait);
+            /*
+             /绘制章节头部
+             */
+            String head = "第1章 疯狂年代";
+            mCanvas.drawText(head,Util.getPXWithDP(20),Util.getPXWithDP(35),mBatteryPait);
         }
         mView.invalidate();
     }
@@ -359,7 +370,6 @@ public class PageFactory {
         return mappedFile;
     }
     public void setPosition(int position) {
-
         end = position;
         nextPage();
     }

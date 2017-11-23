@@ -1,4 +1,4 @@
-package com.liqihao.readbook.ReadPage;
+package com.liqihao.readbook.ReadPage.bean;
 
 import java.io.Serializable;
 

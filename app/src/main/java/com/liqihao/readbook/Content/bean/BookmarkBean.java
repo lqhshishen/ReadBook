@@ -1,4 +1,4 @@
-package com.liqihao.readbook.Content;
+package com.liqihao.readbook.Content.bean;
 
 /**
  * Created by liqihao on 2017/11/22.

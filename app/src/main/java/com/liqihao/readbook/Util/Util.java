@@ -22,8 +22,8 @@ public class Util extends Application{
         return (int)(dp*density);
         }
 
-    public void Toast(String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+    public static void toast(String msg) {
+        Toast.makeText(GetContext.getContext(), msg, Toast.LENGTH_SHORT).show();
         }
 
 }

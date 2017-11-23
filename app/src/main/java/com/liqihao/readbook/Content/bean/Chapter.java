@@ -1,6 +1,6 @@
-package com.liqihao.readbook.Content;
+package com.liqihao.readbook.Content.bean;
 
-import com.liqihao.readbook.ReadPage.Book;
+import com.liqihao.readbook.ReadPage.bean.Book;
 
 /**
  * Created by liqihao on 2017/11/21.

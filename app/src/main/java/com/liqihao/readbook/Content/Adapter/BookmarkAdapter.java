@@ -1,13 +1,13 @@
-package com.liqihao.readbook.Content;
+package com.liqihao.readbook.Content.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.liqihao.readbook.Content.bean.BookmarkBean;
 import com.liqihao.readbook.R;
 
 import java.util.ArrayList;

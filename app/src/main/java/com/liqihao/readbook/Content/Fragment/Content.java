@@ -1,7 +1,6 @@
-package com.liqihao.readbook.Content;
+package com.liqihao.readbook.Content.Fragment;
 
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,19 +12,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.liqihao.readbook.ReadPage.PageFactory;
+import com.liqihao.readbook.Content.Adapter.BookmarkAdapter;
+import com.liqihao.readbook.Content.Adapter.ChapterAdapter;
+import com.liqihao.readbook.Content.View.ContentFactory;
+import com.liqihao.readbook.Content.bean.Chapter;
+import com.liqihao.readbook.Content.bean.GetPositionEventBean;
+import com.liqihao.readbook.Content.contract.ContentContract;
+import com.liqihao.readbook.Content.presenter.ContentPresenter;
+import com.liqihao.readbook.MainActivity;
+import com.liqihao.readbook.ReadPage.View.PageFactory;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.Util.GetContext;
 import com.liqihao.readbook.Util.Util;
 
-import java.util.ArrayList;
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by liqihao on 2017/11/15.
  */
 
-public class Content extends Fragment implements ContentFactory.LoadCallback{
+public class Content extends Fragment implements ContentContract,ContentFactory.LoadCallback{
 
     ImageView contentImageGrey;
     ImageView contentImageRed;
@@ -33,42 +43,53 @@ public class Content extends Fragment implements ContentFactory.LoadCallback{
     ImageView bookMarkImageGrey;
     ImageView bookMarkImageRed;
     TextView bookMark;
-    private ProgressDialog progressDialog;
+
+
     private ChapterAdapter mAdapter;
     private ContentFactory contentFactory;
     private RecyclerView recyclerView;
     private RecyclerView xrectclerView;
-
     private BookmarkAdapter xAdapter;
+
+    private ContentPresenter mContentPresenter;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.content_layout, container, false);
-
-        recyclerView = view.findViewById(R.id.content_re);
-        mAdapter = new ChapterAdapter(GetContext.getContext());
-        recyclerView.setAdapter(mAdapter);
+        bindView(view);
+        initdata();
         recyclerView.setLayoutManager(new LinearLayoutManager(GetContext.getContext()));
-
-
-        xrectclerView = view.findViewById(R.id.bookmark_re);
         xrectclerView.setLayoutManager(new LinearLayoutManager(GetContext.getContext()));
-        BookmarkBean bookmarkBean = new BookmarkBean
-                ("第一章 xxxx","11-22 14:49","大叔大婶大所大所多","14");
-        List<BookmarkBean> data = new ArrayList<>();
-        data.add(bookmarkBean);
-        xAdapter = new BookmarkAdapter(GetContext.getContext(),data);
-        xrectclerView.setAdapter(xAdapter);
+        loadChapters();
+        onClick();
+//        EventBus.getDefault().register(this);
+        return view;
+    }
 
 
-
-        contentFactory = new ContentFactory();
+    public void bindView(View view) {
         contentImageGrey = view.findViewById(R.id.content_grey);
         contentImageRed = view.findViewById(R.id.content_red);
         contentWord = view.findViewById(R.id.content);
         bookMarkImageGrey = view.findViewById(R.id.bookmark_grey);
         bookMarkImageRed = view.findViewById(R.id.bookmark_red);
         bookMark = view.findViewById(R.id.bookmark);
+        recyclerView = view.findViewById(R.id.content_re);
+        xrectclerView = view.findViewById(R.id.bookmark_re);
+    }
+
+    public void initdata() {
+        contentFactory = new ContentFactory();
+        mContentPresenter = new ContentPresenter();
+        xAdapter = new BookmarkAdapter(GetContext.getContext(),mContentPresenter.getBookmarkList());
+        mAdapter = new ChapterAdapter(GetContext.getContext());
+        recyclerView.setAdapter(mAdapter);
+        xrectclerView.setAdapter(xAdapter);
+    }
+
+    public void onClick() {
         contentImageGrey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +105,6 @@ public class Content extends Fragment implements ContentFactory.LoadCallback{
                 xrectclerView.setVisibility(View.GONE);
             }
         });
-
         bookMarkImageGrey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,25 +117,25 @@ public class Content extends Fragment implements ContentFactory.LoadCallback{
                 bookMark.setTextColor
                         (GetContext.getContext().getResources().getColor(R.color.colorRed));
                 recyclerView.setVisibility(View.GONE);
-              xrectclerView.setVisibility(View.VISIBLE);
+                xrectclerView.setVisibility(View.VISIBLE);
             }
         });
-
-
 
         mAdapter.setOnItemClickListener(new ChapterAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Chapter chapter) {
-                Intent intent = new Intent();
-                intent.putExtra("position",chapter.getChapterBytePosition());
-//                setResult(RESULT_OK);
+//                Intent intent = new Intent();
+//                intent.putExtra("position",chapter.getChapterBytePosition());
+                EventBus.getDefault().post(new
+                        GetPositionEventBean(chapter.getChapterBytePosition()));
             }
         });
-        loadChapters();
-        return view;
     }
 
-    private void loadChapters() {
+
+
+    @Override
+    public void loadChapters() {
         String key = ContentFactory.KETWORD_ZHANG;
         mAdapter.clearData();
         mAdapter.notifyDataSetChanged();
@@ -140,7 +160,9 @@ public class Content extends Fragment implements ContentFactory.LoadCallback{
         Toast.makeText(GetContext.getContext(), "未发现章节",
                 Toast.LENGTH_SHORT).show();
     }
-    private int getChapterNumber(int position,List<Chapter> list) {
+
+    @Override
+    public int getChapterNumber(int position,List<Chapter> list) {
         position -= 2;
         int begin = 0;
         int end = list.size()-1;

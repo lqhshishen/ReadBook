@@ -1,4 +1,4 @@
-package com.liqihao.readbook.ReadPage;
+package com.liqihao.readbook.ReadPage.View;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,11 +8,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
+import com.liqihao.readbook.ReadPage.contract.PageViewContract;
+
 /**
  * Created by liqihao on 2017/11/13.
  */
 
-public class PageView extends View{
+public class PageView extends View implements PageViewContract{
     private Bitmap bit;
     private int touchSlop;
     private OnScrollListener mScroll;
@@ -82,14 +84,5 @@ public class PageView extends View{
     public void setOnScrollListener(OnScrollListener listener) {
         mScroll = listener;
     }
-    public interface OnScrollListener {
-        void onLeftScroll();
-        void onRightScroll();
-    }
 
-    public interface OnClickCallback {
-        void onLeftClick();
-        void onMiddleClick();
-        void onRightClick();
-    }
 }

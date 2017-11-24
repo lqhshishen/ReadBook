@@ -1,19 +1,33 @@
 package com.liqihao.readbook.Content.bean;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by liqihao on 2017/11/22.
  */
 
-public class BookmarkBean {
-    String bookmarkTitle;
-    String bookmarkTime;
-    String bookmarkText;
-    String bookmarkpage;
-    public BookmarkBean (String title,String time, String text,String page) {
+public class BookmarkBean extends DataSupport{
+    private String bookmarkTitle;
+    private String bookmarkTime;
+    private String bookmarkText;
+//    private String bookmarkpage;
+    private int bookmarkbyteposition;
+    public BookmarkBean (){
+    }
+    public BookmarkBean (String title,String time, String text,int position) {
         bookmarkTitle = title;
         bookmarkTime = time;
         bookmarkText = text;
-        bookmarkpage = page;
+//        bookmarkpage = page;
+        bookmarkbyteposition = position;
+    }
+
+    public int getBookmarkbyteposition() {
+        return bookmarkbyteposition;
+    }
+
+    public void setBookmarkbyteposition(int bookmarkbyteposition) {
+        this.bookmarkbyteposition = bookmarkbyteposition;
     }
 
     public String getBookmarkTitle() {
@@ -40,11 +54,11 @@ public class BookmarkBean {
         this.bookmarkText = bookmarkText;
     }
 
-    public String getBookmarkpage() {
-        return bookmarkpage;
-    }
-
-    public void setBookmarkpage(String bookmarkpage) {
-        this.bookmarkpage = bookmarkpage;
-    }
+//    public String getBookmarkpage() {
+//        return bookmarkpage;
+//    }
+//
+//    public void setBookmarkpage(String bookmarkpage) {
+//        this.bookmarkpage = bookmarkpage;
+//    }
 }

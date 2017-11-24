@@ -17,10 +17,10 @@
         android:textSize="12sp"
         tools:text="第XXXX章 的卡萨机读卡机山东矿机"
         android:layout_marginTop="28dp"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorGrey"
-        android:layout_marginTop="10dp"
-/>
+        android:layout_marginTop="10dp" />
 </LinearLayout>

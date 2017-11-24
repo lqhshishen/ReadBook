@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.liqihao.readbook.Content.Fragment.Content;
 import com.liqihao.readbook.Content.bean.GetPositionEventBean;
 import com.liqihao.readbook.ReadPage.View.PageFactory;
 import com.liqihao.readbook.ReadPage.View.PageView;
@@ -23,6 +24,8 @@ import com.liqihao.readbook.ReadPage.presenter.PagePresenter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,12 +66,11 @@ public class MainActivity extends AppCompatActivity implements PageContract{
     private DrawerLayout mDrawerLayout;
     private static final int REQUEST_CODE = 666;
     View.OnClickListener clickListener;
-
     private PagePresenter mPagePresenter;
-
     int a;
+    Content mContent;
 
-
+    List<Integer>bookmark;
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +87,10 @@ public class MainActivity extends AppCompatActivity implements PageContract{
         mPagePresenter = new PagePresenter();
         mPageFactory = PageFactory.getInstance(pageView,mPagePresenter.getBook());
         mPageFactory.nextPage();
+//        checkBookmark();
         onClick();
         Log.e("aaa", String.valueOf(a));
+        mContent = new Content();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -94,9 +98,9 @@ public class MainActivity extends AppCompatActivity implements PageContract{
         a = positionEventBean.getI();
         PageFactory.getInstance().setPosition(a);
         mDrawerLayout.closeDrawer(GravityCompat.START);
-        Log.e("position位置", String.valueOf(a));
+//        Log.e("position位置", String.valueOf(a));
+        disMissState();
     }
-
 
     private void bindView() {
         mDrawerLayout = findViewById(R.id.side_content);
@@ -114,6 +118,21 @@ public class MainActivity extends AppCompatActivity implements PageContract{
         pageView = findViewById(R.id.pageview);
     }
 
+    @Override
+    public void checkBookmark() {
+        int b = PageFactory.getInstance().getCurrentEnd();
+        Log.e("当前末尾字节数", String.valueOf(b));
+        bookmark = mPagePresenter.getMark();
+        bookmarkRed.setVisibility(View.GONE);
+        bookmarkGrey.setVisibility(View.VISIBLE);
+        for(int a = 0;a < bookmark.size();a++){
+            Log.e("书签字节数", String.valueOf(bookmark.get(a)));
+            if(b == bookmark.get(a)){
+                bookmarkRed.setVisibility(View.VISIBLE);
+                bookmarkGrey.setVisibility(View.GONE);
+            }
+        }
+    }
     private void onClick() {
         bookmarkRed.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements PageContract{
             public void onClick(View v) {
                 bookmarkGrey.setVisibility(View.GONE);
                 bookmarkRed.setVisibility(View.VISIBLE);
+                mPageFactory.sendBookmark();
             }
         });
         content.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements PageContract{
         pageView.setOnClickCallback(new PageView.OnClickCallback() {
             @Override
             public void onLeftClick() {
+                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 }else{
@@ -156,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements PageContract{
             }
             @Override
             public void onRightClick() {
+                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 }else{
@@ -166,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements PageContract{
         pageView.setOnScrollListener(new PageView.OnScrollListener() {
             @Override
             public void onLeftScroll() {
+                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 }else {
@@ -175,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements PageContract{
 
             @Override
             public void onRightScroll() {
+                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 }else{
@@ -199,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements PageContract{
         bottomView.setVisibility(View.GONE);
         pageView.setSystemUiVisibility(View.INVISIBLE);
     }
+
     @Override
     public void showState() {
         bottomLin.setVisibility(View.VISIBLE);

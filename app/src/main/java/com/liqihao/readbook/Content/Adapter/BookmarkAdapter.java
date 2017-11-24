@@ -33,10 +33,10 @@ public class BookmarkAdapter extends RecyclerView.Adapter <BookmarkAdapter.Bookm
     }
 
     @Override
-    public void onBindViewHolder(BookmarkViewHolder holder, int position) {
+    public void onBindViewHolder (BookmarkViewHolder holder, int position) {
         holder.bookmarkText.setText(data.get(position).getBookmarkText());
         holder.title.setText(data.get(position).getBookmarkTitle());
-        holder.page.setText(data.get(position).getBookmarkpage());
+//        holder.page.setText(data.get(position).getBookmarkpage());
         holder.time.setText(data.get(position).getBookmarkTime());
     }
 
@@ -53,7 +53,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter <BookmarkAdapter.Bookm
         public BookmarkViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.bookmark_title);
-            page = itemView.findViewById(R.id.bookmark_page);
+//            page = itemView.findViewById(R.id.bookmark_page);
             time = itemView.findViewById(R.id.set_time);
             bookmarkText = itemView.findViewById(R.id.bookmark_text);
         }

@@ -62,7 +62,4 @@ public class SPHelper {
     public void setBookEncoding(Book book,String encoding){
         configEditor.putString(book.getPath(),encoding).apply();
     }
-
-
-
 }

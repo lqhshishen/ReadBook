@@ -1,7 +1,6 @@
 package com.liqihao.readbook.Content.Fragment;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,18 +18,12 @@ import com.liqihao.readbook.Content.bean.Chapter;
 import com.liqihao.readbook.Content.bean.GetPositionEventBean;
 import com.liqihao.readbook.Content.contract.ContentContract;
 import com.liqihao.readbook.Content.presenter.ContentPresenter;
-import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.ReadPage.View.PageFactory;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.Util.GetContext;
-import com.liqihao.readbook.Util.Util;
-
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
-
 /**
  * Created by liqihao on 2017/11/15.
  */
@@ -64,7 +57,6 @@ public class Content extends Fragment implements ContentContract,ContentFactory.
         xrectclerView.setLayoutManager(new LinearLayoutManager(GetContext.getContext()));
         loadChapters();
         onClick();
-//        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -88,7 +80,6 @@ public class Content extends Fragment implements ContentContract,ContentFactory.
         recyclerView.setAdapter(mAdapter);
         xrectclerView.setAdapter(xAdapter);
     }
-
     public void onClick() {
         contentImageGrey.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +94,7 @@ public class Content extends Fragment implements ContentContract,ContentFactory.
                 bookMarkImageGrey.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
                 xrectclerView.setVisibility(View.GONE);
+                mContentPresenter.setBookMark();
             }
         });
         bookMarkImageGrey.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +110,7 @@ public class Content extends Fragment implements ContentContract,ContentFactory.
                         (GetContext.getContext().getResources().getColor(R.color.colorRed));
                 recyclerView.setVisibility(View.GONE);
                 xrectclerView.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -131,8 +124,6 @@ public class Content extends Fragment implements ContentContract,ContentFactory.
             }
         });
     }
-
-
 
     @Override
     public void loadChapters() {
@@ -149,10 +140,11 @@ public class Content extends Fragment implements ContentContract,ContentFactory.
         mAdapter.setCurrentChapter(chapterNumber);
         mAdapter.clearData();
         mAdapter.addData(List);
+        PageFactory.getInstance().setList(List);
         /*
         滚到chapterNumber的章节
          */
-//        recyclerView.scrollToPosition(chapterNumber);
+        recyclerView.scrollToPosition(chapterNumber);
     }
 
     @Override
@@ -186,5 +178,10 @@ public class Content extends Fragment implements ContentContract,ContentFactory.
             }
         }
         return 0;
+    }
+
+    @Override
+    public void onDestory(){
+
     }
 }

@@ -14,14 +14,20 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.liqihao.readbook.Content.bean.Chapter;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.ReadPage.bean.Book;
+import com.liqihao.readbook.ReadPage.presenter.PagePresenter;
 import com.liqihao.readbook.Util.GetContext;
 import com.liqihao.readbook.Util.SPHelper;
 import com.liqihao.readbook.Util.Util;
 
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
 import java.nio.MappedByteBuffer;
@@ -64,6 +70,8 @@ public class PageFactory {
     private SPHelper spHelper = SPHelper.getInstance();
 
     private static PageFactory instance;
+
+    private String head;
 
     private Paint xPaint;
     private PageFactory(PageView view){
@@ -119,9 +127,23 @@ public class PageFactory {
         try {
             randomFile = new RandomAccessFile(file,"r");
             mappedFile = randomFile.getChannel().map(FileChannel.MapMode.READ_ONLY,0,(long)fileLength);
+            /*
+           获取第一章章节名
+            */
+            InputStreamReader isr = new InputStreamReader
+                    (new FileInputStream(new File(book.getPath())),encoding);
+            BufferedReader reader = new BufferedReader(isr);
+            String temp;
+            while ((temp = reader.readLine()) != null) {
+                if(temp.contains("第") && temp.contains("章")) {
+                    head = temp;
+                    break;
+                }
+            }
         } catch (Exception e) {
             Log.e("nmb",Log.getStackTraceString(e));
             Toast.makeText(mContext, "打开失败!", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -254,7 +276,13 @@ public class PageFactory {
         }
     }
     private Paint mBatteryPait;
-    private int mPower = 100;
+    private List<Chapter>alist = new ArrayList<>();
+
+    public void setList(List<Chapter>list){
+        this.alist = list;
+    }
+
+
 
     @SuppressLint("ResourceAsColor")
     public void printPage() {
@@ -301,7 +329,14 @@ public class PageFactory {
             /*
              /绘制章节头部
              */
-            String head = "第1章 疯狂年代";
+            for(int i = 0;i < alist.size();i ++) {
+                if (begin < alist.get(i).getChapterBytePosition() && i > 0){
+                    head = alist.get(i - 1).getChapterName();
+                    Log.e("末尾位置", String.valueOf(end));
+                    Log.e("列表位置", String.valueOf(alist.get(i).getChapterBytePosition()));
+                    break;
+                }
+            }
             mCanvas.drawText(head,Util.getPXWithDP(20),Util.getPXWithDP(35),mBatteryPait);
         }
         mView.invalidate();
@@ -392,9 +427,6 @@ public class PageFactory {
         return origin;
     }
 
-    public Book getBook() {
-        return book;
-    }
     public String getEncoding() {
         return encoding;
     }
@@ -415,4 +447,17 @@ public class PageFactory {
             instance = null;
         }
     }
+    PagePresenter mPagePresenter = new PagePresenter();
+    String aa ="";
+
+    public void sendBookmark() {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-DD hh:mm");
+        String date = formatter.format(new java.util.Date());
+        Log.e("date",date);
+        for(String line : content){
+            aa += line;
+        }
+        mPagePresenter.saveBookmark(head,aa,date,end);
+    }
+
 }

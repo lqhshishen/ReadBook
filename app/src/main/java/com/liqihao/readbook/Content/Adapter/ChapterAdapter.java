@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.liqihao.readbook.Content.bean.Chapter;
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.ReadPage.bean.GetListEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +44,6 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
             }else {
                 holder.text.setTextColor(mContext.getResources().getColor(R.color.colorBlack));
             }
-
     }
 
     @Override

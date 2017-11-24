@@ -13,8 +13,11 @@ public interface ContentContract {
     void loadChapters();
     int getChapterNumber(int position,List<Chapter> list);
 
+    void onDestory();
+
     interface presenter<T> {
         List<BookmarkBean> getBookmarkList();
+        void setBookMark();
     }
 
 

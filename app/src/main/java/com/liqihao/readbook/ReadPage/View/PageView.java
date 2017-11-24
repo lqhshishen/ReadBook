@@ -84,5 +84,4 @@ public class PageView extends View implements PageViewContract{
     public void setOnScrollListener(OnScrollListener listener) {
         mScroll = listener;
     }
-
 }

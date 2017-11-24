@@ -1,7 +1,15 @@
 package com.liqihao.readbook.Content.presenter;
 
+import android.util.Log;
+
+import com.liqihao.readbook.Content.Fragment.Content;
 import com.liqihao.readbook.Content.bean.BookmarkBean;
 import com.liqihao.readbook.Content.contract.ContentContract;
+import com.liqihao.readbook.ReadPage.View.PageFactory;
+import com.liqihao.readbook.Util.GetContext;
+
+import org.litepal.LitePal;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +19,22 @@ import java.util.List;
  */
 
 public class ContentPresenter implements ContentContract.presenter {
-
-    BookmarkBean bookmarkBean = new BookmarkBean
-            ("第一章 xxxx","11-22 14:49","大叔大婶大所大所多","14");
     List<BookmarkBean> data = new ArrayList<>();
+    PageFactory mPageFactory;
+    Content content;
 
     @Override
     public List getBookmarkList() {
-        data.add(bookmarkBean);
+        LitePal.initialize(GetContext.getContext());
+        data = DataSupport.findAll(BookmarkBean.class);
         return data;
     }
+
+    @Override
+    public void setBookMark() {
+        mPageFactory = PageFactory.getInstance();
+//        Log.e("book length ", String.valueOf(mPageFactory.getFileLength()));
+    }
+
 
 }

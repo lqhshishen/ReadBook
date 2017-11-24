@@ -195,5 +195,4 @@ public class ContentFactory {
     public interface ProgressCallback {
         void currentPercentage(int percent);
     }
-
 }

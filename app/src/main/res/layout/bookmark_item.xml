@@ -19,12 +19,12 @@
         android:textSize="12dp"
         android:layout_weight="1"/>
 
-    <TextView
-        android:id="@+id/bookmark_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="13"
-        android:textSize="12dp" />
+    <!--<TextView-->
+        <!--android:id="@+id/bookmark_page"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="13"-->
+        <!--android:textSize="12dp" />-->
 </LinearLayout>
 
     <TextView
@@ -38,10 +38,11 @@
     <TextView
         android:id="@+id/bookmark_text"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_height="30dp"
         android:textSize="12dp"
         android:text="大楼顶上出现了一个娇小的身影"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"/>
 
 
 <View
@@ -49,6 +50,7 @@
     android:layout_height="1dp"
     android:background="@color/colorGrey"
     android:layout_gravity="bottom"
+    android:layout_marginTop="10dp"
 
     />
 </LinearLayout>

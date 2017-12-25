@@ -5,13 +5,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.liqihao.readbook.Content.bean.BookmarkBean;
+import com.liqihao.readbook.Content.bean.Chapter;
 import com.liqihao.readbook.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.OnItemClick;
 
 /**
  * Created by liqihao on 2017/11/22.
@@ -19,6 +24,7 @@ import java.util.List;
 
 public class BookmarkAdapter extends RecyclerView.Adapter <BookmarkAdapter.BookmarkViewHolder> {
     private List<BookmarkBean> data = new ArrayList<>();
+    private OnItemClickListener xListener;
 
     public BookmarkAdapter (Context context,List<BookmarkBean> list) {
         data = list;
@@ -56,6 +62,21 @@ public class BookmarkAdapter extends RecyclerView.Adapter <BookmarkAdapter.Bookm
 //            page = itemView.findViewById(R.id.bookmark_page);
             time = itemView.findViewById(R.id.set_time);
             bookmarkText = itemView.findViewById(R.id.bookmark_text);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (xListener != null) {
+                        xListener.onItemClick(data.get(getAdapterPosition()));
+                    }
+                }
+            });
         }
+    }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        xListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(BookmarkBean bookmarkBean);
     }
 }

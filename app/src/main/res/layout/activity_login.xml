@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.liqihao.readbook.Login.LoginActivity"
+    android:orientation="vertical">
+    <EditText
+        android:layout_gravity="center"
+        android:id="@+id/login_edtinputtel"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/edt_inputtel"
+        android:hint="手机号码"
+        android:inputType="number"
+        android:paddingStart="30dp" />
+<RelativeLayout
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    android:layout_marginTop="20dp">
+    <EditText
+        android:layout_gravity="center"
+        android:id="@+id/edt_inputnumber"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edt_inputtel"
+        android:hint="验证码"
+        android:inputType="number"
+        android:paddingStart="30dp" />
+
+    <Button
+        android:id="@+id/login_edtbutton"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/editbutton"
+        android:text="获取"
+        android:textColor="@color/colorRed" />
+</RelativeLayout>
+    
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:background="@drawable/redbuttom"
+        android:layout_gravity="center"
+        android:text="登录"
+        android:textColor="@color/colorWhite"
+        android:id="@+id/login_btnlogin"/>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="忘记密码"
+            android:layout_weight="1"
+            android:textColor="@color/colorRed"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="游客浏览"
+            android:gravity="right"
+            android:textColor="@color/colorRed"/>
+    </LinearLayout>
+
+    <include layout="@layout/login_bottom"/>
+
+</LinearLayout>

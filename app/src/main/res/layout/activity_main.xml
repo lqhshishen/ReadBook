@@ -36,14 +36,14 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/navbar_back_gray"
+                android:src="@mipmap/navbar_back_gray"
                 android:layout_marginTop="50dp"
                 android:layout_marginStart="20dp" />
             <ImageView
                 android:id="@+id/main_bookmark_red"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_bookmark_red"
+                android:src="@mipmap/ic_bookmark_red"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="45dp"
                 android:layout_marginRight="20dp"
@@ -54,7 +54,7 @@
                 android:id="@+id/main_bookmark_grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_bookmark_gray"
+                android:src="@mipmap/ic_bookmark_gray"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="45dp"
                 android:layout_marginRight="20dp"
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/read_content" />
+                app:srcCompat="@mipmap/read_content" />
 
             <ImageView
                 android:id="@+id/aa"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/read_font" />
+                app:srcCompat="@mipmap/read_font" />
 
             <ImageView
                 android:id="@+id/day_night_mode"
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/read_bright" />
+                app:srcCompat="@mipmap/read_bright" />
 
             <ImageView
                 android:id="@+id/more"
@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/read_more" />
+                app:srcCompat="@mipmap/read_more" />
         </LinearLayout>
 
         </LinearLayout>

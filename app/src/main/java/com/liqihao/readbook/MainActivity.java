@@ -2,7 +2,9 @@ package com.liqihao.readbook;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,10 +18,12 @@ import android.widget.RelativeLayout;
 
 import com.liqihao.readbook.Content.Fragment.Content;
 import com.liqihao.readbook.Content.bean.GetPositionEventBean;
+import com.liqihao.readbook.Login.LoginActivity;
 import com.liqihao.readbook.ReadPage.View.PageFactory;
 import com.liqihao.readbook.ReadPage.View.PageView;
 import com.liqihao.readbook.ReadPage.contract.PageContract;
 import com.liqihao.readbook.ReadPage.presenter.PagePresenter;
+import com.liqihao.readbook.base.BaseActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -30,15 +34,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements PageContract{
+public class MainActivity extends BaseActivity<PagePresenter> implements PageContract.MainView{
 
-    Activity mContext;
-    //    BindView(R.id.LN_main)
-//        LinearLayout main;
-//    BindView(R.id.toolbar)
-//        android.support.v7.widget.Toolbar toolbar;
-//    @BindView(R.id.top_view)
-    View topView;
     @BindView(R.id.bottom_view)
     View bottomView;
     @BindView(R.id.top_rela)
@@ -62,47 +59,27 @@ public class MainActivity extends AppCompatActivity implements PageContract{
 
     private PageFactory mPageFactory;
     private PageView pageView;
-    private int originPosition = -1;
     private DrawerLayout mDrawerLayout;
-    private static final int REQUEST_CODE = 666;
-    View.OnClickListener clickListener;
-    private PagePresenter mPagePresenter;
     int a;
-    Content mContent;
-
-    List<Integer>bookmark;
-    @SuppressLint("ResourceAsColor")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            //this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);}
-        }
-        EventBus.getDefault().register(this);
-        ButterKnife.bind(this);
-        bindView();
-        mPagePresenter = new PagePresenter();
-        mPageFactory = PageFactory.getInstance(pageView,mPagePresenter.getBook());
-        mPageFactory.nextPage();
-//        checkBookmark();
-        onClick();
-        Log.e("aaa", String.valueOf(a));
-        mContent = new Content();
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecieve(GetPositionEventBean positionEventBean) {
         a = positionEventBean.getI();
         PageFactory.getInstance().setPosition(a);
         mDrawerLayout.closeDrawer(GravityCompat.START);
-//        Log.e("position位置", String.valueOf(a));
         disMissState();
     }
 
-    private void bindView() {
+    @SuppressLint("ObsoleteSdkInt")
+    @Override
+    public void bindView() {
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+//            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            //this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);}
+        }
+        ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         mDrawerLayout = findViewById(R.id.side_content);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         bookmarkGrey = findViewById(R.id.main_bookmark_grey);
@@ -116,24 +93,44 @@ public class MainActivity extends AppCompatActivity implements PageContract{
         more = findViewById(R.id.more);
         relativeLayout = findViewById(R.id.Ln_main);
         pageView = findViewById(R.id.pageview);
+
+//        预先读取侧滑数据
+        mDrawerLayout.openDrawer(GravityCompat.START);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void initData() {
+        mPageFactory = PageFactory.getInstance(pageView,presenter.getBook());
+        mPageFactory.nextPage();
+    }
+
+    @Override
+    public void setPresenter(PagePresenter presenter) {
+        if (this.presenter == null) {
+            this.presenter = new PagePresenter();
+        }
     }
 
     @Override
     public void checkBookmark() {
-        int b = PageFactory.getInstance().getCurrentEnd();
-        Log.e("当前末尾字节数", String.valueOf(b));
-        bookmark = mPagePresenter.getMark();
-        bookmarkRed.setVisibility(View.GONE);
-        bookmarkGrey.setVisibility(View.VISIBLE);
-        for(int a = 0;a < bookmark.size();a++){
-            Log.e("书签字节数", String.valueOf(bookmark.get(a)));
-            if(b == bookmark.get(a)){
-                bookmarkRed.setVisibility(View.VISIBLE);
-                bookmarkGrey.setVisibility(View.GONE);
-            }
-        }
+//        int b = PageFactory.getInstance().getCurrentEnd();
+//        Log.e("当前末尾字节数", String.valueOf(b));
+//        bookmark = mPagePresenter.getMark();
+//        bookmarkRed.setVisibility(View.GONE);
+//        bookmarkGrey.setVisibility(View.VISIBLE);
+//        for(int a = 0;a < bookmark.size();a++){
+//            Log.e("书签字节数", String.valueOf(bookmark.get(a)));
+//            if(b == bookmark.get(a)){
+//
+//                bookmarkRed.setVisibility(View.VISIBLE);
+//                bookmarkGrey.setVisibility(View.GONE);
+//            }
+//        }
     }
-    private void onClick() {
+
+    @Override
+    public void onClick() {
         bookmarkRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,7 +153,12 @@ public class MainActivity extends AppCompatActivity implements PageContract{
                 mDrawerLayout.setClickable(true);
             }
         });
-        aa.setOnClickListener(clickListener);
+        aa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
         pageView.setOnClickCallback(new PageView.OnClickCallback() {
             @Override
             public void onLeftClick() {
@@ -209,6 +211,11 @@ public class MainActivity extends AppCompatActivity implements PageContract{
     }
 
     @Override
+    public int getLayout() {
+       return R.layout.activity_main;
+    }
+
+    @Override
     public boolean isShowMenu(){
         if (topRela.getVisibility() == View.GONE){
             return false;
@@ -233,9 +240,8 @@ public class MainActivity extends AppCompatActivity implements PageContract{
     }
 
     @Override
-    public void onDestory(){
+    protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
 }

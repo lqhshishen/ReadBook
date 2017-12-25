@@ -70,7 +70,6 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
-
     public void addData(List<Chapter> list) {
         data.addAll(list);
         notifyDataSetChanged();

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="230dp"
+    android:orientation="vertical"
+    android:layout_marginTop="30dp">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:background="@color/colorGrey"
+        android:layout_marginStart="20dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="社交账号登录"
+        android:gravity="center"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:background="@color/colorGrey"
+        android:layout_marginEnd="20dp"/>
+</LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="45dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:id="@+id/login_qq">
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@mipmap/signin_qq"/>
+        <TextView
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:text="QQ登录"
+            android:gravity="center"
+            android:textColor="@color/colorBlack"/>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/login_wechat">
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@mipmap/signni_wechat"/>
+            <TextView
+                android:textSize="12sp"
+                android:layout_marginTop="8dp"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:text="微信登录"
+                android:gravity="center"
+                android:textColor="@color/colorBlack"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

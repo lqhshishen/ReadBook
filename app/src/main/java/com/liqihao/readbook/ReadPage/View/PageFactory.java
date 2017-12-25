@@ -123,7 +123,7 @@ public class PageFactory {
         end = spHelper.getBookmarkEnd(book.getName());
         File file = new File(book.getPath());
         fileLength = (int) file.length();
-        Log.i("文件长度",String.valueOf(fileLength));
+//        Log.i("文件长度",String.valueOf(fileLength));
         try {
             randomFile = new RandomAccessFile(file,"r");
             mappedFile = randomFile.getChannel().map(FileChannel.MapMode.READ_ONLY,0,(long)fileLength);
@@ -239,8 +239,11 @@ public class PageFactory {
                 }
             }
         }
+        /*
+       计算页数（有误）
+         */
         allPage = ((fileLength - 1) / (length + 1) );
-        Log.e("文件页数",String.valueOf(allPage));
+//        Log.e("文件页数",String.valueOf(allPage));
     }
 
 
@@ -332,8 +335,8 @@ public class PageFactory {
             for(int i = 0;i < alist.size();i ++) {
                 if (begin < alist.get(i).getChapterBytePosition() && i > 0){
                     head = alist.get(i - 1).getChapterName();
-                    Log.e("末尾位置", String.valueOf(end));
-                    Log.e("列表位置", String.valueOf(alist.get(i).getChapterBytePosition()));
+//                    Log.e("末尾位置", String.valueOf(end));
+//                    Log.e("列表位置", String.valueOf(alist.get(i).getChapterBytePosition()));
                     break;
                 }
             }
@@ -457,7 +460,9 @@ public class PageFactory {
         for(String line : content){
             aa += line;
         }
+        Log.e("测试","dsadasdasdas");
         mPagePresenter.saveBookmark(head,aa,date,end);
+
     }
 
 }

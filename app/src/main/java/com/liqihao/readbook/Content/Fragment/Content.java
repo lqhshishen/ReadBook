@@ -2,8 +2,12 @@ package com.liqihao.readbook.Content.Fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.EventLog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,7 @@ import android.widget.Toast;
 import com.liqihao.readbook.Content.Adapter.BookmarkAdapter;
 import com.liqihao.readbook.Content.Adapter.ChapterAdapter;
 import com.liqihao.readbook.Content.View.ContentFactory;
+import com.liqihao.readbook.Content.bean.BookmarkBean;
 import com.liqihao.readbook.Content.bean.Chapter;
 import com.liqihao.readbook.Content.bean.GetPositionEventBean;
 import com.liqihao.readbook.Content.contract.ContentContract;
@@ -21,14 +26,18 @@ import com.liqihao.readbook.Content.presenter.ContentPresenter;
 import com.liqihao.readbook.ReadPage.View.PageFactory;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.Util.GetContext;
+import com.liqihao.readbook.base.BaseFragment;
+
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 /**
  * Created by liqihao on 2017/11/15.
  */
 
-public class Content extends Fragment implements ContentContract,ContentFactory.LoadCallback{
+public class Content extends BaseFragment<ContentPresenter> implements ContentContract.Content,ContentFactory.LoadCallback{
 
     ImageView contentImageGrey;
     ImageView contentImageRed;
@@ -44,24 +53,14 @@ public class Content extends Fragment implements ContentContract,ContentFactory.
     private RecyclerView xrectclerView;
     private BookmarkAdapter xAdapter;
 
-    private ContentPresenter mContentPresenter;
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.content_layout, container, false);
-        bindView(view);
-        initdata();
-        recyclerView.setLayoutManager(new LinearLayoutManager(GetContext.getContext()));
-        xrectclerView.setLayoutManager(new LinearLayoutManager(GetContext.getContext()));
-        loadChapters();
-        onClick();
-        return view;
+    public int getLayout() {
+        return R.layout.content_layout;
     }
 
-
+    @Override
     public void bindView(View view) {
+        EventBus.getDefault().register(this);
         contentImageGrey = view.findViewById(R.id.content_grey);
         contentImageRed = view.findViewById(R.id.content_red);
         contentWord = view.findViewById(R.id.content);
@@ -70,59 +69,103 @@ public class Content extends Fragment implements ContentContract,ContentFactory.
         bookMark = view.findViewById(R.id.bookmark);
         recyclerView = view.findViewById(R.id.content_re);
         xrectclerView = view.findViewById(R.id.bookmark_re);
+        recyclerView.setLayoutManager(new LinearLayoutManager(GetContext.getContext()));
+        xrectclerView.setLayoutManager(new LinearLayoutManager(GetContext.getContext()));
     }
 
-    public void initdata() {
+    @Override
+    public void initData() {
         contentFactory = new ContentFactory();
-        mContentPresenter = new ContentPresenter();
-        xAdapter = new BookmarkAdapter(GetContext.getContext(),mContentPresenter.getBookmarkList());
+        xAdapter = new BookmarkAdapter(GetContext.getContext(),presenter.getBookmarkList());
         mAdapter = new ChapterAdapter(GetContext.getContext());
+        loadChapters();
         recyclerView.setAdapter(mAdapter);
         xrectclerView.setAdapter(xAdapter);
     }
+
+    @Override
+    public void setPresenter(ContentPresenter presenter) {
+        if (presenter == null) {
+            this.presenter = new ContentPresenter();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRecieve(String word) {
+        xAdapter = new BookmarkAdapter(GetContext.getContext(),presenter.getBookmarkList());
+        xrectclerView.setAdapter(xAdapter);
+    }
+
+    @Override
     public void onClick() {
+        contentWord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickContent();
+            }
+        });
         contentImageGrey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                contentImageGrey.setVisibility(View.GONE);
-                contentImageRed.setVisibility(View.VISIBLE);
-                contentWord.setTextColor
-                        (GetContext.getContext().getResources().getColor(R.color.colorRed));
-                bookMark.setTextColor
-                        (GetContext.getContext().getResources().getColor(R.color.contentTextColor));
-                bookMarkImageRed.setVisibility(View.GONE);
-                bookMarkImageGrey.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.VISIBLE);
-                xrectclerView.setVisibility(View.GONE);
-                mContentPresenter.setBookMark();
+                clickContent();
             }
         });
         bookMarkImageGrey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bookMarkImageGrey.setVisibility(View.GONE);
-                bookMarkImageRed.setVisibility(View.VISIBLE);
-                contentWord.setTextColor
-                        (GetContext.getContext().getResources().getColor(R.color.contentTextColor));
-                contentImageRed.setVisibility(View.GONE);
-                contentImageGrey.setVisibility(View.VISIBLE);
-                bookMark.setTextColor
-                        (GetContext.getContext().getResources().getColor(R.color.colorRed));
-                recyclerView.setVisibility(View.GONE);
-                xrectclerView.setVisibility(View.VISIBLE);
-
+                clickBookmark();
+            }
+        });
+        bookMark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickBookmark();
             }
         });
 
         mAdapter.setOnItemClickListener(new ChapterAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Chapter chapter) {
-//                Intent intent = new Intent();
-//                intent.putExtra("position",chapter.getChapterBytePosition());
                 EventBus.getDefault().post(new
                         GetPositionEventBean(chapter.getChapterBytePosition()));
             }
         });
+        xAdapter.setOnItemClickListener(new BookmarkAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BookmarkBean bookmarkBean) {
+                EventBus.getDefault().post(new
+                        GetPositionEventBean(bookmarkBean.getBookmarkbyteposition()));
+            }
+        });
+    }
+
+    @Override
+    public void clickContent() {
+        contentImageGrey.setVisibility(View.GONE);
+        contentImageRed.setVisibility(View.VISIBLE);
+        contentWord.setTextColor
+                (GetContext.getContext().getResources().getColor(R.color.colorRed));
+        bookMark.setTextColor
+                (GetContext.getContext().getResources().getColor(R.color.contentTextColor));
+        bookMarkImageRed.setVisibility(View.GONE);
+        bookMarkImageGrey.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+        xrectclerView.setVisibility(View.GONE);
+        presenter.setBookMark();
+    }
+
+    @Override
+    public void clickBookmark() {
+        bookMarkImageGrey.setVisibility(View.GONE);
+        bookMarkImageRed.setVisibility(View.VISIBLE);
+        contentWord.setTextColor
+                (GetContext.getContext().getResources().getColor(R.color.contentTextColor));
+        contentImageRed.setVisibility(View.GONE);
+        contentImageGrey.setVisibility(View.VISIBLE);
+        bookMark.setTextColor
+                (GetContext.getContext().getResources().getColor(R.color.colorRed));
+        recyclerView.setVisibility(View.GONE);
+        xrectclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -132,7 +175,7 @@ public class Content extends Fragment implements ContentContract,ContentFactory.
         mAdapter.notifyDataSetChanged();
         contentFactory.setKeyword(key);
         contentFactory.getChapterFromFile(this);
-    }
+}
 
     @Override
     public void onFinishLoad(List<Chapter> List) {
@@ -181,7 +224,8 @@ public class Content extends Fragment implements ContentContract,ContentFactory.
     }
 
     @Override
-    public void onDestory(){
-
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().register(this);
     }
 }

@@ -1,6 +1,8 @@
 package com.liqihao.readbook.ReadPage.contract;
 
 import com.liqihao.readbook.ReadPage.bean.Book;
+import com.liqihao.readbook.ReadPage.presenter.PagePresenter;
+import com.liqihao.readbook.base.BaseView;
 
 import java.util.List;
 
@@ -9,14 +11,17 @@ import java.util.List;
  */
 
 public interface PageContract {
-    boolean isShowMenu();
-    void disMissState();
-    void showState();
-    void checkBookmark();
+    interface MainView extends BaseView<PagePresenter> {
+        boolean isShowMenu();
 
-    void onDestory();
+        void disMissState();
 
-    interface Presenter<T> {
+        void showState();
+
+        void checkBookmark();
+
+    }
+    interface Presenter {
         Book getBook();
 
         void saveBookmark(String head,String body,String time,int position);

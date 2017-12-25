@@ -2,6 +2,8 @@ package com.liqihao.readbook.Content.contract;
 
 import com.liqihao.readbook.Content.bean.BookmarkBean;
 import com.liqihao.readbook.Content.bean.Chapter;
+import com.liqihao.readbook.Content.presenter.ContentPresenter;
+import com.liqihao.readbook.base.BaseView;
 
 import java.util.List;
 
@@ -10,15 +12,24 @@ import java.util.List;
  */
 
 public interface ContentContract {
-    void loadChapters();
-    int getChapterNumber(int position,List<Chapter> list);
 
-    void onDestory();
+    interface Content extends BaseView<ContentPresenter> {
+//        加载章节
+        void loadChapters();
 
-    interface presenter<T> {
-        List<BookmarkBean> getBookmarkList();
-        void setBookMark();
+//        获取章节数
+        int getChapterNumber(int position,List<Chapter> list);
+
+//        点击目录的时候
+        void clickContent();
+
+//        点击书签的时候
+        void clickBookmark();
     }
 
+    interface presenter {
+        List<BookmarkBean> getBookmarkList();
 
+        void setBookMark();
+    }
 }

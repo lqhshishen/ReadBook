@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">ReadBook</string>
+    <string name="unLogin">未登录</string>
+    <string name="myBookList">我的书架</string>
+    <string name="myRead">我的阅历</string>
+    <string name="myDynamic">我的动态</string>
+    <string name="setting">设置</string>
+    <string name="wholeContent">完整目录</string>
+    <string name="freeRank">免费榜</string>
+    <string name="wholeReview">全部书评</string>
+    <string name="messagePush">消息推送</string>
+    <string name="bindTel">绑定手机</string>
+    <string name="clearCache">清除缓存</string>
+    <string name="evaluationUS">评价我们</string>
+    <string name="signOut">退出账号</string>
 </resources>

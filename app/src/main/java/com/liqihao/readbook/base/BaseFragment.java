@@ -31,6 +31,9 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(getLayout(),container,false);
         setPresenter(presenter);
+        if (presenter == null) {
+            this.presenter.attachView(this);
+        }
         bindView();
         return view;
     }
@@ -56,8 +59,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public abstract void onClick();
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         if(presenter!=null){
             presenter.detachView();
         }

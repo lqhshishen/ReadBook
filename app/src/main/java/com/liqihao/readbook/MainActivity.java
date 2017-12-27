@@ -1,35 +1,28 @@
 package com.liqihao.readbook;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
-import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.liqihao.readbook.Content.Fragment.Content;
-import com.liqihao.readbook.Content.bean.GetPositionEventBean;
-import com.liqihao.readbook.Login.LoginActivity;
-import com.liqihao.readbook.ReadPage.View.PageFactory;
-import com.liqihao.readbook.ReadPage.View.PageView;
-import com.liqihao.readbook.ReadPage.contract.PageContract;
-import com.liqihao.readbook.ReadPage.presenter.PagePresenter;
+import com.liqihao.readbook.module.Content.bean.GetPositionEventBean;
+import com.liqihao.readbook.module.Login.LoginActivity;
+import com.liqihao.readbook.module.ReadPage.View.PageFactory;
+import com.liqihao.readbook.module.ReadPage.View.PageView;
+import com.liqihao.readbook.module.ReadPage.contract.PageContract;
+import com.liqihao.readbook.module.ReadPage.presenter.PagePresenter;
 import com.liqihao.readbook.base.BaseActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,8 +51,11 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
     ImageView bookmarkRed;
 
     private PageFactory mPageFactory;
+
     private PageView pageView;
+
     private DrawerLayout mDrawerLayout;
+
     int a;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -78,6 +74,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //            //this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);}
         }
+
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         mDrawerLayout = findViewById(R.id.side_content);
@@ -193,7 +190,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
                 checkBookmark();
                 if(isShowMenu()){
                     disMissState();
-                }else {
+                } else {
                     mPageFactory.nextPage();
                 }
             }
@@ -217,10 +214,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
     @Override
     public boolean isShowMenu(){
-        if (topRela.getVisibility() == View.GONE){
-            return false;
-        }else
-            return true;
+        return topRela.getVisibility() != View.GONE;
     }
 
     @Override

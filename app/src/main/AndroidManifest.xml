@@ -22,7 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login.LoginActivity"></activity>
+        <activity android:name=".module.Login.LoginActivity" />
+        <activity android:name=".module.Home.ui.ActivityHome"></activity>
     </application>
 
 </manifest>

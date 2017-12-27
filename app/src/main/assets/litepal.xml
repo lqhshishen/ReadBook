@@ -5,6 +5,6 @@
     <version value="1">
     </version>
     <list>
-        <mapping class="com.liqihao.readbook.Content.bean.BookmarkBean"></mapping>
+        <mapping class="com.liqihao.readbook.module.Content.bean.BookmarkBean"></mapping>
     </list>
 </litepal>

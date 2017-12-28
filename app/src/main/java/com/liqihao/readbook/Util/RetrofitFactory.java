@@ -6,8 +6,8 @@ import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
-import com.wangshen.base.api.TestApi;
-import com.wangshen.base.app.App;
+import com.liqihao.readbook.api.TestApi;
+import com.liqihao.readbook.app.App;
 
 import java.io.File;
 import java.io.IOException;

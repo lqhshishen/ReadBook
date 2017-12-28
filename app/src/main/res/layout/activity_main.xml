@@ -44,9 +44,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_bookmark_red"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="45dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:background="@color/colorWhite"
                 android:visibility="gone"/>
 
@@ -55,9 +55,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_bookmark_gray"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="45dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:background="@color/colorWhite"
                 android:visibility="visible"/>
 
@@ -71,19 +71,18 @@
         android:orientation="vertical"
         android:visibility="visible"
         android:background="@color/colorWhite"
-        android:clickable="true">
+        android:clickable="true"
+        android:focusable="true">
         <View
             android:id="@+id/bottom_view"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/bottom_lin"
             android:background="@color/colorGrey">
         </View>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1">
 
             <ImageView
@@ -92,7 +91,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                app:srcCompat="@mipmap/read_content" />
+                app:srcCompat="@mipmap/read_content"
+                tools:ignore="NestedWeights" />
 
             <ImageView
                 android:id="@+id/aa"
@@ -123,7 +123,7 @@
     </RelativeLayout>
     <fragment
         android:clickable="true"
-        android:name="com.liqihao.readbook.module.Content.ui.Content"
+        android:name="com.liqihao.readbook.module.ReadPage.ui.Content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"

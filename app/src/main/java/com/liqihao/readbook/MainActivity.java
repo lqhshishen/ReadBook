@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.liqihao.readbook.module.Content.bean.GetPositionEventBean;
-import com.liqihao.readbook.module.Login.LoginActivity;
+import com.liqihao.readbook.module.ReadPage.bean.GetPositionEventBean;
+import com.liqihao.readbook.module.Login.ui.LoginActivity;
 import com.liqihao.readbook.module.ReadPage.View.PageFactory;
 import com.liqihao.readbook.module.ReadPage.View.PageView;
 import com.liqihao.readbook.module.ReadPage.contract.PageContract;

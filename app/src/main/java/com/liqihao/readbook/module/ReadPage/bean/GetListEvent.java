@@ -1,7 +1,5 @@
 package com.liqihao.readbook.module.ReadPage.bean;
 
-import com.liqihao.readbook.module.Content.bean.Chapter;
-
 import java.util.List;
 
 /**

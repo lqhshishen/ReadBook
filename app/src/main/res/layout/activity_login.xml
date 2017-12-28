@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.Login.LoginActivity"
+    tools:context=".module.Login.ui.LoginActivity"
     android:orientation="vertical">
     <EditText
         android:layout_gravity="center"
@@ -14,9 +14,10 @@
         android:layout_height="50dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/edt_inputtel"
-        android:hint="手机号码"
+        android:hint="@string/tel"
         android:inputType="number"
-        android:paddingStart="30dp" />
+        android:paddingStart="30dp"
+        tools:ignore="RtlSymmetry" />
 <RelativeLayout
     android:layout_width="280dp"
     android:layout_height="wrap_content"
@@ -29,9 +30,10 @@
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:background="@drawable/edt_inputtel"
-        android:hint="验证码"
+        android:hint="@string/verificationCode"
         android:inputType="number"
-        android:paddingStart="30dp" />
+        android:paddingStart="30dp"
+        tools:ignore="RtlSymmetry" />
 
     <Button
         android:id="@+id/login_edtbutton"
@@ -41,7 +43,7 @@
         android:layout_marginEnd="14dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/editbutton"
-        android:text="获取"
+        android:text="@string/obtain"
         android:textColor="@color/colorRed" />
 </RelativeLayout>
     
@@ -51,7 +53,7 @@
         android:layout_height="50dp"
         android:background="@drawable/redbuttom"
         android:layout_gravity="center"
-        android:text="登录"
+        android:text="@string/login"
         android:textColor="@color/colorWhite"
         android:id="@+id/login_btnlogin"/>
 
@@ -63,16 +65,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="忘记密码"
+            android:text="@string/forgetPass"
             android:layout_weight="1"
             android:textColor="@color/colorRed"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="游客浏览"
+            android:text="@string/tourist"
             android:gravity="right"
-            android:textColor="@color/colorRed"/>
+            android:textColor="@color/colorRed"
+            tools:ignore="RtlHardcoded" />
     </LinearLayout>
 
     <include layout="@layout/login_bottom"/>

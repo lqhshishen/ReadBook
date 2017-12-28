@@ -13,4 +13,26 @@
     <string name="clearCache">清除缓存</string>
     <string name="evaluationUS">评价我们</string>
     <string name="signOut">退出账号</string>
+    <string name="tel">手机号码</string>
+    <string name="verificationCode">验证码</string>
+    <string name="login">登录</string>
+    <string name="forgetPass">忘记密码</string>
+    <string name="tourist">游客浏览</string>
+    <string name="qqOrWeChat">社交账号登录</string>
+    <string name="loginByQQ">QQ登录</string>
+    <string name="loginByWeChat">微信登录</string>
+    <string name="post">发表</string>
+    <string name="bookCity">书城</string>
+    <string name="classification">分类</string>
+    <string name="Ranking">排行</string>
+    <string name="community">社区</string>
+    <string name="all">全部</string>
+    <string name="scienceFiction">科幻</string>
+    <string name="romance">言情</string>
+    <string name="suspense">悬疑推理</string>
+    <string name="youth">青春</string>
+    <string name="martialArts">武侠</string>
+    <string name="obtain">获取</string>
+    <string name="contents">目录</string>
+    <string name="bookmark">书签</string>
 </resources>

@@ -14,7 +14,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.liqihao.readbook.module.Content.bean.Chapter;
+import com.liqihao.readbook.module.ReadPage.bean.Chapter;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.module.ReadPage.bean.Book;
 import com.liqihao.readbook.module.ReadPage.presenter.PagePresenter;

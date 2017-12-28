@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="社交账号登录"
+        android:text="@string/qqOrWeChat"
         android:gravity="center"/>
     <View
         android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="65dp"
             android:layout_height="wrap_content"
-            android:text="QQ登录"
+            android:text="@string/loginByQQ"
             android:gravity="center"
             android:textColor="@color/colorBlack"/>
     </LinearLayout>
@@ -72,7 +72,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
-                android:text="微信登录"
+                android:text="@string/loginByWeChat"
                 android:gravity="center"
                 android:textColor="@color/colorBlack"/>
         </LinearLayout>

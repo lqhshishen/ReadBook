@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:title="@string/myBookList"
+            android:id="@+id/nav_profileBookshelf"
+            android:icon="@mipmap/profile_bookshelf"/>
+
+        <item
+            android:id="@+id/nav_profileHistory"
+            android:title="@string/myRead"
+            android:icon="@mipmap/profile_history"/>
+
+        <item
+            android:icon="@mipmap/profile_renews"
+            android:title="@string/myDynamic"
+            android:id="@+id/nav_profileRenews"/>
+
+        <item
+            android:id="@+id/nav_profileSetting"
+            android:title="@string/setting"
+            android:icon="@mipmap/profile_setting"/>
+    </group>
+</menu>

@@ -13,7 +13,9 @@ import com.liqihao.readbook.module.Home.presenter.RankPresenter;
 public class RankFragment extends BaseFragment<RankPresenter> implements RankContract.View {
     @Override
     public void setPresenter(RankPresenter presenter) {
-
+        if (this.presenter == null) {
+            this.presenter = new RankPresenter();
+        }
     }
 
     @Override

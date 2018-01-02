@@ -19,8 +19,10 @@ public abstract class BaseActivity<P extends BasePresenter>extends AppCompatActi
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         setPresenter(presenter);
-        if (presenter == null) {
+        if (presenter != null) {
             this.presenter.attachView(this);
+        } else {
+            Log.e("test","presenter is empty");
         }
         bindView();
         initData();

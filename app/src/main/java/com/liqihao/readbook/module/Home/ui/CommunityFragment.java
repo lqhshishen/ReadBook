@@ -14,7 +14,9 @@ import com.liqihao.readbook.module.Home.presenter.CommunityPresenter;
 public class CommunityFragment extends BaseFragment<CommunityPresenter> implements CommunityContract.View {
     @Override
     public void setPresenter(CommunityPresenter presenter) {
-
+        if (this.presenter == null) {
+            this.presenter = new CommunityPresenter();
+        }
     }
 
     @Override

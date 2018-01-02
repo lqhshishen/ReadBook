@@ -17,7 +17,7 @@ import com.liqihao.readbook.module.ReadPage.contract.ContentContract;
 import com.liqihao.readbook.module.ReadPage.presenter.ContentPresenter;
 import com.liqihao.readbook.module.ReadPage.View.PageFactory;
 import com.liqihao.readbook.R;
-import com.liqihao.readbook.Util.GetContext;
+import com.liqihao.readbook.utils.GetContext;
 import com.liqihao.readbook.base.BaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -68,7 +68,7 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
     @Override
     public void initData() {
         contentFactory = new ContentFactory();
-        xAdapter = new BookmarkAdapter(GetContext.getContext(),presenter.getBookmarkList());
+        xAdapter = new BookmarkAdapter(GetContext.getContext(),presenter.getBookmarkList(),R.layout.bookmark_item);
         mAdapter = new ChapterAdapter(GetContext.getContext());
         loadChapters();
         recyclerView.setAdapter(mAdapter);
@@ -84,8 +84,8 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecieve(String word) {
-        xAdapter = new BookmarkAdapter(GetContext.getContext(),presenter.getBookmarkList());
-        xrectclerView.setAdapter(xAdapter);
+//        xAdapter = new BookmarkAdapter(GetContext.getContext(),presenter.getBookmarkList());
+//        xrectclerView.setAdapter(xAdapter);
     }
 
     @Override
@@ -122,13 +122,13 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
                         GetPositionEventBean(chapter.getChapterBytePosition()));
             }
         });
-        xAdapter.setOnItemClickListener(new BookmarkAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BookmarkBean bookmarkBean) {
-                EventBus.getDefault().post(new
-                        GetPositionEventBean(bookmarkBean.getBookmarkbyteposition()));
-            }
-        });
+//        xAdapter.setOnItemClickListener(new BookmarkAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(BookmarkBean bookmarkBean) {
+//                EventBus.getDefault().post(new
+//                        GetPositionEventBean(bookmarkBean.getBookmarkbyteposition()));
+//            }
+//        });
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.liqihao.readbook.api;
 
-import com.wangshen.base.module.find.model.FindModle;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -22,14 +21,14 @@ public interface TestApi {
      * @param pagesize
      * @return
      */
-    @GET("text.from?key=ae240f7fba620fc370b803566654949e")
-    Observable<FindModle> getTestContent(@Query("page") int page, @Query("pagesize") int pagesize);
+//    @GET("text.from?key=ae240f7fba620fc370b803566654949e")
+//    Observable<FindModle> getTestContent(@Query("page") int page, @Query("pagesize") int pagesize);
 
     /**
      * POST示例
      * @param requestBody
      * @return
      */
-    @POST("api/Test/Info")
-    Observable<FindModle> getPictrue(@Body RequestBody requestBody);
+//    @POST("api/Test/Info")
+//    Observable<FindModle> getPictrue(@Body RequestBody requestBody);
 }

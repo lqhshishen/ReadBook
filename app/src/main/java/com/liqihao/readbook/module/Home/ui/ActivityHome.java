@@ -32,6 +32,8 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void setPresenter(HomePresenter presenter) {
-
+        if (this.presenter == null) {
+            this.presenter = new HomePresenter();
+        }
     }
 }

@@ -31,17 +31,17 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(getLayout(),container,false);
         setPresenter(presenter);
-        if (presenter == null) {
+        if (presenter != null) {
             this.presenter.attachView(this);
         }
         bindView();
+        initData();
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initData();
         onClick();
     }
 

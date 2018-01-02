@@ -1,6 +1,7 @@
 package com.liqihao.readbook.api;
 
-import com.wangshen.base.utils.RetrofitFactory;
+
+import com.liqihao.readbook.utils.RetrofitFactory;
 
 import retrofit2.Retrofit;
 

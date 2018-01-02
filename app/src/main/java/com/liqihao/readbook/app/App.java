@@ -3,8 +3,8 @@ package com.liqihao.readbook.app;
 import android.app.Application;
 import android.content.Context;
 
-import com.liqihao.readbook.Util.LogUtils;
-import com.liqihao.readbook.Util.SharedPreferencesUtil;
+import com.liqihao.readbook.utils.LogUtils;
+import com.liqihao.readbook.utils.SharedPreferencesUtil;
 
 /**
  * APP初始化类

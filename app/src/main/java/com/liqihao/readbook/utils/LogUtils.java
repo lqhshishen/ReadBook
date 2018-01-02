@@ -1,4 +1,4 @@
-package com.liqihao.readbook.Util;
+package com.liqihao.readbook.utils;
 
 import android.util.Log;
 

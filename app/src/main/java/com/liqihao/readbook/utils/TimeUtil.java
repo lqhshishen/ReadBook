@@ -1,4 +1,4 @@
-package com.liqihao.readbook.Util;
+package com.liqihao.readbook.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

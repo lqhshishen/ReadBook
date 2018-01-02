@@ -18,9 +18,9 @@ import com.liqihao.readbook.module.ReadPage.bean.Chapter;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.module.ReadPage.bean.Book;
 import com.liqihao.readbook.module.ReadPage.presenter.PagePresenter;
-import com.liqihao.readbook.Util.GetContext;
-import com.liqihao.readbook.Util.SPHelper;
-import com.liqihao.readbook.Util.Util;
+import com.liqihao.readbook.utils.GetContext;
+import com.liqihao.readbook.utils.SPHelper;
+import com.liqihao.readbook.utils.Util;
 
 
 import java.io.BufferedReader;

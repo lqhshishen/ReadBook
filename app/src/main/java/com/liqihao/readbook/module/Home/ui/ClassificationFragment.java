@@ -14,7 +14,9 @@ public class ClassificationFragment extends BaseFragment<ClassificationPresenter
 
     @Override
     public void setPresenter(ClassificationPresenter presenter) {
-
+        if (this.presenter == null) {
+            this.presenter = new ClassificationPresenter();
+        }
     }
 
     @Override

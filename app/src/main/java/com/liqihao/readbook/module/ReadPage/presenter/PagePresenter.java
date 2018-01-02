@@ -4,7 +4,7 @@ import com.liqihao.readbook.module.ReadPage.ui.Content;
 import com.liqihao.readbook.module.ReadPage.bean.BookmarkBean;
 import com.liqihao.readbook.module.ReadPage.bean.Book;
 import com.liqihao.readbook.module.ReadPage.contract.PageContract;
-import com.liqihao.readbook.Util.GetContext;
+import com.liqihao.readbook.utils.GetContext;
 import com.liqihao.readbook.base.BasePresenter;
 
 import org.greenrobot.eventbus.EventBus;

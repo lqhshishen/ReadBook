@@ -1,4 +1,4 @@
-package com.liqihao.readbook.Util;
+package com.liqihao.readbook.utils;
 
 /**
  * Created by wangwenzhang on 2017/6/8.

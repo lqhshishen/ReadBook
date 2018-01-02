@@ -5,7 +5,7 @@ import android.util.Log;
 import com.liqihao.readbook.module.ReadPage.bean.BookmarkBean;
 import com.liqihao.readbook.module.ReadPage.contract.ContentContract;
 import com.liqihao.readbook.module.ReadPage.View.PageFactory;
-import com.liqihao.readbook.Util.GetContext;
+import com.liqihao.readbook.utils.GetContext;
 import com.liqihao.readbook.base.BasePresenter;
 
 import org.litepal.LitePal;

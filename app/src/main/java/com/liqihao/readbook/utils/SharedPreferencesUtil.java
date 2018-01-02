@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.liqihao.readbook.Util;
+package com.liqihao.readbook.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;

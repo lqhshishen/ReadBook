@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.liqihao.readbook.module.Home.ui.ActivityHome;
 import com.liqihao.readbook.module.ReadPage.bean.GetPositionEventBean;
 import com.liqihao.readbook.module.Login.ui.LoginActivity;
 import com.liqihao.readbook.module.ReadPage.View.PageFactory;
@@ -203,6 +204,13 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
                 }else{
                     mPageFactory.prePage();
                 }
+            }
+        });
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ActivityHome.class));
+                finish();
             }
         });
     }

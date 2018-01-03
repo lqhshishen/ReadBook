@@ -9,7 +9,9 @@ import com.liqihao.readbook.module.Home.presenter.HomePresenter;
 
 public interface HomeContract {
     interface View extends BaseView<HomePresenter>{
+        void clickHeadText();
 
+        void showFragment(int showIndex, int hideIndex);
     }
 
     interface Presenter {

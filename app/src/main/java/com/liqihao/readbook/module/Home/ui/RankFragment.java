@@ -2,6 +2,7 @@ package com.liqihao.readbook.module.Home.ui;
 
 import android.view.View;
 
+import com.liqihao.readbook.R;
 import com.liqihao.readbook.base.BaseFragment;
 import com.liqihao.readbook.module.Home.contract.RankContract;
 import com.liqihao.readbook.module.Home.presenter.RankPresenter;
@@ -20,7 +21,7 @@ public class RankFragment extends BaseFragment<RankPresenter> implements RankCon
 
     @Override
     public int getLayout() {
-        return 0;
+        return R.layout.fragment_rank;
     }
 
     @Override

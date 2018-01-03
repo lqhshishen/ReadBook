@@ -4,7 +4,7 @@
         <item
             android:title="@string/myBookList"
             android:id="@+id/nav_profileBookshelf"
-            android:icon="@mipmap/profile_bookshelf"/>
+            android:icon="@mipmap/profile_bookshelf" />
 
         <item
             android:id="@+id/nav_profileHistory"

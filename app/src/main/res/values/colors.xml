@@ -14,4 +14,6 @@
     <color name="contentBackground">#F7F7F5</color>
     <color name="contentTextColor">#565966</color>
     <color name="bookBackground">#F2F4F5</color>
+    <color name="homeBackground">#E65F5F</color>
+    <color name="homeTextNotChecked">#F3B1B1</color>
 </resources>

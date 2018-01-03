@@ -17,5 +17,12 @@
     <style name="AppDialogTheme" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
+    <style name="homeNavText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:layout_marginLeft">28dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textColor">@color/homeTextNotChecked</item>
+    </style>
 
 </resources>

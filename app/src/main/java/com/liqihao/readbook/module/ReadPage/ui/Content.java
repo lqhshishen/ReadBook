@@ -218,6 +218,6 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().register(this);
+        EventBus.getDefault().unregister(this);
     }
 }

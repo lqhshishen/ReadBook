@@ -2,6 +2,7 @@ package com.liqihao.readbook.module.Home.ui;
 
 import android.view.View;
 
+import com.liqihao.readbook.R;
 import com.liqihao.readbook.base.BaseFragment;
 import com.liqihao.readbook.module.Home.contract.BookCityContract;
 import com.liqihao.readbook.module.Home.presenter.BookCityPresenter;
@@ -22,7 +23,7 @@ public class BookCityFragment extends BaseFragment<BookCityPresenter> implements
 
     @Override
     public int getLayout() {
-        return 0;
+        return R.layout.fragment_bookcity;
     }
 
     @Override

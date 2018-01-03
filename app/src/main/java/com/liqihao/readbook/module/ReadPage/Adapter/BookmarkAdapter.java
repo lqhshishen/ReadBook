@@ -30,7 +30,7 @@ public class BookmarkAdapter extends BaseRecycleAdapter<BookmarkBean> {
     }
 
     @Override
-    protected void bindData(final BaseViewHolder holder, final BookmarkBean data, int pos) {
+    protected void bindData(final BaseViewHolder holder, final BookmarkBean data, final int pos) {
         LinearLayout all = holder.getView(R.id.all);
         TextView title = holder.getView(R.id.bookmark_title);
 //       page = itemView.findViewById(R.id.bookmark_page);
@@ -45,8 +45,11 @@ public class BookmarkAdapter extends BaseRecycleAdapter<BookmarkBean> {
         all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new
-                        GetPositionEventBean(data.getBookmarkbyteposition()));
+//                EventBus.getDefault().post(new
+//                        GetPositionEventBean(data.getBookmarkbyteposition()));
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClickListener(holder.getRootView(),pos);
+                }
             }
         });
     }

@@ -2,6 +2,7 @@ package com.liqihao.readbook.module.Home.ui;
 
 import android.view.View;
 
+import com.liqihao.readbook.R;
 import com.liqihao.readbook.base.BaseFragment;
 import com.liqihao.readbook.module.Home.contract.ClassificationContract;
 import com.liqihao.readbook.module.Home.contract.CommunityContract;
@@ -21,7 +22,7 @@ public class CommunityFragment extends BaseFragment<CommunityPresenter> implemen
 
     @Override
     public int getLayout() {
-        return 0;
+        return R.layout.fragment_community;
     }
 
     @Override

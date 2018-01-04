@@ -44,5 +44,6 @@ dependencies {
     implementation('com.github.hotchemi:permissionsdispatcher:2.4.0') {
         exclude module: 'support-v13'
     }
+    compile 'com.coldmoqiuli:banners:1.0.0'
 
 }

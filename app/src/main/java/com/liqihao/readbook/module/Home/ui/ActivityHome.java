@@ -58,6 +58,8 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
         previousIndex = 0;
         title = new ArrayList<>();
         fragments = new ArrayList<>();
+        homeBookCity.setTextSize(16);
+        homeBookCity.setTextColor(this.getResources().getColor(R.color.colorWhite));
 
     }
 
@@ -143,7 +145,6 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void showFragment(int showIndex, int hideIndex) {
-        Log.e("testfragment",fragments.get(showIndex).toString() + "123");
         Fragment showFragment = fragments.get(showIndex);
         Fragment hideFragment = fragments.get(hideIndex);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -156,5 +157,4 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
             ft.hide(hideFragment).show(showFragment).commit();
         }
     }
-
 }

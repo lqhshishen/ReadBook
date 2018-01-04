@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="230dp"
+    android:orientation="vertical"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginTop="24dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今日特价"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:layout_weight="1"
+            android:id="@+id/bookCity_item_title"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/bookcityitem_more">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="更多"
+                android:gravity="center"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/list_more"
+                android:layout_marginLeft="4dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+        
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/bookcity_item_1">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/site"
+                android:scaleType="fitXY"
+                android:id="@+id/bookCititem_1_img" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="明朝那些事"
+                android:id="@+id/bookCityitem_1_name"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥ 0.99"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorRed"
+                android:id="@+id/bookCititem_1_money" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bookcity_item_2"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/site"
+                android:scaleType="fitXY"
+                android:id="@+id/bookcity_item_2_img"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="明朝那些事"
+                android:id="@+id/bookcity_item_2_name"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥ 0.99"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorRed"
+                android:id="@+id/bookcity_item_2_money"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/bookcity_item_3">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/site"
+                android:scaleType="fitXY"
+                android:id="@+id/bookcity_item_3_img"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="明朝那些事"
+                android:id="@+id/bookcity_item_3_name" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥ 0.99"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorRed"
+                android:id="@+id/bookcity_item_3_money"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

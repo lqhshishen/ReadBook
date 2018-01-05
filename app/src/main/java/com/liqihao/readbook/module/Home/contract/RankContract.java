@@ -12,6 +12,6 @@ public interface RankContract{
 
     }
     interface Presenter {
-
+        void getRecycleData();
     }
 }

@@ -75,6 +75,7 @@ public class BookCityFragment extends BaseFragment<BookCityPresenter> implements
         bannerView.setViewList(imageList);
         bannerView.startLoop(true);
 
+        presenter.getBean();
         BookCityAdapter bookCityAdapter = new BookCityAdapter(getContext(),presenter.bookCityBeanList);
         recyclerView.setAdapter(bookCityAdapter);
     }

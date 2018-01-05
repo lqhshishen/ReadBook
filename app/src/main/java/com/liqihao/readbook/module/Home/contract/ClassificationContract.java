@@ -12,6 +12,6 @@ public interface ClassificationContract {
 
     }
     interface Presenter {
-
+        void bindData();
     }
 }

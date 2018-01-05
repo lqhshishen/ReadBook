@@ -9,4 +9,10 @@ import com.liqihao.readbook.module.Home.ui.RankFragment;
  */
 
 public class RankPresenter extends BasePresenter<RankFragment> implements RankContract.Presenter {
+
+
+    @Override
+    public void getRecycleData() {
+
+    }
 }

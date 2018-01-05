@@ -16,4 +16,5 @@
     <color name="bookBackground">#F2F4F5</color>
     <color name="homeBackground">#E65F5F</color>
     <color name="homeTextNotChecked">#F3B1B1</color>
+    <color name="cardViewBackground">#F7F7F7</color>
 </resources>

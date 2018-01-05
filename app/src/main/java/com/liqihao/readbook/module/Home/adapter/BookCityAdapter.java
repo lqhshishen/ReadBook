@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.module.Home.bean.BookCityBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ import java.util.List;
  */
 
 public class BookCityAdapter extends RecyclerView.Adapter<BookCityAdapter.ViewHolder> {
-    List<BookCityBean>bookCityBeanList;
+    List<BookCityBean>bookCityBeanList = new ArrayList<>();
 
     Context mContext;
 
@@ -37,17 +38,17 @@ public class BookCityAdapter extends RecyclerView.Adapter<BookCityAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.title.setText(bookCityBeanList.get(position).getTitle());
-        holder.tvItem1.setText(bookCityBeanList.get(position).getResult().get(1).getBookname());
-        holder.tvItem2.setText(bookCityBeanList.get(position).getResult().get(2).getBookname());
-        holder.tvItem3.setText(bookCityBeanList.get(position).getResult().get(3).getBookname());
+        holder.tvItem1.setText(bookCityBeanList.get(position).getResult().get(0).getBookname());
+        holder.tvItem2.setText(bookCityBeanList.get(position).getResult().get(1).getBookname());
+        holder.tvItem3.setText(bookCityBeanList.get(position).getResult().get(2).getBookname());
         Glide.with(mContext)
-                .load(bookCityBeanList.get(position).getResult().get(1).getImg())
+                .load(bookCityBeanList.get(position).getResult().get(0).getImg())
                 .into(holder.iv1);
         Glide.with(mContext)
-                .load(bookCityBeanList.get(position).getResult().get(2).getImg())
+                .load(bookCityBeanList.get(position).getResult().get(1).getImg())
                 .into(holder.iv2);
         Glide.with(mContext)
-                .load(bookCityBeanList.get(position).getResult().get(3).getImg())
+                .load(bookCityBeanList.get(position).getResult().get(2).getImg())
                 .into(holder.iv3);
     }
 
@@ -58,8 +59,7 @@ public class BookCityAdapter extends RecyclerView.Adapter<BookCityAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title,tvItem1,tvItem2,tvItem3;
-        ImageView iv1,iv2,iv3;
-        LinearLayout lt1,lt2,lt3;
+        ImageView iv1,iv2,iv3;        LinearLayout lt1,lt2,lt3;
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.bookCity_item_title);

@@ -38,7 +38,8 @@
                 android:layout_height="wrap_content"
                 android:src="@mipmap/navbar_back_gray"
                 android:layout_marginTop="50dp"
-                android:layout_marginStart="20dp" />
+                android:layout_marginStart="20dp"
+                android:id="@+id/main_back"/>
             <ImageView
                 android:id="@+id/main_bookmark_red"
                 android:layout_width="wrap_content"

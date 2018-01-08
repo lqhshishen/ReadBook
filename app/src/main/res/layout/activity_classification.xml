@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.liqihao.readbook.module.Classification.ui.ClassificationActivity"
+    android:orientation="vertical">
+
+    <include layout="@layout/headbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="11dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/all"
+            android:layout_marginStart="20dp"
+            android:id="@+id/classic_headitem1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scienceFiction"
+            android:layout_marginStart="24dp"
+            android:id="@+id/classic_headitem2"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/romance"
+            android:layout_marginStart="24dp"
+            android:id="@+id/classic_headitem3"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/suspense"
+            android:layout_marginStart="24dp"
+            android:id="@+id/classic_headitem4"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/youth"
+            android:layout_marginStart="24dp"
+            android:id="@+id/classic_headitem5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/martialArts"
+            android:layout_marginStart="24dp"
+            android:id="@+id/classic_headitem6"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/filer_sel"
+            android:layout_marginStart="20dp"
+            android:id="@+id/classic_headitem7"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrey"
+        android:layout_marginTop="12dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:id="@+id/classic_recycle">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

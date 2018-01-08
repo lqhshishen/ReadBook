@@ -51,6 +51,8 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
     ImageView bookmarkRed;
 
+    ImageView mainBack;
+
     private PageFactory mPageFactory;
 
     private PageView pageView;
@@ -91,6 +93,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         more = findViewById(R.id.more);
         relativeLayout = findViewById(R.id.Ln_main);
         pageView = findViewById(R.id.pageview);
+        mainBack = findViewById(R.id.main_back);
 
 //        预先读取侧滑数据
         mDrawerLayout.openDrawer(GravityCompat.START);
@@ -151,12 +154,11 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
                 mDrawerLayout.setClickable(true);
             }
         });
-        aa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            }
-        });
+//        aa.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//            }
+//        });
         pageView.setOnClickCallback(new PageView.OnClickCallback() {
             @Override
             public void onLeftClick() {
@@ -206,10 +208,9 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
                 }
             }
         });
-        more.setOnClickListener(new View.OnClickListener() {
+        mainBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ActivityHome.class));
                 finish();
             }
         });

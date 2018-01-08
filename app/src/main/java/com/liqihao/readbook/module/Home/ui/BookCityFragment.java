@@ -28,6 +28,8 @@ public class BookCityFragment extends BaseFragment<BookCityPresenter> implements
     private List<View> imageList;
 
     private RecyclerView recyclerView;
+
+    BookCityAdapter bookCityAdapter;
     @Override
     public void setPresenter(BookCityPresenter presenter) {
         if (this.presenter == null) {
@@ -76,12 +78,17 @@ public class BookCityFragment extends BaseFragment<BookCityPresenter> implements
         bannerView.startLoop(true);
 
         presenter.getBean();
-        BookCityAdapter bookCityAdapter = new BookCityAdapter(getContext(),presenter.bookCityBeanList);
+        bookCityAdapter = new BookCityAdapter(getContext(),presenter.bookCityBeanList);
         recyclerView.setAdapter(bookCityAdapter);
     }
 
     @Override
     public void onClick() {
+        bookCityAdapter.setOnItemClickListener(new BookCityAdapter.MyItemClickListener() {
+            @Override
+            public void setOnItemClickListener(View itemView, View view, int postion) {
 
+            }
+        });
     }
 }

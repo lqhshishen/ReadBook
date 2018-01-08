@@ -16,25 +16,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".module.Login.ui.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.Login.ui.LoginActivity" />
         <activity android:name=".module.Home.ui.ActivityHome" />
-        <activity android:name=".module.User.ui.MyExperienceActivity"/>
-        <activity android:name=".module.Book.ui.BookDetailActivity"/>
-        <activity android:name=".module.Book.ui.BookReviewActivity"/>
-        <activity android:name=".module.Book.ui.ShareBookActivity"/>
-        <activity android:name=".module.Book.ui.WholeContentActivity"/>
-        <activity android:name=".module.Home.ui.SearchActivity"/>
-        <activity android:name=".module.Setting.ui.SettingActivity"/>
-        <activity android:name=".module.User.ui.MyBookListActivity"/>
-        <activity android:name=".module.User.ui.WatchUserActivity"/>
-        <activity android:name=".module.User.ui.MyRenewsActivity"/>
-
+        <activity android:name=".module.User.ui.MyExperienceActivity" />
+        <activity android:name=".module.Book.ui.BookDetailActivity" />
+        <activity android:name=".module.Book.ui.BookReviewActivity" />
+        <activity android:name=".module.Book.ui.ShareBookActivity" />
+        <activity android:name=".module.Book.ui.WholeContentActivity" />
+        <activity android:name=".module.Home.ui.SearchActivity" />
+        <activity android:name=".module.Setting.ui.SettingActivity" />
+        <activity android:name=".module.User.ui.MyBookListActivity" />
+        <activity android:name=".module.User.ui.WatchUserActivity" />
+        <activity android:name=".module.User.ui.MyRenewsActivity" />
+        <activity android:name=".module.Classification.ui.ClassificationActivity"></activity>
     </application>
 
 </manifest>

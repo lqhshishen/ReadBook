@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="115dp"
+    android:orientation="vertical"
+    android:id="@+id/classic_item">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="74dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:src="@mipmap/filer_sel"
+            android:id="@+id/classic_item_img"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:id="@+id/classic_item_name"
+                android:text="三体（全三册）"
+                android:textColor="@color/classicBookName"
+                android:layout_marginTop="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="刘慈欣"
+                android:layout_marginTop="8dp"
+                android:id="@+id/classic_item_author"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/review_star_small"
+                    android:visibility="visible"
+                    android:layout_gravity="center"
+                    android:id="@+id/classic_item_star1"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/review_star_small"
+                    android:visibility="visible"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/classic_item_star2"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/review_star_small"
+                    android:visibility="visible"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/classic_item_star3"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/review_star_small"
+                    android:visibility="visible"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/classic_item_star4"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/review_star_small"
+                    android:visibility="visible"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/classic_item_star5"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5.0（865）"
+                    android:textSize="13sp"
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/classic_item_number"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrey"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

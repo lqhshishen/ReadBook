@@ -1,6 +1,7 @@
 package com.liqihao.readbook.module.Home.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.module.Home.bean.BookCityBean;
 
@@ -59,8 +61,9 @@ public class BookCityAdapter extends RecyclerView.Adapter<BookCityAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title,tvItem1,tvItem2,tvItem3;
-        ImageView iv1,iv2,iv3;        LinearLayout lt1,lt2,lt3;
-        public ViewHolder(View itemView) {
+        ImageView iv1,iv2,iv3;
+        LinearLayout lt1,lt2,lt3;
+        public ViewHolder(final View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.bookCity_item_title);
             tvItem1 = itemView.findViewById(R.id.bookCityitem_1_name);
@@ -72,10 +75,37 @@ public class BookCityAdapter extends RecyclerView.Adapter<BookCityAdapter.ViewHo
             lt1 = itemView.findViewById(R.id.bookcity_item_1);
             lt2 = itemView.findViewById(R.id.bookcity_item_2);
             lt3 = itemView.findViewById(R.id.bookcity_item_3);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.setOnItemClickListener(itemView, v, (Integer) v.getTag());
+                }
+            });
+            lt1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mContext.startActivity(new Intent(mContext, MainActivity.class));
+                }
+            });
+            lt2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mContext.startActivity(new Intent(mContext, MainActivity.class));
+                }
+            });
+            lt3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mContext.startActivity(new Intent(mContext, MainActivity.class));
+                }
+            });
         }
     }
-
+    private static MyItemClickListener mListener=null;
+    public void setOnItemClickListener(MyItemClickListener listener) {
+        this.mListener = listener;
+    }
     public interface MyItemClickListener {
-        void setOnItemClickListener();
+        void setOnItemClickListener(View itemView,View view,int postion);
     }
 }

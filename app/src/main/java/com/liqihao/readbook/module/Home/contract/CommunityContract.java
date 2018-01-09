@@ -12,6 +12,6 @@ public interface CommunityContract {
 
     }
     interface Presenter {
-
+        void getData();
     }
 }

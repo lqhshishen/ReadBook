@@ -2,7 +2,9 @@ package com.liqihao.readbook.module.Home.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,6 +22,7 @@ import com.liqihao.readbook.R;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Home.contract.HomeContract;
 import com.liqihao.readbook.module.Home.presenter.HomePresenter;
+import com.liqihao.readbook.module.Setting.ui.SettingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +83,23 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void onClick() {
-
+        navUser.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_profileBookshelf:
+                        break;
+                    case R.id.nav_profileHistory:
+                        break;
+                    case R.id.nav_profileRenews:
+                        break;
+                    case R.id.nav_profileSetting:
+                        startActivity(new Intent(ActivityHome.this, SettingActivity.class));
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override

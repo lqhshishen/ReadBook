@@ -4,40 +4,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:background="@color/colorWhite"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <LinearLayout
-            android:id="@+id/activity_setting_return"
-            android:layout_marginStart="10dp"
-            android:orientation="horizontal"
-            android:layout_width="150dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_gravity="center"
-                android:src="@mipmap/back"
-                android:layout_width="25dp"
-                android:layout_height="20dp"
-                android:id="@+id/setting_back"/>
-        </LinearLayout>
-        <TextView
-            android:textStyle="bold"
-            android:textColor="#333"
-            android:textSize="16sp"
-            android:text="@string/setting"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+
+    <include layout="@layout/headbar" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorGrey"/>
 
     <LinearLayout
-        android:id="@+id/activity_setting_float"
+        android:id="@+id/setting_message_push"
         android:background="@color/colorWhite"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
@@ -63,8 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorGrey"/>
+
     <LinearLayout
-        android:id="@+id/activity_setting_qq"
+        android:id="@+id/setting_bindTel"
         android:background="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="50dp">
@@ -87,7 +64,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/activity_setting_wx"
+        android:id="@+id/setting_clear_cache"
         android:background="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -119,7 +96,7 @@
         android:background="@color/colorGrey"/>
 
     <LinearLayout
-        android:id="@+id/activity_setting_feedback"
+        android:id="@+id/setting_feedback"
         android:background="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="50dp">
@@ -142,7 +119,7 @@
 
 
     <Button
-        android:id="@+id/activity_setting_cance"
+        android:id="@+id/setting_signOut"
         android:textColor="#FF6B6B"
         android:text="@string/signOut"
         android:layout_marginTop="20dp"

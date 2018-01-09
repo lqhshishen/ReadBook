@@ -36,4 +36,5 @@
     <string name="contents">目录</string>
     <string name="bookmark">书签</string>
     <string name="book">小说</string>
+    <string name="todo">TODO</string>
 </resources>

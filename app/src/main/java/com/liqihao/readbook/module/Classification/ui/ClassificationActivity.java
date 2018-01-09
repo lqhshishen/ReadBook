@@ -40,6 +40,8 @@ public class ClassificationActivity extends BaseActivity<ClassicPresenter> imple
     ImageView classicHeaditem7;
     @BindView(R.id.classic_recycle)
     RecyclerView classicRecycle;
+    @BindView(R.id.back_btn)
+    ImageView backBtn;
 
     @Override
     public void bindView() {
@@ -74,7 +76,7 @@ public class ClassificationActivity extends BaseActivity<ClassicPresenter> imple
         }
     }
 
-    @OnClick({ R.id.classic_headitem1, R.id.classic_headitem2, R.id.classic_headitem3, R.id.classic_headitem4, R.id.classic_headitem5, R.id.classic_headitem6, R.id.classic_headitem7})
+    @OnClick({ R.id.classic_headitem1, R.id.classic_headitem2, R.id.classic_headitem3, R.id.classic_headitem4, R.id.classic_headitem5, R.id.classic_headitem6, R.id.classic_headitem7,R.id.back_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.classic_headitem1:
@@ -103,6 +105,9 @@ public class ClassificationActivity extends BaseActivity<ClassicPresenter> imple
                 break;
             case R.id.classic_headitem7:
                 break;
+            case R.id.back_btn:
+                finish();
+                break;
         }
     }
 
@@ -114,6 +119,5 @@ public class ClassificationActivity extends BaseActivity<ClassicPresenter> imple
         classicHeaditem4.setTextColor(getResources().getColor(R.color.classicText));
         classicHeaditem5.setTextColor(getResources().getColor(R.color.classicText));
         classicHeaditem6.setTextColor(getResources().getColor(R.color.classicText));
-
     }
 }

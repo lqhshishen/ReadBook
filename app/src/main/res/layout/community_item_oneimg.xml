@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/community_headImg"
+            android:src="@mipmap/site"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:id="@+id/community_name"
+            android:text="甲乙丙丁"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/community_time"
+            android:textSize="10sp"
+            tools:ignore="SmallSp"
+            android:textColor="@color/communitySmall"
+            android:layout_gravity="center"
+            android:text="2天前"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/read_more"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/community_msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="非常不错的故事，原著没看过，但我想以漫画的形式来描绘，一定比原著更添色彩，整体色调偏暖" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="154dp"
+            android:id="@+id/community_img0"
+            android:scaleType="fitXY"
+            android:src="@mipmap/site"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/list_like"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/community_likeNumber"
+            android:text="99"
+            android:layout_marginStart="6dp"
+            android:textSize="12sp"
+            android:textColor="@color/communitySmall"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/list_review"
+            android:layout_marginStart="12dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/community_rePostNumber"
+            android:text="99"
+            android:layout_marginStart="6dp"
+            android:textSize="12sp"
+            android:textColor="@color/communitySmall"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/list_share"
+            android:layout_marginStart="12dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/community_forwardNumber"
+            android:text="99"
+            android:layout_marginStart="6dp"
+            android:textSize="12sp"
+            android:textColor="@color/communitySmall"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrey"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

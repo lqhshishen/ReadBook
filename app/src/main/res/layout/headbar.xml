@@ -17,7 +17,8 @@
         android:src="@mipmap/navbar_back_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/back_btn"/>
 
     <TextView
         android:id="@+id/textView"

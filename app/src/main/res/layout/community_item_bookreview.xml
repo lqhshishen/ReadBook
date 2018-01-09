@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/community_bookreview_headImg"
+            android:src="@mipmap/site" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:id="@+id/community_bookreview_name"
+            android:text="甲乙丙丁"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/community_bookreview_time"
+            android:textSize="10sp"
+            tools:ignore="SmallSp"
+            android:textColor="@color/communitySmall"
+            android:layout_gravity="center"
+            android:text="2天前"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/read_more"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        android:id="@+id/community_bookreview_body">
+        <TextView
+            android:id="@+id/community_bookreview_msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="非常不错的故事，原著没看过，但我想以漫画的形式来描绘，一定比原著更添色彩，整体色调偏暖" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/bookBackground"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="18dp"
+                android:src="@mipmap/site"
+                android:scaleType="fitXY"
+                android:id="@+id/community_bookreview_bookImg"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/classicBookName"
+                    android:text="三体（全三册）"
+                    android:id="@+id/community_bookreview_bookName"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp"
+                    android:text="刘慈欣"
+                    android:textColor="@color/classicText"
+                    android:layout_marginTop="3dp"
+                    android:id="@+id/community_bookreview_author"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="他单枪匹马，把中国科幻提升到"
+                    android:textSize="11sp"
+                    android:layout_marginTop="3dp"
+                    android:id="@+id/community_bookreview_bookMsg"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/list_like"
+            android:id="@+id/community_bookreview_likeImg"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/community_bookreview_likeNumber"
+            android:text="99"
+            android:layout_marginStart="6dp"
+            android:textSize="12sp"
+            android:textColor="@color/communitySmall"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/list_review"
+            android:layout_marginStart="12dp"
+            android:id="@+id/community_bookreview_rePost"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/community_bookreview_rePostNumber"
+            android:text="99"
+            android:layout_marginStart="6dp"
+            android:textSize="12sp"
+            android:textColor="@color/communitySmall"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/list_share"
+            android:layout_marginStart="12dp"
+            android:id="@+id/community_bookreview_share"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/community_bookreview_forwardNumber"
+            android:text="99"
+            android:layout_marginStart="6dp"
+            android:textSize="12sp"
+            android:textColor="@color/communitySmall"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrey"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

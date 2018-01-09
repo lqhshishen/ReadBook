@@ -19,4 +19,6 @@
     <color name="cardViewBackground">#F7F7F7</color>
     <color name="classicBookName">#565966</color>
     <color name="classicText">#B7BBCC</color>
+    <color name="communityName">#565966</color>
+    <color name="communitySmall">#B7BBCC</color>
 </resources>

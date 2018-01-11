@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.module.Book.ui.BookDetailActivity;
 import com.liqihao.readbook.module.Home.bean.BookCityBean;
 
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ public class BookCityAdapter extends RecyclerView.Adapter<BookCityAdapter.ViewHo
             lt1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, MainActivity.class));
+                    mContext.startActivity(new Intent(mContext, BookDetailActivity.class));
                 }
             });
             lt2.setOnClickListener(new View.OnClickListener() {

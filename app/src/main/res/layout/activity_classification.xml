@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/all"
+            android:text="@string/scienceFiction"
             android:layout_marginStart="20dp"
             android:id="@+id/classic_headitem1"
             android:textColor="@color/classicText"/>
@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/scienceFiction"
+            android:text="@string/martialArts"
             android:layout_marginStart="24dp"
             android:id="@+id/classic_headitem2"
             android:textColor="@color/classicText"/>
@@ -35,7 +35,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/romance"
+            android:text="@string/cityBook"
             android:layout_marginStart="24dp"
             android:id="@+id/classic_headitem3"
             android:textColor="@color/classicText"/>
@@ -43,7 +43,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/suspense"
+            android:text="@string/romance"
             android:layout_marginStart="24dp"
             android:id="@+id/classic_headitem4"
             android:textColor="@color/classicText"/>
@@ -51,7 +51,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/youth"
+            android:text="@string/throughBook"
             android:layout_marginStart="24dp"
             android:id="@+id/classic_headitem5"
             android:textColor="@color/classicText"/>
@@ -59,7 +59,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/martialArts"
+            android:text="@string/onlineGame"
             android:layout_marginStart="24dp"
             android:id="@+id/classic_headitem6"
             android:textColor="@color/classicText"/>
@@ -82,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
-        android:id="@+id/classic_recycle">
+        android:id="@+id/classify_recycle">
     </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

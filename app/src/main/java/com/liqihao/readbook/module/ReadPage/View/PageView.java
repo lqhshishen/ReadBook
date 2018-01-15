@@ -78,6 +78,7 @@ public class PageView extends View implements PageViewContract{
     public void setBitmap(Bitmap bitmap) {
         bit = bitmap;
     }
+
     public void setOnClickCallback(OnClickCallback listener){
         mClick = listener;
     }

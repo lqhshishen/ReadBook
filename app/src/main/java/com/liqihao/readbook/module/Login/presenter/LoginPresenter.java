@@ -23,35 +23,4 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class LoginPresenter extends BasePresenter<LoginActivity> implements LoginContract.presenter {
-    BookApi bookApi = new BookApi(GetContext.getContext());
-
-    @Override
-    public void Test() {
-        BookApi.getInstance(GetContext.getContext())
-                .getMsg("13218021383","0","1")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<TestBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        Log.e("onSubscribe","开始订阅");
-                    }
-
-                    @Override
-                    public void onNext(TestBean testBean) {
-                        Log.e("onNext",testBean.getMsg());
-                        Log.e("onNext,",testBean.getCode());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("onError",e.toString());
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.e("onComplete","Complete");
-                    }
-                });
-    }
 }

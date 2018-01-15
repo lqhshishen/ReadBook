@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,11 @@ import java.util.List;
 
 public class ClassificationAdapter extends RecyclerView.Adapter<ClassificationAdapter.ViewHolder> {
 
-    private List<ClassificationBean> data;
+    private List<ClassificationBean.result> data;
 
     private Context context;
 
-    public ClassificationAdapter (Context context,List<ClassificationBean>data) {
+    public ClassificationAdapter (Context context,List<ClassificationBean.result>data) {
         this.context = context;
         this.data = data;
     }
@@ -40,12 +41,19 @@ public class ClassificationAdapter extends RecyclerView.Adapter<ClassificationAd
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.number.setText(data.get(position).getNumber());
-        holder.className.setText(data.get(position).getClassName());
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        holder.className.setText(data.get(position).getClassify());
         Glide.with(context)
-                .load(data.get(position).getImg())
+                .load(R.mipmap.site)
                 .into(holder.img);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ClassificationActivity.class);
+                intent.putExtra("ClassId",data.get(holder.getAdapterPosition()).getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -63,12 +71,6 @@ public class ClassificationAdapter extends RecyclerView.Adapter<ClassificationAd
             img = itemView.findViewById(R.id.classic_img);
             className = itemView.findViewById(R.id.classic_name);
             number = itemView.findViewById(R.id.classic_number);
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(new Intent(context, ClassificationActivity.class));
-                }
-            });
         }
     }
 }

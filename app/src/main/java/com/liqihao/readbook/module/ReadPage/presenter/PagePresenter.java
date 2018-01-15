@@ -22,6 +22,7 @@ public class PagePresenter extends BasePresenter<PageContract.MainView> implemen
 
     Book book = new Book("chenxizhijian",
             "/storage/emulated/0/Download/晨曦之剑.txt","GB18030");
+//    Book book = new Book("chenxizhijian","/storage/emulated/0/电影/晨曦之剑.txt","GB18030");
     Content content;
     public void onCreate(){
 

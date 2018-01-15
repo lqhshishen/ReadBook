@@ -1,17 +1,14 @@
 package com.liqihao.readbook.api;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
 
-import com.liqihao.readbook.base.Constant;
-import com.liqihao.readbook.module.ReadPage.bean.Book;
-import com.liqihao.readbook.utils.GetContext;
+import com.liqihao.readbook.contents.Constant;
+import com.liqihao.readbook.module.Classification.bean.ClassicItemBean;
+import com.liqihao.readbook.module.Home.bean.ClassificationBean;
+import com.liqihao.readbook.module.Login.bean.MobileReg;
 
 
 import org.json.JSONException;
@@ -22,10 +19,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import io.reactivex.Observable;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.RuntimePermissions;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -40,11 +34,11 @@ public class BookApi {
 
     private BookApiService service;
 
-    private String sign, key, deviceid, timestamp, version, auth, os;
+    private String auth;
 
-    Context mContext;
+    private Context mContext;
 
-    JSONObject jsonObject = new JSONObject();
+    private JSONObject jsonObject = new JSONObject();
 
     RequestBody body;
     public BookApi(Context context) {
@@ -64,13 +58,13 @@ public class BookApi {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        deviceid =  TelephonyMgr.getDeviceId();
-        key = "h32nfow45e";
-        timestamp = Long.toString(System.currentTimeMillis());
+        String deviceid = TelephonyMgr.getDeviceId();
+        String key = "h32nfow45e";
+        String timestamp = Long.toString(System.currentTimeMillis());
         assert pi != null;
-        version = pi.versionName;
-        os = "1";
-        sign = md5(md5(timestamp + key + version));
+        String version = pi.versionName;
+        String os = "1";
+        String sign = md5(md5(timestamp + key + version));
 
         try {
             jsonObject.put("sign", sign);
@@ -91,6 +85,10 @@ public class BookApi {
         return instance;
     }
 
+    private RequestBody handleBody(JSONObject jsonObject1) {
+        return RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8")
+                ,jsonObject1.toString());
+    }
 
     public Observable<TestBean>getMsg(String tel,String auth,String vCode) {
         try {
@@ -100,9 +98,34 @@ public class BookApi {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8")
-                ,jsonObject.toString());
-        return service.getMsg(body);
+        return service.getMsg(handleBody(jsonObject));
+    }
+
+    public Observable<ClassificationBean>getList() {
+        return service.getList(handleBody(jsonObject));
+    }
+
+
+    public Observable<MobileReg>mobileRegist(String mobile,String password,String vcode) {
+        try {
+            jsonObject.put("mobile",mobile);
+            jsonObject.put("pass",password);
+            jsonObject.put("vcode",vcode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return  service.mobileReg(handleBody(jsonObject));
+    }
+
+    public Observable<ClassicItemBean>getClassifyBookList(String page,String id) {
+        try {
+            jsonObject.put("page",page);
+            jsonObject.put("id",id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return service.getClassifyBookList(handleBody(jsonObject));
+
     }
 
 

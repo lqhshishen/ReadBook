@@ -2,6 +2,7 @@ package com.liqihao.readbook.module.Classification.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,15 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
 
     private Context context;
 
-    private List<ClassicItemBean> data;
+    private List<ClassicItemBean.ResultBean> data;
 
-    public ClassicItemAdapter (Context context,List<ClassicItemBean> data) {
+    public ClassicItemAdapter (Context context,List<ClassicItemBean.ResultBean> data) {
         this.context = context;
         this.data = data;
+    }
+
+    public void clearData() {
+        data.clear();
     }
 
     @Override
@@ -38,41 +43,41 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.name.setText(data.get(position).getBookName());
-        String all = String.valueOf(data.get(position).getStar()) + "（" +
-                data.get(position).getNumber() + "）";
-        holder.number.setText(all);
+        holder.name.setText(data.get(position).getBookname());
+//        String all = String.valueOf(data.get(position).getStar()) + "（" +
+//                data.get(position).getNumber() + "）";
+//        holder.number.setText(all);
         holder.author.setText(data.get(position).getAuthor());
         Glide.with(context)
-                .load(data.get(position).getImg())
+                .load(data.get(position).getIcon())
                 .into(holder.img);
-        switch ((int) data.get(position).getStar()){
-            case 0:
-                holder.star5.setVisibility(View.GONE);
-                holder.star4.setVisibility(View.GONE);
-                holder.star3.setVisibility(View.GONE);
-                holder.star2.setVisibility(View.GONE);
-                holder.star1.setVisibility(View.GONE);
-                break;
-            case 4:
-                holder.star5.setVisibility(View.GONE);
-                break;
-            case 3:
-                holder.star5.setVisibility(View.GONE);
-                holder.star4.setVisibility(View.GONE);
-                break;
-            case 2:
-                holder.star5.setVisibility(View.GONE);
-                holder.star4.setVisibility(View.GONE);
-                holder.star3.setVisibility(View.GONE);
-                break;
-            case 1:
-                holder.star5.setVisibility(View.GONE);
-                holder.star4.setVisibility(View.GONE);
-                holder.star3.setVisibility(View.GONE);
-                holder.star2.setVisibility(View.GONE);
-                break;
-        }
+//        switch ((int) data.get(position).getStar()){
+//            case 0:
+//                holder.star5.setVisibility(View.GONE);
+//                holder.star4.setVisibility(View.GONE);
+//                holder.star3.setVisibility(View.GONE);
+//                holder.star2.setVisibility(View.GONE);
+//                holder.star1.setVisibility(View.GONE);
+//                break;
+//            case 4:
+//                holder.star5.setVisibility(View.GONE);
+//                break;
+//            case 3:
+//                holder.star5.setVisibility(View.GONE);
+//                holder.star4.setVisibility(View.GONE);
+//                break;
+//            case 2:
+//                holder.star5.setVisibility(View.GONE);
+//                holder.star4.setVisibility(View.GONE);
+//                holder.star3.setVisibility(View.GONE);
+//                break;
+//            case 1:
+//                holder.star5.setVisibility(View.GONE);
+//                holder.star4.setVisibility(View.GONE);
+//                holder.star3.setVisibility(View.GONE);
+//                holder.star2.setVisibility(View.GONE);
+//                break;
+//        }
     }
 
     @Override
@@ -96,8 +101,6 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
             name = itemView.findViewById(R.id.classic_item_name);
             author = itemView.findViewById(R.id.classic_item_author);
             number = itemView.findViewById(R.id.classic_item_number);
-
-
         }
     }
 }

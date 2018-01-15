@@ -36,7 +36,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void bindView() {
         ButterKnife.bind(this);
-        presenter.Test();
     }
 
     @Override

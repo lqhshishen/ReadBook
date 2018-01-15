@@ -1,4 +1,4 @@
-package com.liqihao.readbook.base;
+package com.liqihao.readbook.contents;
 
 /**
  * Created by liqihao on 2018/1/10.

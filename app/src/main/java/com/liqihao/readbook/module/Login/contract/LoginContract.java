@@ -12,6 +12,5 @@ public interface LoginContract {
 
     }
     interface presenter {
-        void Test();
     }
 }

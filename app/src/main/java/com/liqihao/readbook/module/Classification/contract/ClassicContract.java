@@ -12,9 +12,8 @@ import java.util.List;
 
 public interface ClassicContract {
     interface view extends BaseView<ClassicPresenter> {
-        void resetColor();
 
-        void setHead();
+        void recomputeT10ffset1(int index);
 
         void onSetAdapter(List<ClassicItemBean.ResultBean> resultBeans);
     }

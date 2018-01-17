@@ -3,6 +3,8 @@ package com.liqihao.readbook.module.Classification.ui;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,7 +13,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Classification.adapter.ClassicItemAdapter;
@@ -30,82 +35,113 @@ public class ClassificationActivity extends BaseActivity<ClassicPresenter> imple
 
     @BindView(R.id.textView)
     TextView textView;
-    @BindView(R.id.classic_headitem1)
-    TextView classicHeaditem1;
-    @BindView(R.id.classic_headitem2)
-    TextView classicHeaditem2;
-    @BindView(R.id.classic_headitem3)
-    TextView classicHeaditem3;
-    @BindView(R.id.classic_headitem4)
-    TextView classicHeaditem4;
-    @BindView(R.id.classic_headitem5)
-    TextView classicHeaditem5;
-    @BindView(R.id.classic_headitem6)
-    TextView classicHeaditem6;
-    @BindView(R.id.classic_headitem7)
-    ImageView classicHeaditem7;
     @BindView(R.id.classify_recycle)
-    RecyclerView classicRecycle;
+    XRecyclerView classicRecycle;
     @BindView(R.id.back_btn)
     ImageView backBtn;
 
-    PopupWindow mPopupWindow;
+    @BindView(R.id.tab_classify)
+    TabLayout tabClassify;
 
 
     @Override
     public void bindView() {
         View contentView = LayoutInflater.from(ClassificationActivity.this)
                 .inflate(R.layout.pop_classify, null);
-        mPopupWindow = new PopupWindow(contentView, ActionBar.LayoutParams.WRAP_CONTENT
-                , ActionBar.LayoutParams.WRAP_CONTENT, true);
         ButterKnife.bind(this);
+
     }
 
     ClassicItemAdapter adapter;
-
+    int page = 1;
     @Override
     public void initData() {
         textView.setText(R.string.book);
         classicRecycle.setLayoutManager(new LinearLayoutManager(ClassificationActivity.this));
+        classicRecycle.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         Intent intent = getIntent();
         String id = intent.getStringExtra("ClassId");
         Log.e("checkClassId", id);
+        if (tabClassify.getTabAt(Integer.parseInt(id) - 1) != null){
+            tabClassify.getTabAt(Integer.parseInt(id) - 1).select();
+        }
         presenter.getData("1", id);
-//        head.add(String.valueOf(R.string.fantasy));
-//        head.add(String.valueOf(R.string.martialArts));
-//        head.add(String.valueOf(R.string.cityBook));
-//        head.add(String.valueOf(R.string.romance));
-//        head.add(String.valueOf(R.string.throughBook));
-//        head.add(String.valueOf(R.string.onlineGame));
-//        head.add(String.valueOf(R.string.suspense));
-//        head.add(String.valueOf(R.string.scienceFiction));
-//        head.add(String.valueOf(R.string.others));
-//        switch (Integer.parseInt(id)){
-//            case 1:
-//                classicHeaditem1.setTextColor(getResources().getColor(R.color.colorBlack));
-//                break;
-//            case 2:
-//                classicHeaditem2.setTextColor(getResources().getColor(R.color.colorBlack));
-//                break;
-//            case 3:
-//                classicHeaditem3.setTextColor(getResources().getColor(R.color.colorBlack));
-//                break;
-//            case 4:
-//                classicHeaditem4.setTextColor(getResources().getColor(R.color.colorBlack));
-//                break;
-//            case 5:
-//                classicHeaditem5.setTextColor(getResources().getColor(R.color.colorBlack));
-//                break;
-//            case 6:
-//                classicHeaditem6.setTextColor(getResources().getColor(R.color.colorBlack));
-//                break;
-//        }
-
     }
 
     @Override
     public void onClick() {
+        classicRecycle.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                        public void run() {
+                        classicRecycle.refreshComplete();
+                    }
+                },3000);
+            }
 
+            @Override
+            public void onLoadMore() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        page++;
+                        presenter.getData(String.valueOf(page), String.valueOf(tabClassify.getSelectedTabPosition() + 1));
+                        classicRecycle.loadMoreComplete();
+                    }
+                },2000);
+
+            }
+        });
+        tabClassify.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() != tabClassify.getSelectedTabPosition()) {
+                    page = 1;
+                }
+//                Log.i("onTabSelected","onTabSelected:"+tab.getPosition());
+                switch (tab.getPosition()){
+                    case 0:
+                        presenter.getData("1","1");
+                        break;
+                    case 1:
+                        presenter.getData("1","2");
+                        break;
+                    case 2:
+                        presenter.getData("1","3");
+                        break;
+                    case 3:
+                        presenter.getData("1","4");
+                        break;
+                    case 4:
+                        presenter.getData("1","5");
+                        break;
+                    case 5:
+                        presenter.getData("1","6");
+                        break;
+                    case 6:
+                        presenter.getData("1","7");
+                        break;
+                    case 7:
+                        presenter.getData("1","8");
+                        break;
+                    case 8:
+                        presenter.getData("1","9");
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Log.e("onTabReselected","tabChange");
+            }
+        });
     }
 
     @Override
@@ -120,41 +156,9 @@ public class ClassificationActivity extends BaseActivity<ClassicPresenter> imple
         }
     }
 
-    @OnClick({R.id.classic_headitem1, R.id.classic_headitem2, R.id.classic_headitem3, R.id.classic_headitem4, R.id.classic_headitem5, R.id.classic_headitem6, R.id.classic_headitem7, R.id.back_btn})
+    @OnClick({R.id.back_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.classic_headitem1:
-                resetColor();
-                presenter.getData("1", "1");
-                classicHeaditem1.setTextColor(getResources().getColor(R.color.colorBlack));
-                break;
-            case R.id.classic_headitem2:
-                resetColor();
-                presenter.getData("1", "2");
-                classicHeaditem2.setTextColor(getResources().getColor(R.color.colorBlack));
-                break;
-            case R.id.classic_headitem3:
-                resetColor();
-                presenter.getData("1", "3");
-                classicHeaditem3.setTextColor(getResources().getColor(R.color.colorBlack));
-                break;
-            case R.id.classic_headitem4:
-                resetColor();
-                presenter.getData("1", "4");
-                classicHeaditem4.setTextColor(getResources().getColor(R.color.colorBlack));
-                break;
-            case R.id.classic_headitem5:
-                resetColor();
-                presenter.getData("1", "5");
-                classicHeaditem5.setTextColor(getResources().getColor(R.color.colorBlack));
-                break;
-            case R.id.classic_headitem6:
-                resetColor();
-                presenter.getData("1", "6");
-                classicHeaditem6.setTextColor(getResources().getColor(R.color.colorBlack));
-                break;
-            case R.id.classic_headitem7:
-                break;
             case R.id.back_btn:
                 finish();
                 break;
@@ -162,31 +166,38 @@ public class ClassificationActivity extends BaseActivity<ClassicPresenter> imple
     }
 
     @Override
-    public void resetColor() {
-        classicHeaditem1.setTextColor(getResources().getColor(R.color.classicText));
-        classicHeaditem2.setTextColor(getResources().getColor(R.color.classicText));
-        classicHeaditem3.setTextColor(getResources().getColor(R.color.classicText));
-        classicHeaditem4.setTextColor(getResources().getColor(R.color.classicText));
-        classicHeaditem5.setTextColor(getResources().getColor(R.color.classicText));
-        classicHeaditem6.setTextColor(getResources().getColor(R.color.classicText));
+    public void recomputeT10ffset1(int index) {
+//        int a;
+//        String str = "";
+//        for (int i = 0; i < index;i ++) {
+//            str += "玄幻";
+//        }
+//        a = str.length() * 14 + index * 12;
+//        if (tabClassify.getTabAt(index)!= null)
+//            tabClassify.getTabAt(index).select();
+//        final int width = (int)(a * this.getResources().getDisplayMetrics().density);
+//        Log.e("width", String.valueOf(width));
+//        classicRecycle.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                classicRecycle.smoothScrollBy(width,0);
+//            }
+//        });
     }
-
-    @Override
-    public void setHead() {
-
-    }
-
-    List<String> head;
-
 
     @Override
     public void onSetAdapter(List<ClassicItemBean.ResultBean> resultBeans) {
         if (adapter != null) {
-            adapter.clearData();
+            adapter.upDateList(resultBeans);
         }
-        adapter = new ClassicItemAdapter(getApplicationContext(), resultBeans);
-        classicRecycle.setAdapter(adapter);
+        if (adapter == null || adapter.getItemCount()==0) {
+            adapter = new ClassicItemAdapter(this , resultBeans);
+            classicRecycle.setAdapter(adapter);
+        }
     }
 
 
+    @OnClick(R.id.tab_classify)
+    public void onViewClicked() {
+    }
 }

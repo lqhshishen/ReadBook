@@ -25,10 +25,16 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ClassicPresenter extends BasePresenter<ClassificationActivity> implements ClassicContract.presenter {
 
-    public List<ClassicItemBean.ResultBean> data;
+    public List<ClassicItemBean.ResultBean> data = new ArrayList<>();
 
     @Override
     public void getData(String page, String id) {
+        if (Integer.parseInt(page) == 1) {
+            data.clear();
+        }
+        if (data.size() > 200) {
+            data.clear();
+        }
         BookApi.getInstance(GetContext.getContext())
                 .getClassifyBookList(page,id)
                 .subscribeOn(Schedulers.io())
@@ -42,7 +48,8 @@ public class ClassicPresenter extends BasePresenter<ClassificationActivity> impl
                     @Override
                     public void onNext(ClassicItemBean classicItemBean) {
                         Log.e("onNext",classicItemBean.getMsg() + classicItemBean.getCode());
-                        view.onSetAdapter(classicItemBean.getResult());
+                        data.addAll(classicItemBean.getResult());
+                        view.onSetAdapter(data);
                     }
 
                     @Override

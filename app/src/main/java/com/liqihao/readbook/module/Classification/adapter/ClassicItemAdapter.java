@@ -44,45 +44,21 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.name.setText(data.get(position).getBookname());
-//        String all = String.valueOf(data.get(position).getStar()) + "（" +
-//                data.get(position).getNumber() + "）";
-//        holder.number.setText(all);
         holder.author.setText(data.get(position).getAuthor());
         Glide.with(context)
                 .load(data.get(position).getIcon())
                 .into(holder.img);
-//        switch ((int) data.get(position).getStar()){
-//            case 0:
-//                holder.star5.setVisibility(View.GONE);
-//                holder.star4.setVisibility(View.GONE);
-//                holder.star3.setVisibility(View.GONE);
-//                holder.star2.setVisibility(View.GONE);
-//                holder.star1.setVisibility(View.GONE);
-//                break;
-//            case 4:
-//                holder.star5.setVisibility(View.GONE);
-//                break;
-//            case 3:
-//                holder.star5.setVisibility(View.GONE);
-//                holder.star4.setVisibility(View.GONE);
-//                break;
-//            case 2:
-//                holder.star5.setVisibility(View.GONE);
-//                holder.star4.setVisibility(View.GONE);
-//                holder.star3.setVisibility(View.GONE);
-//                break;
-//            case 1:
-//                holder.star5.setVisibility(View.GONE);
-//                holder.star4.setVisibility(View.GONE);
-//                holder.star3.setVisibility(View.GONE);
-//                holder.star2.setVisibility(View.GONE);
-//                break;
-//        }
+
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void upDateList(List<ClassicItemBean.ResultBean> newData) {
+        data.addAll(newData);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -93,11 +69,11 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
         public ViewHolder(View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.classic_item_img);
-            star1 = itemView.findViewById(R.id.classic_item_star1);
-            star2 = itemView.findViewById(R.id.classic_item_star2);
-            star3 = itemView.findViewById(R.id.classic_item_star3);
-            star4 = itemView.findViewById(R.id.classic_item_star4);
-            star5 = itemView.findViewById(R.id.classic_item_star5);
+//            star1 = itemView.findViewById(R.id.classic_item_star1);
+//            star2 = itemView.findViewById(R.id.classic_item_star2);
+//            star3 = itemView.findViewById(R.id.classic_item_star3);
+//            star4 = itemView.findViewById(R.id.classic_item_star4);
+//            star5 = itemView.findViewById(R.id.classic_item_star5);
             name = itemView.findViewById(R.id.classic_item_name);
             author = itemView.findViewById(R.id.classic_item_author);
             number = itemView.findViewById(R.id.classic_item_number);

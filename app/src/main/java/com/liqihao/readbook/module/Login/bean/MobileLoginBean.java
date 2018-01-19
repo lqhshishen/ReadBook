@@ -1,23 +1,13 @@
 package com.liqihao.readbook.module.Login.bean;
 
-import java.util.List;
-
 /**
- * Created by liqihao on 2018/1/12.
+ * Created by liqihao on 2018/1/18.
  */
 
-public class MobileReg {
+public class MobileLoginBean {
     private String code;
     private String msg;
-    private resultBean result;
-
-    public resultBean getResult() {
-        return result;
-    }
-
-    public void setResult(resultBean result) {
-        this.result = result;
-    }
+    private ResultBean result;
 
     public String getCode() {
         return code;
@@ -35,7 +25,15 @@ public class MobileReg {
         this.msg = msg;
     }
 
-    public class resultBean {
+    public ResultBean getResult() {
+        return result;
+    }
+
+    public void setResult(ResultBean result) {
+        this.result = result;
+    }
+
+    public class ResultBean {
         String auth;
         String mobile;
 

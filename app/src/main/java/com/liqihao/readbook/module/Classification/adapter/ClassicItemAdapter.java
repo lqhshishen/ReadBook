@@ -1,17 +1,21 @@
 package com.liqihao.readbook.module.Classification.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.liqihao.readbook.R;
-import com.liqihao.readbook.module.Classification.bean.ClassicItemBean;
+import com.liqihao.readbook.module.Book.bean.BookBean;
+import com.liqihao.readbook.module.Book.ui.BookDetailActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -23,9 +27,9 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
 
     private Context context;
 
-    private List<ClassicItemBean.ResultBean> data;
+    private List<BookBean> data;
 
-    public ClassicItemAdapter (Context context,List<ClassicItemBean.ResultBean> data) {
+    public ClassicItemAdapter (Context context,List<BookBean> data) {
         this.context = context;
         this.data = data;
     }
@@ -42,12 +46,19 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.name.setText(data.get(position).getBookname());
         holder.author.setText(data.get(position).getAuthor());
         Glide.with(context)
                 .load(data.get(position).getIcon())
                 .into(holder.img);
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().postSticky(data.get(position));
+                context.startActivity(new Intent(context, BookDetailActivity.class));
+            }
+        });
 
     }
 
@@ -56,7 +67,7 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
         return data.size();
     }
 
-    public void upDateList(List<ClassicItemBean.ResultBean> newData) {
+    public void upDateList(List<BookBean> newData) {
         data.addAll(newData);
         notifyDataSetChanged();
     }
@@ -66,6 +77,7 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
         TextView name;
         TextView author;
         TextView number;
+        LinearLayout linearLayout;
         public ViewHolder(View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.classic_item_img);
@@ -77,6 +89,7 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
             name = itemView.findViewById(R.id.classic_item_name);
             author = itemView.findViewById(R.id.classic_item_author);
             number = itemView.findViewById(R.id.classic_item_number);
+            linearLayout = itemView.findViewById(R.id.classic_item);
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.liqihao.readbook.module.Classification.contract;
 
 import com.liqihao.readbook.base.BaseView;
-import com.liqihao.readbook.module.Classification.bean.ClassicItemBean;
+import com.liqihao.readbook.module.Book.bean.BookBean;
 import com.liqihao.readbook.module.Classification.presenter.ClassicPresenter;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface ClassicContract {
 
         void recomputeT10ffset1(int index);
 
-        void onSetAdapter(List<ClassicItemBean.ResultBean> resultBeans);
+        void onSetAdapter(List<BookBean> resultBeans);
     }
     interface presenter {
         void getData(String page,String id);

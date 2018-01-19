@@ -23,6 +23,7 @@ import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Home.contract.HomeContract;
 import com.liqihao.readbook.module.Home.presenter.HomePresenter;
 import com.liqihao.readbook.module.Setting.ui.SettingActivity;
+import com.liqihao.readbook.module.User.ui.MyBookListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +89,7 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_profileBookshelf:
+                        startActivity(new Intent(ActivityHome.this,MyBookListActivity.class));
                         break;
                     case R.id.nav_profileHistory:
                         break;

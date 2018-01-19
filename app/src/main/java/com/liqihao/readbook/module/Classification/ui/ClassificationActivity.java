@@ -1,26 +1,21 @@
 package com.liqihao.readbook.module.Classification.ui;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.base.BaseActivity;
+import com.liqihao.readbook.module.Book.bean.BookBean;
 import com.liqihao.readbook.module.Classification.adapter.ClassicItemAdapter;
-import com.liqihao.readbook.module.Classification.bean.ClassicItemBean;
 import com.liqihao.readbook.module.Classification.contract.ClassicContract;
 import com.liqihao.readbook.module.Classification.presenter.ClassicPresenter;
 
@@ -99,6 +94,7 @@ public class ClassificationActivity extends BaseActivity<ClassicPresenter> imple
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() != tabClassify.getSelectedTabPosition()) {
                     page = 1;
+                    classicRecycle.smoothScrollToPosition(1);
                 }
 //                Log.i("onTabSelected","onTabSelected:"+tab.getPosition());
                 switch (tab.getPosition()){
@@ -186,13 +182,16 @@ public class ClassificationActivity extends BaseActivity<ClassicPresenter> imple
     }
 
     @Override
-    public void onSetAdapter(List<ClassicItemBean.ResultBean> resultBeans) {
+    public void onSetAdapter(List<BookBean> resultBeans) {
         if (adapter != null) {
+
             adapter.upDateList(resultBeans);
         }
         if (adapter == null || adapter.getItemCount()==0) {
             adapter = new ClassicItemAdapter(this , resultBeans);
             classicRecycle.setAdapter(adapter);
+//            classicRecycle.scrollToPosition(1);
+
         }
     }
 

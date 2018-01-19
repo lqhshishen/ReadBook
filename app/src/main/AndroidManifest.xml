@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGER" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".utils.GetContext"
@@ -18,10 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".module.Login.ui.LoginActivity" >
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".module.Login.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +37,8 @@
         <activity android:name=".module.User.ui.MyBookListActivity" />
         <activity android:name=".module.User.ui.WatchUserActivity" />
         <activity android:name=".module.User.ui.MyRenewsActivity" />
-        <activity android:name=".module.Classification.ui.ClassificationActivity"></activity>
+        <activity android:name=".module.Classification.ui.ClassificationActivity" />
+        <activity android:name=".module.Login.ui.RegisterActivity"></activity>
     </application>
 
 </manifest>

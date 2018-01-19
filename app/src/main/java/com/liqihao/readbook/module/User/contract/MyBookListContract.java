@@ -1,6 +1,7 @@
 package com.liqihao.readbook.module.User.contract;
 
 import com.liqihao.readbook.base.BaseView;
+import com.liqihao.readbook.module.User.bean.MyBookList;
 import com.liqihao.readbook.module.User.presenter.MyBookListPresenter;
 
 /**
@@ -9,9 +10,9 @@ import com.liqihao.readbook.module.User.presenter.MyBookListPresenter;
 
 public interface MyBookListContract {
     interface View extends BaseView<MyBookListPresenter> {
-
+        void onGetBookList(MyBookList myBookList);
     }
     interface Presenter {
-
+        void getBookList(String auth,String page);
     }
 }

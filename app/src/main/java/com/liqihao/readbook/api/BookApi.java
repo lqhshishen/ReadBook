@@ -6,9 +6,14 @@ import android.content.pm.PackageManager;
 import android.telephony.TelephonyManager;
 
 import com.liqihao.readbook.contents.Constant;
+import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
+import com.liqihao.readbook.module.Book.bean.AddComment;
 import com.liqihao.readbook.module.Classification.bean.ClassicItemBean;
 import com.liqihao.readbook.module.Home.bean.ClassificationBean;
+import com.liqihao.readbook.module.Login.bean.MobileLoginBean;
 import com.liqihao.readbook.module.Login.bean.MobileReg;
+import com.liqihao.readbook.module.Login.bean.SendCodeBean;
+import com.liqihao.readbook.module.User.bean.MyBookList;
 
 
 import org.json.JSONException;
@@ -105,6 +110,15 @@ public class BookApi {
         return service.getList(handleBody(jsonObject));
     }
 
+    public Observable<SendCodeBean>senCode(String mobile) {
+        try {
+            jsonObject.put("mobile",mobile);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return service.sendCode(handleBody(jsonObject));
+    }
+
 
     public Observable<MobileReg>mobileRegist(String mobile,String password,String vcode) {
         try {
@@ -125,8 +139,53 @@ public class BookApi {
             e.printStackTrace();
         }
         return service.getClassifyBookList(handleBody(jsonObject));
-
     }
+
+    public Observable<MobileLoginBean>login(String mobile,String pass) {
+
+        try {
+            jsonObject.put("pass",pass);
+            jsonObject.put("mobile",mobile);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return service.login(handleBody(jsonObject));
+    }
+
+    public Observable<MyBookList>getMyBookList(String auth,String page) {
+
+        try {
+            jsonObject.put("page",page);
+            jsonObject.put("auth",auth);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return service.getMyBookList(handleBody(jsonObject));
+    }
+
+    public Observable<AddBookshelfBean>addToBookshelf(String id,String auth) {
+        try {
+            jsonObject.put("auth",auth);
+            jsonObject.put("id",id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return service.addToBookshelf(handleBody(jsonObject));
+    }
+
+    public Observable<AddComment>addComment(String auth,String content,String id,String grade) {
+
+        try {
+            jsonObject.put("grade",grade);
+            jsonObject.put("auth",auth);
+            jsonObject.put("content",content);
+            jsonObject.put("id",id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return service.addComment(handleBody(jsonObject));
+    }
+
 
 
 

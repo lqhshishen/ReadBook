@@ -3,6 +3,7 @@ package com.liqihao.readbook.app;
 import android.app.Application;
 import android.content.Context;
 
+import com.liqihao.readbook.module.User.bean.User;
 import com.liqihao.readbook.utils.LogUtils;
 import com.liqihao.readbook.utils.SharedPreferencesUtil;
 
@@ -12,13 +13,18 @@ import com.liqihao.readbook.utils.SharedPreferencesUtil;
  */
 
 public class App extends Application {
+
+    public static User user;
     public static Context AppContext;
+
+    public static String token=null;
     @Override
     public void onCreate() {
         super.onCreate();
         LogUtils.isShow=true;
         AppContext = getApplicationContext();
         initPrefs();
+        user = new User();
     }
     /**
      * 初始化SharedPreference

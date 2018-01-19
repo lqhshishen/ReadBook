@@ -2,9 +2,9 @@ package com.liqihao.readbook.module.Classification.presenter;
 
 import android.util.Log;
 
-import com.liqihao.readbook.R;
 import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.base.BasePresenter;
+import com.liqihao.readbook.module.Book.bean.BookBean;
 import com.liqihao.readbook.module.Classification.bean.ClassicItemBean;
 import com.liqihao.readbook.module.Classification.contract.ClassicContract;
 import com.liqihao.readbook.module.Classification.ui.ClassificationActivity;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -25,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ClassicPresenter extends BasePresenter<ClassificationActivity> implements ClassicContract.presenter {
 
-    public List<ClassicItemBean.ResultBean> data = new ArrayList<>();
+    public List<BookBean> data = new ArrayList<>();
 
     @Override
     public void getData(String page, String id) {

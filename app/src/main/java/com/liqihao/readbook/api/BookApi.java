@@ -8,6 +8,7 @@ import android.telephony.TelephonyManager;
 import com.liqihao.readbook.contents.Constant;
 import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
 import com.liqihao.readbook.module.Book.bean.AddComment;
+import com.liqihao.readbook.module.Book.bean.CommentList;
 import com.liqihao.readbook.module.Classification.bean.ClassicItemBean;
 import com.liqihao.readbook.module.Home.bean.ClassificationBean;
 import com.liqihao.readbook.module.Login.bean.MobileLoginBean;
@@ -174,7 +175,6 @@ public class BookApi {
     }
 
     public Observable<AddComment>addComment(String auth,String content,String id,String grade) {
-
         try {
             jsonObject.put("grade",grade);
             jsonObject.put("auth",auth);
@@ -184,6 +184,16 @@ public class BookApi {
             e.printStackTrace();
         }
         return service.addComment(handleBody(jsonObject));
+    }
+
+    public Observable<CommentList>ShowCommentList(String id,String page) {
+        try {
+            jsonObject.put("page",page);
+            jsonObject.put("id",id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return service.showCommentList(handleBody(jsonObject));
     }
 
 

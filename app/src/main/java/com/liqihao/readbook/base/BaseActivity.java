@@ -15,6 +15,8 @@ public abstract class BaseActivity<P extends BasePresenter>extends AppCompatActi
 
     protected P presenter;
 
+    String TAG;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public abstract class BaseActivity<P extends BasePresenter>extends AppCompatActi
         } else {
             Log.e("test","presenter is empty");
         }
+
         bindView();
         initData();
         onClick();
@@ -34,6 +37,7 @@ public abstract class BaseActivity<P extends BasePresenter>extends AppCompatActi
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //            //this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);}
         }
+        TAG = this.toString();
     }
 
     public abstract void bindView();

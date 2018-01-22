@@ -56,7 +56,7 @@ public class ClassificationActivity extends BaseActivity<ClassicPresenter> imple
         classicRecycle.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         Intent intent = getIntent();
         String id = intent.getStringExtra("ClassId");
-        Log.e("checkClassId", id);
+//        Log.e("checkClassId", id);
         if (tabClassify.getTabAt(Integer.parseInt(id) - 1) != null){
             tabClassify.getTabAt(Integer.parseInt(id) - 1).select();
         }

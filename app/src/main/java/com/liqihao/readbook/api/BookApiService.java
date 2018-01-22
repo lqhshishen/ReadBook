@@ -2,6 +2,7 @@ package com.liqihao.readbook.api;
 
 import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
 import com.liqihao.readbook.module.Book.bean.AddComment;
+import com.liqihao.readbook.module.Book.bean.CommentList;
 import com.liqihao.readbook.module.Classification.bean.ClassicItemBean;
 import com.liqihao.readbook.module.Home.bean.ClassificationBean;
 import com.liqihao.readbook.module.Login.bean.MobileLoginBean;
@@ -99,4 +100,13 @@ public interface BookApiService {
      */
     @POST("v1/Comment/addComment")
     Observable<AddComment>addComment(@Body RequestBody requestBody);
+
+    /**
+     * 小说评论列表
+     * @param requestBody
+     * @return
+     */
+    @POST("v1/Comment/commentList")
+    Observable<CommentList>showCommentList(@Body RequestBody requestBody);
+
 }

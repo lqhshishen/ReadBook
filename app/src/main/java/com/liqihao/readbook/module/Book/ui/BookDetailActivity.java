@@ -1,7 +1,10 @@
 package com.liqihao.readbook.module.Book.ui;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +14,9 @@ import com.bumptech.glide.Glide;
 import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.base.BaseActivity;
+import com.liqihao.readbook.module.Book.adapter.BookDetailAdapter;
 import com.liqihao.readbook.module.Book.bean.BookBean;
+import com.liqihao.readbook.module.Book.bean.CommentList;
 import com.liqihao.readbook.module.Book.contract.BookDetailContract;
 import com.liqihao.readbook.module.Book.presenter.BookDetailPresenter;
 
@@ -60,6 +65,10 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     ImageView bookDetailShare;
     @BindView(R.id.bookDetail_brief)
     TextView bookDetailBrief;
+    @BindView(R.id.bookDetail_comment)
+    RecyclerView bookDetailComment;
+    @BindView(R.id.bookdetail_comment_more)
+    TextView bookDetailCommentMore;
 
     @Override
     public void setPresenter(BookDetailPresenter presenter) {
@@ -72,10 +81,13 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     public void bindView() {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+        textView.setText(null);
+        bookDetailComment.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     public void initData() {
+
 
     }
 
@@ -94,7 +106,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 
-    @OnClick({R.id.back_btn, R.id.bookDetail_addToBookshelf, R.id.bookDetail_share})
+    @OnClick({R.id.back_btn, R.id.bookDetail_addToBookshelf, R.id.bookDetail_share,R.id.bookdetail_comment_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
@@ -104,11 +116,15 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
                 break;
             case R.id.bookDetail_share:
                 break;
+            case R.id.bookdetail_comment_more:
+                startActivity(new Intent(this,BookReviewActivity.class));
+                break;
         }
     }
 
     @Subscribe(sticky = true , threadMode = ThreadMode.MAIN)
     public void onStickyEvent(BookBean event) {
+        presenter.getComment(event.getId(),"1");
         bookDetailBookName.setText(event.getBookname());
         bookDetailAuthor.setText(event.getAuthor());
         Glide.with(this)
@@ -116,13 +132,21 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
                 .into(bookDetailBookImg);
         bookDetailClassify.setText(event.getClassify());
         bookDetailBrief.setText(event.getBrief());
-        Log.e("wordcount",event.getStatus() + event.getWordcount());
-        Log.e("bookLink",event.getUrl());
+//        Log.e("wordcount",event.getStatus() + event.getWordcount());
+//        Log.e("bookLink",event.getUrl());
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    BookDetailAdapter adapter;
+    @Override
+    public void onReceiveComment(CommentList commentList) {
+        adapter = new BookDetailAdapter(commentList.getResult().getData(),this);
+        bookDetailComment.setAdapter(adapter);
     }
 }

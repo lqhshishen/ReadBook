@@ -59,7 +59,7 @@ public class BookReviewAdapter extends RecyclerView.Adapter<BookReviewAdapter.Vi
     }
 
     public void addMore(List<CommentList.Result.Data> newData) {
-        mData.addAll(mData);
+        mData.addAll(newData);
     }
 
     public void clearData() {

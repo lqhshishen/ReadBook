@@ -33,8 +33,8 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BookDetailAdapter.Vi
             mData = data;
         }
         this.mContext = mContext;
-
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
@@ -64,5 +64,10 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BookDetailAdapter.Vi
             comment = itemView.findViewById(R.id.bookDetail_item_comment);
             userName = itemView.findViewById(R.id.bookDetail_item_userId);
         }
+    }
+
+    public void addMore(List<CommentList.Result.Data> newData) {
+        mData.addAll(newData);
+        notifyDataSetChanged();
     }
 }

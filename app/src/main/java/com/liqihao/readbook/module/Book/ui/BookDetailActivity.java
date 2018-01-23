@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -69,6 +70,8 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     RecyclerView bookDetailComment;
     @BindView(R.id.bookdetail_comment_more)
     TextView bookDetailCommentMore;
+    @BindView(R.id.bookDetail_noComment)
+    TextView textView1;
 
     @Override
     public void setPresenter(BookDetailPresenter presenter) {
@@ -82,7 +85,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         textView.setText(null);
-        bookDetailComment.setLayoutManager(new LinearLayoutManager(this));
+        bookDetailComment.removeAllViews();
     }
 
     @Override
@@ -146,7 +149,15 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     BookDetailAdapter adapter;
     @Override
     public void onReceiveComment(CommentList commentList) {
-        adapter = new BookDetailAdapter(commentList.getResult().getData(),this);
-        bookDetailComment.setAdapter(adapter);
+        if (commentList.getResult().getData().size() == 0) {
+            bookDetailComment.setVisibility(View.GONE);
+            textView1.setVisibility(View.VISIBLE);
+        } else {
+            textView1.setVisibility(View.GONE);
+            bookDetailComment.setVisibility(View.VISIBLE);
+            bookDetailComment.setLayoutManager(new LinearLayoutManager(this));
+            adapter = new BookDetailAdapter(commentList.getResult().getData(),this);
+            bookDetailComment.setAdapter(adapter);
+        }
     }
 }

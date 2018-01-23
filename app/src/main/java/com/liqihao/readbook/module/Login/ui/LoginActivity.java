@@ -2,6 +2,7 @@ package com.liqihao.readbook.module.Login.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,6 +71,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_btnlogin:
+//                startActivity(new Intent(this,ActivityHome.class));
                 judgment();
                 break;
             case R.id.login_qq:

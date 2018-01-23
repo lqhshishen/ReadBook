@@ -21,4 +21,5 @@
     <color name="classicText">#B7BBCC</color>
     <color name="communityName">#565966</color>
     <color name="communitySmall">#B7BBCC</color>
+    <color name="edtBackground">#F1F1F1</color>
 </resources>

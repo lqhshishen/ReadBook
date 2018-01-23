@@ -207,8 +207,19 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginTop="20dp"
-            android:id="@+id/bookDetail_comment">
+            android:id="@+id/bookDetail_comment"
+            android:visibility="visible">
         </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="暂无评论"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:id="@+id/bookDetail_noComment"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
 
 
         <View

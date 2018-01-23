@@ -58,7 +58,6 @@ public class ClassificationPresenter extends BasePresenter<ClassificationFragmen
 
                     }
                 });
-        Log.e("check", String.valueOf(a));
 
     }
 }

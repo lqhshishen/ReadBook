@@ -2,6 +2,7 @@ package com.liqihao.readbook.module.Book.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,36 +22,32 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BookDetailAdapter.Vi
 
     private Context mContext;
 
-    private List<CommentList.Result.Data> mData;
+    private List<CommentList.Result.Data> mData = new ArrayList<>();
 
     public BookDetailAdapter (List<CommentList.Result.Data>data,Context mContext) {
-        if (data.size() > 3) {
-            mData = new ArrayList<>();
-            mData.add(data.get(0));
-            mData.add(data.get(1));
-            mData.add(data.get(2));
-        } else if (data.size() < 3) {
-            mData = data;
-        }
+            this.mData = data;
         this.mContext = mContext;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.bookdetail_item,parent);
+                .inflate(R.layout.bookdetail_item,null);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.time.setText(mData.get(position).getDateline());
+        Log.e("time",mData.get(position).getDateline());
         holder.userName.setText(mData.get(position).getUser().getUsername());
         holder.comment.setText(mData.get(position).getContent());
+        Log.e("BookDetailAdapter"," "+position);
     }
 
     @Override
     public int getItemCount() {
+        Log.e("BookDetailAdapter","getItemCount"+mData.size());
         return mData.size();
     }
 
@@ -66,8 +63,8 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BookDetailAdapter.Vi
         }
     }
 
-    public void addMore(List<CommentList.Result.Data> newData) {
-        mData.addAll(newData);
-        notifyDataSetChanged();
-    }
+//    public void addMore(List<CommentList.Result.Data> newData) {
+//        mData.addAll(newData);
+//        notifyDataSetChanged();
+//    }
 }

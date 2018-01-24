@@ -24,5 +24,8 @@ public interface BookReviewContract {
         void getComment(String id, String page);
 
         void postComment(String auth,String content,String id,String grade);
+
     }
+
+
 }

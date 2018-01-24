@@ -26,7 +26,6 @@ public class BookReviewPresenter extends BasePresenter<BookReviewActivity> imple
     @Override
     public void getComment(String id, String page) {
         mPage = page;
-        Log.e("page",page);
         BookApi.getInstance(GetContext.getContext())
                 .ShowCommentList(id,page)
                 .subscribeOn(Schedulers.io())

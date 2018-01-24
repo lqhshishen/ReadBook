@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.liqihao.readbook.contents.Constant;
 import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
@@ -82,6 +83,7 @@ public class BookApi {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.e("timetamp",timestamp);
 
     }
 

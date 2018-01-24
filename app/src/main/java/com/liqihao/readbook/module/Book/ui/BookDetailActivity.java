@@ -1,29 +1,38 @@
 package com.liqihao.readbook.module.Book.ui;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Book.adapter.BookDetailAdapter;
+import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
 import com.liqihao.readbook.module.Book.bean.BookBean;
 import com.liqihao.readbook.module.Book.bean.CommentList;
 import com.liqihao.readbook.module.Book.contract.BookDetailContract;
 import com.liqihao.readbook.module.Book.presenter.BookDetailPresenter;
+import com.liqihao.readbook.module.User.bean.MyBookList;
+import com.liqihao.readbook.utils.ToastUtils;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,8 +69,8 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     TextView bookDetailNumber;
     @BindView(R.id.bookDetail_classify)
     TextView bookDetailClassify;
-    @BindView(R.id.bookDetail_addToBookshelf)
-    ImageView bookDetailAddToBookshelf;
+//    @BindView(R.id.bookDetail_addToBookshelf)
+//    ImageView bookDetailAddToBookshelf;
     @BindView(R.id.bookDetail_share)
     ImageView bookDetailShare;
     @BindView(R.id.bookDetail_brief)
@@ -72,7 +81,10 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     TextView bookDetailCommentMore;
     @BindView(R.id.bookDetail_noComment)
     TextView textView1;
+    @BindView(R.id.bookDetail_addToBookshelf)
+    Button bookDetailAddToBookshelf;
 
+    List<CommentList.Result.Data>mData;
     @Override
     public void setPresenter(BookDetailPresenter presenter) {
         if (this.presenter == null) {
@@ -82,16 +94,42 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
 
     @Override
     public void bindView() {
+        Log.e("test","7");
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
         textView.setText(null);
-        bookDetailComment.removeAllViews();
+        textView1.setVisibility(View.GONE);
+        bookDetailComment.setVisibility(View.VISIBLE);
+        bookDetailComment.setLayoutManager(new LinearLayoutManager(this));
+        mData = new ArrayList<>();
+        adapter = new BookDetailAdapter(mData,this);
+        bookDetailComment.setAdapter(adapter);
     }
-
+    String id;
+    BookBean event;
     @Override
     public void initData() {
-
-
+        Log.e("test","6");
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        event= (BookBean) bundle.get("name");
+        //presenter.getComment(event.getId(),"1");
+        id=event.getId();
+        bookDetailBookName.setText(event.getBookname());
+        bookDetailAuthor.setText(event.getAuthor());
+        Glide.with(this)
+                .load(event.getIcon())
+                .into(bookDetailBookImg);
+        bookDetailClassify.setText(event.getClassify());
+        bookDetailBrief.setText(event.getBrief());
+        /**
+         * page:页数
+         */
+        presenter.getComment(event.getId(),"1");
+        presenter.getMyBookList(App.token,"1");
+       /* CommentList commentList=new Gson().fromJson(Contents.AD,CommentList.class);
+        mData.clear();
+        mData .addAll(commentList.getResult().getData());*/
     }
 
     @Override
@@ -109,55 +147,113 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 
-    @OnClick({R.id.back_btn, R.id.bookDetail_addToBookshelf, R.id.bookDetail_share,R.id.bookdetail_comment_more})
+    @OnClick({R.id.back_btn,R.id.bookDetail_share,R.id.bookdetail_comment_more,R.id.bookDetail_addToBookshelf})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
                 finish();
                 break;
             case R.id.bookDetail_addToBookshelf:
+                presenter.AddBookshelf(id, App.token);
                 break;
             case R.id.bookDetail_share:
+                sharePopup();
                 break;
             case R.id.bookdetail_comment_more:
-                startActivity(new Intent(this,BookReviewActivity.class));
+                Intent intent=new Intent(this, BookReviewActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("book",event);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
         }
     }
+/*
 
-    @Subscribe(sticky = true , threadMode = ThreadMode.MAIN)
-    public void onStickyEvent(BookBean event) {
-        presenter.getComment(event.getId(),"1");
-        bookDetailBookName.setText(event.getBookname());
-        bookDetailAuthor.setText(event.getAuthor());
-        Glide.with(this)
-                .load(event.getIcon())
-                .into(bookDetailBookImg);
-        bookDetailClassify.setText(event.getClassify());
-        bookDetailBrief.setText(event.getBrief());
+        @Subscribe(sticky = true , threadMode = ThreadMode.MAIN)
+        public void onStickyEvent(BookBean event) {
+            Log.e("test","4");
+            presenter.getComment(event.getId(),"1");
+            bookDetailBookName.setText(event.getBookname());
+            bookDetailAuthor.setText(event.getAuthor());
+            Glide.with(this)
+                    .load(event.getIcon())
+                    .into(bookDetailBookImg);
+            bookDetailClassify.setText(event.getClassify());
+            bookDetailBrief.setText(event.getBrief());
+            Log.e("test","5");
 //        Log.e("wordcount",event.getStatus() + event.getWordcount());
 //        Log.e("bookLink",event.getUrl());
 
     }
+*/
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     BookDetailAdapter adapter;
     @Override
     public void onReceiveComment(CommentList commentList) {
+      /*  CommentList commentList1=new Gson().fromJson(Contents.AD,CommentList.class);
+        mData .addAll(commentList1.getResult().getData());*/
+
         if (commentList.getResult().getData().size() == 0) {
             bookDetailComment.setVisibility(View.GONE);
             textView1.setVisibility(View.VISIBLE);
         } else {
+            Log.e("test","1");
+            //mData.clear();
+            //mData = commentList.getResult().getData();
+            Log.e("onReceiveComment"," "+commentList.getResult().getData().size());
+            mData.addAll(commentList.getResult().getData());
+            adapter.notifyDataSetChanged();
             textView1.setVisibility(View.GONE);
             bookDetailComment.setVisibility(View.VISIBLE);
-            bookDetailComment.setLayoutManager(new LinearLayoutManager(this));
-            adapter = new BookDetailAdapter(commentList.getResult().getData(),this);
-            bookDetailComment.setAdapter(adapter);
+            Log.e("test","3");
+
         }
+    }
+
+    @Override
+    public void onAddToBookshelf(AddBookshelfBean addBookshelfBean) {
+        if ("0".equals(addBookshelfBean.getCode())){
+            ToastUtils.showShort(this,"加入书架成功");
+            bookDetailAddToBookshelf.setText("已在书架");
+        }
+        else
+            ToastUtils.showShort(this,"添加失败");
+    }
+
+//    List<String>booId = new ArrayList<>();
+    @Override
+    public void onReceiveBookList(MyBookList myBookList) {
+//        booId.clear();
+        for (int i = 0;i < myBookList.getResult().size();i++) {
+            if (Objects.equals(event.getId(), myBookList.getResult().get(i).getNid()))
+                bookDetailAddToBookshelf.setText("已在书架");
+        }
+    }
+
+    PopupWindow popupWindow;
+    @Override
+    public void sharePopup() {
+        View pop;
+        pop = getLayoutInflater().inflate(R.layout.pop_share,null);
+        popupWindow = new PopupWindow(pop, ActionBar.LayoutParams.WRAP_CONTENT
+        ,ActionBar.LayoutParams.WRAP_CONTENT,true);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(),(Bitmap)null));
+        popupWindow.setAnimationStyle(R.style.anim_pop_top);
+        popupWindow.update();
+        popupWindow.showAsDropDown(bookDetailShare);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.dismiss();
+            }
+        },3000);
     }
 }

@@ -1,6 +1,8 @@
 package com.liqihao.readbook.module.User.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.module.Book.adapter.BookDetailAdapter;
+import com.liqihao.readbook.module.Book.ui.BookDetailActivity;
 import com.liqihao.readbook.module.User.bean.MyBookList;
 
 import java.util.List;
@@ -37,12 +41,22 @@ public class MyBookListAdapter extends RecyclerView.Adapter<MyBookListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(MyBookListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final MyBookListAdapter.ViewHolder holder, final int position) {
         Glide.with(mContext)
                 .load(data.get(position).getBook().getIcon())
                 .into(holder.img);
         holder.bookName.setText(data.get(position).getBook().getBookname());
         holder.jindu.setText(data.get(position).getHadread());
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, BookDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("name",data.get(holder.getAdapterPosition()).getBook());
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
 

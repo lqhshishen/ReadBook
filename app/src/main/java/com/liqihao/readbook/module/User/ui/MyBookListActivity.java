@@ -1,5 +1,6 @@
 package com.liqihao.readbook.module.User.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,10 +12,14 @@ import android.widget.TextView;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BaseActivity;
+import com.liqihao.readbook.module.Book.adapter.BookDetailAdapter;
 import com.liqihao.readbook.module.User.adapter.MyBookListAdapter;
 import com.liqihao.readbook.module.User.bean.MyBookList;
 import com.liqihao.readbook.module.User.contract.MyBookListContract;
 import com.liqihao.readbook.module.User.presenter.MyBookListPresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,10 +82,10 @@ public class MyBookListActivity extends BaseActivity<MyBookListPresenter> implem
         }
     }
     MyBookListAdapter adapter;
+    List<String>bookId = new ArrayList<>();
     @Override
     public void onGetBookList(MyBookList myBookList) {
         adapter = new MyBookListAdapter(this,myBookList.getResult());
-        Log.e("请求结果",myBookList.getCode() + myBookList.getSuccess());
         bookListRecycle.setAdapter(adapter);
     }
 }

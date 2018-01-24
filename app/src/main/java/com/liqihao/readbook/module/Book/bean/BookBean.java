@@ -1,10 +1,12 @@
 package com.liqihao.readbook.module.Book.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by liqihao on 2018/1/19.
  */
 
-public class BookBean {
+public class BookBean implements Serializable{
     /**
      *         {
      "id": "1",

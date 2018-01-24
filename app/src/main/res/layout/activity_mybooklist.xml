@@ -7,10 +7,18 @@
 
     <include layout="@layout/headbar"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrey"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/bookList_recycle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp">
     </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

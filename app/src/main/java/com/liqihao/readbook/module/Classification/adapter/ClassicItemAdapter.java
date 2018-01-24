@@ -2,6 +2,7 @@ package com.liqihao.readbook.module.Classification.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +57,11 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().postSticky(data.get(position));
-                context.startActivity(new Intent(context, BookDetailActivity.class));
+                Intent intent=new Intent(context, BookDetailActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("name",data.get(position));
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
 

@@ -1,6 +1,8 @@
 package com.liqihao.readbook.module.Book.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +32,9 @@ import com.liqihao.readbook.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +70,8 @@ public class BookReviewActivity extends BaseActivity<BookReviewPresenter> implem
     int page = 1;
 
     String bookId;
+
+    List<CommentList.Result.Data> mData;
     @Override
     public void setPresenter(BookReviewPresenter presenter) {
         if (this.presenter == null) {
@@ -72,33 +79,38 @@ public class BookReviewActivity extends BaseActivity<BookReviewPresenter> implem
         }
     }
 
+    BookBean event;
     @Override
     public void bindView() {
         ButterKnife.bind(this);
-        bookReviewNoComment.setVisibility(View.GONE);
-        bookReviewNumber.setVisibility(View.VISIBLE);
-        bookReviewRecycle.setVisibility(View.VISIBLE);
-        EventBus.getDefault().register(this);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert imm != null;
+        imm.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
+//        presenter.getComment(event.getId(),String.valueOf(page));
+
         bookReviewRecycle.setLayoutManager(new LinearLayoutManager(this));
         bookReviewRecycle.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
-        bookReviewRecycle.removeAllViews();
+        bookReviewRecycle.setVisibility(View.GONE);
+        bookReviewNoComment.setVisibility(View.VISIBLE);
+        bookReviewNumber.setVisibility(View.GONE);
+//        bookReviewRecycle.removeAllViews();
     }
 
     @Override
     public void initData() {
-
-    }
-
-    @Subscribe(sticky = true , threadMode = ThreadMode.MAIN)
-    public void onStickyEvent(BookBean event) {
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+        event = (BookBean) bundle.get("book");
+        bookId = event.getId();
         presenter.getComment(event.getId(),"1");
         bookReviewBookName.setText(event.getBookname());
         bookReviewAuthor.setText(event.getAuthor());
         Glide.with(this)
                 .load(event.getIcon())
                 .into(bookReviewImg);
-//        presenter.getComment(event.getId(),String.valueOf(page));
-        bookId = event.getId();
+        mData = new ArrayList<>();
+        adapter = new BookReviewAdapter(this,mData);
+        bookReviewRecycle.setAdapter(adapter);
     }
 
     @Override
@@ -110,14 +122,12 @@ public class BookReviewActivity extends BaseActivity<BookReviewPresenter> implem
                     @Override
                     public void run() {
                         page = 1;
-                        adapter.clearData();
                         presenter.getComment(bookId, "1");
                         bookReviewRecycle.refreshComplete();
                     }
                 },3000);
 
             }
-
             @Override
             public void onLoadMore() {
                 new Handler().postDelayed(new Runnable() {
@@ -127,6 +137,7 @@ public class BookReviewActivity extends BaseActivity<BookReviewPresenter> implem
                         presenter.getComment(bookId, String.valueOf(page));
                     }
                 },3000);
+                bookReviewRecycle.loadMoreComplete();
             }
         });
     }
@@ -149,20 +160,23 @@ public class BookReviewActivity extends BaseActivity<BookReviewPresenter> implem
     }
 
     BookReviewAdapter adapter;
+    @SuppressLint("SetTextI18n")
     @Override
     public void onReceiveComment(CommentList commentList) {
         if (commentList.getResult().getData().size() == 0) {
-            bookReviewRecycle.setVisibility(View.GONE);
-            bookReviewNoComment.setVisibility(View.VISIBLE);
-            bookReviewNumber.setVisibility(View.GONE);
-            Log.e("total",commentList.getResult().getTotal());
+
         } else {
+//            if (commentList.getResult().getData().size())
+            mData.clear();
+            mData.addAll(commentList.getResult().getData());
+            adapter.notifyDataSetChanged();
+//            mData.addAll(commentList.getResult().getData());
+//            Log.e("test",commentList.getResult().getData().get(0).getContent());
+//            Log.e("test",commentList.getResult().getData().get(0).getUser().getUsername());
+            bookReviewNumber.setText(commentList.getResult().getTotal() + "条书评");
             bookReviewNoComment.setVisibility(View.GONE);
             bookReviewNumber.setVisibility(View.VISIBLE);
             bookReviewRecycle.setVisibility(View.VISIBLE);
-            adapter = new BookReviewAdapter(this,commentList.getResult().getData());
-            bookReviewRecycle.setAdapter(adapter);
-            bookReviewNumber.setText(commentList.getResult().getTotal());
         }
     }
 
@@ -176,16 +190,15 @@ public class BookReviewActivity extends BaseActivity<BookReviewPresenter> implem
     @Override
     public void onPostComment(AddComment addComment) {
         if ("0".equals(addComment.getCode())) {
-            bookReviewNoComment.setVisibility(View.GONE);
-            bookReviewNumber.setVisibility(View.VISIBLE);
-            bookReviewRecycle.setVisibility(View.VISIBLE);
             ToastUtils.showShort(this,"评论成功");
             bookReviewWrite.setText("");
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             assert imm != null;
             imm.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
             presenter.getComment(bookId,"1");
-
+//            bookReviewNoComment.setVisibility(View.GONE);
+//            bookReviewNumber.setVisibility(View.VISIBLE);
+//            bookReviewRecycle.setVisibility(View.VISIBLE);
         } else {
             ToastUtils.showShort(this,"评论失败");
             Log.e("onError",addComment.getMsg() + addComment.getCode());
@@ -199,7 +212,6 @@ public class BookReviewActivity extends BaseActivity<BookReviewPresenter> implem
         } else if (bookReviewWrite.getText().toString().length() < 6) {
             ToastUtils.showShort(this,"请至少输入6个字符");
         } else {
-            Log.e("test",bookId);
             presenter.postComment(App.token,bookReviewWrite.getText().toString(),bookId,"4");
         }
     }

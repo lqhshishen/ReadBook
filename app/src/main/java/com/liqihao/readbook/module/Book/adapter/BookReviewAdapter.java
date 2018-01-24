@@ -30,7 +30,7 @@ public class BookReviewAdapter extends RecyclerView.Adapter<BookReviewAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.bookdetail_item,parent);
+                .inflate(R.layout.bookdetail_item,null);
         return new BookReviewAdapter.ViewHolder(view);
     }
 
@@ -60,6 +60,7 @@ public class BookReviewAdapter extends RecyclerView.Adapter<BookReviewAdapter.Vi
 
     public void addMore(List<CommentList.Result.Data> newData) {
         mData.addAll(newData);
+        notifyDataSetChanged();
     }
 
     public void clearData() {

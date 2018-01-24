@@ -66,7 +66,7 @@
             android:id="@+id/bookReview_number"/>
         <com.jcodecraeer.xrecyclerview.XRecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="20dp"

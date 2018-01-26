@@ -147,10 +147,10 @@ public class SharedPreferencesUtil {
         editor.commit();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public SharedPreferencesUtil putStringSet(String key, Set<String> value) {
-        editor.putStringSet(key, value);
-        editor.commit();
+        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+        public SharedPreferencesUtil putStringSet(String key, Set<String> value) {
+            editor.putStringSet(key, value);
+            editor.commit();
         return this;
     }
 

@@ -39,6 +39,33 @@
         <activity android:name=".module.User.ui.MyRenewsActivity" />
         <activity android:name=".module.Classification.ui.ClassificationActivity" />
         <activity android:name=".module.Login.ui.RegisterActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.umeng.qq.tencent.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent1106507210" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.umeng.qq.tencent.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
+        <meta-data android:value="5a699cc58f4a9d69980000d2" android:name="UMENG_APPKEY"/>
+        <!-- <meta-data android:value="Baidu" android:name="UMENG_CHANNEL"/>-->
+        <!-- <meta-data android:value="Xiaomi" android:name="UMENG_CHANNEL"/>
+         <meta-data android:value="Wandoujia" android:name="UMENG_CHANNEL"/>-->
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="15e428095c58c39185c63271d439ba98">
+        </meta-data>
     </application>
+
 
 </manifest>

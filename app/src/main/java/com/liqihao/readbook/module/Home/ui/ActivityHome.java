@@ -179,4 +179,5 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
             ft.hide(hideFragment).show(showFragment).commit();
         }
     }
+
 }

@@ -1,6 +1,8 @@
 package com.liqihao.readbook.module.Book.ui;
 
 import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,8 +13,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -29,6 +36,11 @@ import com.liqihao.readbook.module.Book.contract.BookDetailContract;
 import com.liqihao.readbook.module.Book.presenter.BookDetailPresenter;
 import com.liqihao.readbook.module.User.bean.MyBookList;
 import com.liqihao.readbook.utils.ToastUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -235,8 +247,12 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
                 bookDetailAddToBookshelf.setText("已在书架");
         }
     }
-
+    LinearLayout QQ;
+    LinearLayout kongjian;
+    LinearLayout pengyou;
+    LinearLayout wechat;
     PopupWindow popupWindow;
+
     @Override
     public void sharePopup() {
         View pop;
@@ -246,14 +262,77 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(),(Bitmap)null));
-        popupWindow.setAnimationStyle(R.style.anim_pop_top);
+//        popupWindow.setAnimationStyle(R.style.anim_pop_top);
         popupWindow.update();
         popupWindow.showAsDropDown(bookDetailShare);
-        new Handler().postDelayed(new Runnable() {
+        QQ = pop.findViewById(R.id.share_qq);
+        kongjian = pop.findViewById(R.id.share_qqkongjian);
+        pengyou = pop.findViewById(R.id.share_friend);
+        wechat = pop.findViewById(R.id.share_weixin);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                popupWindow.dismiss();
+//            }
+//        },3000);
+        QQ.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                popupWindow.dismiss();
+            public void onClick(View v) {
+                shareFriend(SHARE_MEDIA.QQ);
             }
-        },3000);
+        });
+    }
+
+    private AlertDialog sharedialog;
+    public void shareDialog(Activity activity) {
+        Animation animation = AnimationUtils.loadAnimation(activity,R.anim.img_animation);
+        LinearInterpolator lin = new LinearInterpolator();
+        animation.setInterpolator(lin);
+        sharedialog = new AlertDialog.Builder(activity,R.style.TransDialogStyle).create();
+        if (!activity.isFinishing()) {
+            sharedialog.show();
+        }
+        Window window = sharedialog.getWindow();
+        window.setContentView(R.layout.share_dialog);
+        ImageView imageView = window.findViewById(R.id.share_dialog_image);
+        imageView.setAnimation(animation);
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+            shareDialog(BookDetailActivity.this);
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA share_media) {
+            ToastUtils.showShort(getApplicationContext(),"分享成功");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+            sharedialog.dismiss();
+            ToastUtils.showShort(getApplicationContext(),"分享失败");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA share_media) {
+            sharedialog.dismiss();
+            ToastUtils.showShort(getApplicationContext(),"分项取消");
+        }
+    };
+
+    @Override
+    public void shareFriend(SHARE_MEDIA share_media) {
+        UMImage thumb = new UMImage(this,event.getIcon());
+        String url = "www.baidu.com";
+        UMWeb web = new UMWeb(url);
+        web.setTitle(event.getBookname());
+        web.setThumb(thumb);
+        web.setDescription(event.getBrief());
+        new ShareAction(this)
+                .setPlatform(share_media)
+                .setCallback(umShareListener)
+                .withMedia(web).share();
     }
 }

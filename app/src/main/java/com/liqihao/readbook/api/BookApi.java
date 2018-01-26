@@ -12,9 +12,12 @@ import com.liqihao.readbook.module.Book.bean.AddComment;
 import com.liqihao.readbook.module.Book.bean.CommentList;
 import com.liqihao.readbook.module.Classification.bean.ClassicItemBean;
 import com.liqihao.readbook.module.Home.bean.ClassificationBean;
+import com.liqihao.readbook.module.Home.bean.HotSearchBean;
 import com.liqihao.readbook.module.Login.bean.MobileLoginBean;
 import com.liqihao.readbook.module.Login.bean.MobileReg;
 import com.liqihao.readbook.module.Login.bean.SendCodeBean;
+import com.liqihao.readbook.module.Login.bean.UMLoginBean;
+import com.liqihao.readbook.module.SearchDetail.bean.SearchBookBean;
 import com.liqihao.readbook.module.User.bean.MyBookList;
 
 
@@ -196,6 +199,33 @@ public class BookApi {
             e.printStackTrace();
         }
         return service.showCommentList(handleBody(jsonObject));
+    }
+
+    public Observable<UMLoginBean>UMLogin(String username,String openid,String province,String gender,String header) {
+        try {
+            jsonObject.put("username",username);
+            jsonObject.put("openid",openid);
+            jsonObject.put("province",province);
+            jsonObject.put("gender",gender);
+            jsonObject.put("header",header);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return service.UMLogin(handleBody(jsonObject));
+    }
+
+    public Observable<HotSearchBean>hotSearch() {
+        return service.hotSearch(handleBody(jsonObject));
+    }
+
+    public Observable<SearchBookBean>searchBook(String key) {
+        try {
+            jsonObject.put("key",key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return service.searchBook(handleBody(jsonObject));
     }
 
 

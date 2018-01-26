@@ -5,6 +5,7 @@ import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
 import com.liqihao.readbook.module.Book.bean.CommentList;
 import com.liqihao.readbook.module.Book.presenter.BookDetailPresenter;
 import com.liqihao.readbook.module.User.bean.MyBookList;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 /**
  * Created by liqihao on 2017/12/28.
@@ -19,6 +20,8 @@ public interface BookDetailContract {
         void onReceiveBookList(MyBookList myBookList);
 
         void sharePopup();
+
+        void shareFriend(SHARE_MEDIA share_media);
     }
 
     interface Presenter {

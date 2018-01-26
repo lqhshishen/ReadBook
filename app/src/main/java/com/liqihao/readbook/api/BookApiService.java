@@ -5,10 +5,13 @@ import com.liqihao.readbook.module.Book.bean.AddComment;
 import com.liqihao.readbook.module.Book.bean.CommentList;
 import com.liqihao.readbook.module.Classification.bean.ClassicItemBean;
 import com.liqihao.readbook.module.Home.bean.ClassificationBean;
+import com.liqihao.readbook.module.Home.bean.HotSearchBean;
 import com.liqihao.readbook.module.Login.bean.MobileLoginBean;
 import com.liqihao.readbook.module.Login.bean.MobileReg;
 import com.liqihao.readbook.module.Login.bean.SendCodeBean;
 import com.liqihao.readbook.module.Login.bean.SetPasswordBean;
+import com.liqihao.readbook.module.Login.bean.UMLoginBean;
+import com.liqihao.readbook.module.SearchDetail.bean.SearchBookBean;
 import com.liqihao.readbook.module.User.bean.MyBookList;
 
 import io.reactivex.Observable;
@@ -108,5 +111,29 @@ public interface BookApiService {
      */
     @POST("v1/Comment/commentList")
     Observable<CommentList>showCommentList(@Body RequestBody requestBody);
+
+    /**
+     * 第三方用户登录
+     * @param requestBody
+     * @return
+     */
+    @POST("v1/User/login")
+    Observable<UMLoginBean>UMLogin(@Body RequestBody requestBody);
+
+    /**
+     * 热门搜索
+     * @param requestBody
+     * @return
+     */
+    @POST("v1/Piece/hotSearch")
+    Observable<HotSearchBean>hotSearch(@Body RequestBody requestBody);
+
+    /**
+     * 关键词搜索
+     * @param requestBody
+     * @return
+     */
+    @POST("v1/Piece/searchBook")
+    Observable<SearchBookBean>searchBook(@Body RequestBody requestBody);
 
 }

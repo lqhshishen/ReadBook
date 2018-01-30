@@ -60,7 +60,8 @@
             android:src="@mipmap/home_navbar_search"
             android:layout_gravity="bottom"
             android:layout_marginStart="68dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:id="@+id/home_navSearch"/>
     </LinearLayout>
 
     <FrameLayout

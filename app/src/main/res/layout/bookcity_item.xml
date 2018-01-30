@@ -64,13 +64,7 @@
                 android:layout_height="wrap_content"
                 android:text="明朝那些事"
                 android:id="@+id/bookCityitem_1_name"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="￥ 0.99"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/colorRed"
-                android:id="@+id/bookCititem_1_money" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -90,13 +84,7 @@
                 android:layout_height="wrap_content"
                 android:text="明朝那些事"
                 android:id="@+id/bookcity_item_2_name"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="￥ 0.99"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/colorRed"
-                android:id="@+id/bookcity_item_2_money"/>
+
     </LinearLayout>
 
         <LinearLayout
@@ -115,13 +103,7 @@
                 android:layout_height="wrap_content"
                 android:text="明朝那些事"
                 android:id="@+id/bookcity_item_3_name" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="￥ 0.99"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/colorRed"
-                android:id="@+id/bookcity_item_3_money"/>
+
         </LinearLayout>
 
     </LinearLayout>

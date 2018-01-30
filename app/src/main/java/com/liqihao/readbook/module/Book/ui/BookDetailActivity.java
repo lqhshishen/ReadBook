@@ -106,7 +106,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
 
     @Override
     public void bindView() {
-        Log.e("test","7");
         ButterKnife.bind(this);
         //EventBus.getDefault().register(this);
         textView.setText(null);
@@ -121,11 +120,12 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     BookBean event;
     @Override
     public void initData() {
-        Log.e("test","6");
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        event= (BookBean) bundle.get("name");
+        assert bundle != null;
+        event = (BookBean) bundle.get("name");
         //presenter.getComment(event.getId(),"1");
+        assert event != null;
         id=event.getId();
         bookDetailBookName.setText(event.getBookname());
         bookDetailAuthor.setText(event.getAuthor());

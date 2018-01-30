@@ -78,7 +78,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             WeiboDialogUtils.closeDialog(getDialog);
             Log.e("QQ的值",map.toString());
             dialog = WeiboDialogUtils.createLoadingDialog(getApplicationContext(),"正在登陆.....");
-
         }
 
         @Override

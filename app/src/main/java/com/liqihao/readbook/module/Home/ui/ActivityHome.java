@@ -50,6 +50,8 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
     NavigationView navUser;
     @BindView(R.id.home_draw)
     DrawerLayout homeDraw;
+    @BindView(R.id.home_navSearch)
+    ImageView navSearch;
 
     private List<String> title;
 
@@ -116,7 +118,7 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
         }
     }
 
-    @OnClick({R.id.home_navView, R.id.home_bookCity, R.id.home_classification, R.id.home_rank, R.id.community})
+    @OnClick({R.id.home_navView, R.id.home_bookCity, R.id.home_classification, R.id.home_rank, R.id.community, R.id.home_navSearch})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.home_navView:
@@ -149,6 +151,9 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
                 community.setTextSize(16);
                 showFragment(3,previousIndex);
                 previousIndex = 3;
+                break;
+            case R.id.home_navSearch:
+                startActivity(new Intent(this,SearchActivity.class));
                 break;
         }
     }

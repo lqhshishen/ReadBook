@@ -56,7 +56,6 @@ public class ClassicItemAdapter extends RecyclerView.Adapter<ClassicItemAdapter.
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().postSticky(data.get(position));
                 Intent intent=new Intent(context, BookDetailActivity.class);
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("name",data.get(position));

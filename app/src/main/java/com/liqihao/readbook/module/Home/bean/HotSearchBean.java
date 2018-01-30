@@ -4,6 +4,8 @@ package com.liqihao.readbook.module.Home.bean;
  * Created by liqihao on 2018/1/26.
  */
 
+import java.util.List;
+
 /**
  * {
  "code": "0",
@@ -20,6 +22,7 @@ package com.liqihao.readbook.module.Home.bean;
 public class HotSearchBean {
     private String code;
     private String msg;
+    private List<Result>result;
 
     public String getCode() {
         return code;
@@ -35,6 +38,14 @@ public class HotSearchBean {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public List<Result> getResult() {
+        return result;
+    }
+
+    public void setResult(List<Result> result) {
+        this.result = result;
     }
 
     public class Result {

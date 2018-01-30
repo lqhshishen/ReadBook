@@ -7,7 +7,7 @@
     android:id="@+id/search_item">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="26dp"
         android:text="三体"
         android:textSize="14sp"

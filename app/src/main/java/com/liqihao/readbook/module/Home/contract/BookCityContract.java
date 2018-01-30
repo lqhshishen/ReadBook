@@ -12,6 +12,7 @@ public interface BookCityContract{
 
     }
     interface Presenter {
+
         void getBanner();
 
 

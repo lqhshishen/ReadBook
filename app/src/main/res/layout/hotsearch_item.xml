@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:layout_marginTop="20dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="科幻小说"
+        android:background="@drawable/bookdetail_textview"
+        android:textSize="14sp"
+        android:gravity="center"
+        tools:ignore="SmallSp"
+        android:id="@+id/hotsearch_item"/>
+
+</LinearLayout>

@@ -15,7 +15,7 @@ public abstract class BaseActivity<P extends BasePresenter>extends AppCompatActi
 
     protected P presenter;
 
-    String TAG;
+    static String TAG;
 
 
     @Override

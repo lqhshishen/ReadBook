@@ -224,7 +224,6 @@ public class BookApi {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return service.searchBook(handleBody(jsonObject));
     }
 

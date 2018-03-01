@@ -214,8 +214,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     BookDetailAdapter adapter;
     @Override
     public void onReceiveComment(CommentList commentList) {
-      /*  CommentList commentList1=new Gson().fromJson(Contents.AD,CommentList.class);
-        mData .addAll(commentList1.getResult().getData());*/
 
         if (commentList.getResult().getData().size() == 0) {
             bookDetailComment.setVisibility(View.GONE);

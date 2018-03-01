@@ -95,6 +95,8 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     TextView textView1;
     @BindView(R.id.bookDetail_addToBookshelf)
     Button bookDetailAddToBookshelf;
+    @BindView(R.id.bookDetail_wholeChapter)
+    TextView bookDetailWholeChapter;
 
     List<CommentList.Result.Data>mData;
     @Override
@@ -118,10 +120,11 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     }
     String id;
     BookBean event;
+    Bundle bundle;
     @Override
     public void initData() {
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
+        bundle = intent.getExtras();
         assert bundle != null;
         event = (BookBean) bundle.get("name");
         //presenter.getComment(event.getId(),"1");
@@ -159,7 +162,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 
-    @OnClick({R.id.back_btn,R.id.bookDetail_share,R.id.bookdetail_comment_more,R.id.bookDetail_addToBookshelf})
+    @OnClick({R.id.back_btn,R.id.bookDetail_share,R.id.bookdetail_comment_more,R.id.bookDetail_addToBookshelf,R.id.bookDetail_wholeChapter})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
@@ -173,10 +176,13 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
                 break;
             case R.id.bookdetail_comment_more:
                 Intent intent=new Intent(this, BookReviewActivity.class);
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("book",event);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            case R.id.bookDetail_wholeChapter:
+                Intent intent1 = new Intent(this,WholeContentActivity.class);
+                intent1.putExtras(bundle);
+                startActivity(intent1);
                 break;
         }
     }

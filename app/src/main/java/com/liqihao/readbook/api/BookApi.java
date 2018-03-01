@@ -17,6 +17,8 @@ import com.liqihao.readbook.module.Login.bean.MobileLoginBean;
 import com.liqihao.readbook.module.Login.bean.MobileReg;
 import com.liqihao.readbook.module.Login.bean.SendCodeBean;
 import com.liqihao.readbook.module.Login.bean.UMLoginBean;
+import com.liqihao.readbook.module.ReadPage.bean.Chapter;
+import com.liqihao.readbook.module.ReadPage.bean.ChapterDetailBean;
 import com.liqihao.readbook.module.SearchDetail.bean.SearchBookBean;
 import com.liqihao.readbook.module.User.bean.MyBookList;
 
@@ -227,7 +229,26 @@ public class BookApi {
         return service.searchBook(handleBody(jsonObject));
     }
 
+    public Observable<Chapter>getChapterList(String id) {
+        try {
+            jsonObject.put("id",id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return service.getChapterList(handleBody(jsonObject));
+    }
 
+    public Observable<AddBookshelfBean>deleteBookshelf(String id,String auth) throws JSONException {
+        jsonObject.put("id",id);
+        jsonObject.put("auth",auth);
+        return service.deleteBookshelf(handleBody(jsonObject));
+    }
+
+    public Observable<ChapterDetailBean>gerChapterDetail(String nid,String id) throws JSONException {
+        jsonObject.put("nid",nid);
+        jsonObject.put("id",id);
+        return service.getChapterDetail(handleBody(jsonObject));
+    }
 
 
 

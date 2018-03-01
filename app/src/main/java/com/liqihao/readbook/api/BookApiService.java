@@ -1,5 +1,6 @@
 package com.liqihao.readbook.api;
 
+import com.liqihao.readbook.R;
 import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
 import com.liqihao.readbook.module.Book.bean.AddComment;
 import com.liqihao.readbook.module.Book.bean.CommentList;
@@ -11,12 +12,21 @@ import com.liqihao.readbook.module.Login.bean.MobileReg;
 import com.liqihao.readbook.module.Login.bean.SendCodeBean;
 import com.liqihao.readbook.module.Login.bean.SetPasswordBean;
 import com.liqihao.readbook.module.Login.bean.UMLoginBean;
+import com.liqihao.readbook.module.ReadPage.bean.Chapter;
+import com.liqihao.readbook.module.ReadPage.bean.ChapterDetailBean;
 import com.liqihao.readbook.module.SearchDetail.bean.SearchBookBean;
 import com.liqihao.readbook.module.User.bean.MyBookList;
 
+import java.io.InputStream;
+
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -97,6 +107,14 @@ public interface BookApiService {
     Observable<AddBookshelfBean>addToBookshelf(@Body RequestBody requestBody);
 
     /**
+     * 删除书架(收藏)
+     * @param requestBody
+     * @return
+     */
+    @POST("v1/User/deleteBookshelf")
+    Observable<AddBookshelfBean>deleteBookshelf(@Body RequestBody requestBody);
+
+    /**
      * 添加评论
      * @param requestBody
      * @return
@@ -136,4 +154,19 @@ public interface BookApiService {
     @POST("v1/Piece/searchBook")
     Observable<SearchBookBean>searchBook(@Body RequestBody requestBody);
 
+    /**
+     * 小说章节列表
+     * @param requestBody
+     * @return
+     */
+    @POST("v1/Novel/getList")
+    Observable<Chapter>getChapterList(@Body RequestBody requestBody);
+
+    /**
+     * 章节内容
+     * @param requestBody
+     * @return
+     */
+    @POST("v1/Novel/getDetail")
+    Observable<ChapterDetailBean>getChapterDetail(@Body RequestBody requestBody);
 }

@@ -13,8 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.api.BookApiService;
 import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BaseActivity;
+import com.liqihao.readbook.contents.Constant;
 import com.liqihao.readbook.module.Home.ui.ActivityHome;
 import com.liqihao.readbook.module.Login.bean.MobileLoginBean;
 import com.liqihao.readbook.module.Login.bean.UMLoginBean;
@@ -26,11 +29,23 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.view {
 
@@ -57,6 +72,31 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void initData() {
         umShareAPI = UMShareAPI.get(this);
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                //.addConverterFactory(GsonConverterFactory.create())
+//                .baseUrl("http://dtds.oss-cn-hangzhou.aliyuncs.com/")
+//                .build();
+//       BookApiService bookApiService = retrofit.create(BookApiService.class);
+//       Call<ResponseBody> call=bookApiService.getIndex();
+//       call.enqueue(new Callback<ResponseBody>() {
+//           @Override
+//           public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//             BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(response.body().byteStream()));
+//               try {
+//                   String result=bufferedReader.readLine();
+//                   Log.e("LoginActivity",result);
+//               } catch (IOException e) {
+//                   e.printStackTrace();
+//               }
+//           }
+//
+//           @Override
+//           public void onFailure(Call<ResponseBody> call, Throwable t) {
+//               Log.e("LoginActivity","onFailure"+t.getMessage());
+//           }
+//       });
+
     }
 
     @Override

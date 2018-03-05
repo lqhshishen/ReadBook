@@ -3,6 +3,7 @@ package com.liqihao.readbook.module.Classification.presenter;
 import android.util.Log;
 
 import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Book.bean.BookBean;
 import com.liqihao.readbook.module.Classification.bean.ClassicItemBean;
@@ -34,7 +35,7 @@ public class ClassicPresenter extends BasePresenter<ClassificationActivity> impl
         if (data.size() > 200) {
             data.clear();
         }
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .getClassifyBookList(page,id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

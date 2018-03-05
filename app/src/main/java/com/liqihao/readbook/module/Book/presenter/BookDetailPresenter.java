@@ -3,6 +3,7 @@ package com.liqihao.readbook.module.Book.presenter;
 import android.util.Log;
 
 import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
 import com.liqihao.readbook.module.Book.bean.CommentList;
@@ -28,7 +29,7 @@ public class BookDetailPresenter extends BasePresenter<BookDetailActivity> imple
 
     @Override
     public void getComment(String id, String page) {
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .ShowCommentList(id,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -58,7 +59,7 @@ public class BookDetailPresenter extends BasePresenter<BookDetailActivity> imple
 
     @Override
     public void AddBookshelf(String id, String auth) {
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .addToBookshelf(id,auth)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -87,7 +88,7 @@ public class BookDetailPresenter extends BasePresenter<BookDetailActivity> imple
 
     @Override
     public void getMyBookList(String auth, String page) {
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .getMyBookList(auth, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

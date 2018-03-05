@@ -17,7 +17,7 @@ public class App extends Application {
     public static User user;
     public static Context AppContext;
 
-    public static String token=null;
+    public static String token;
     @Override
     public void onCreate() {
         super.onCreate();

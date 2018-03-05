@@ -35,7 +35,7 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
 
     @Override
     public void onBindViewHolder(ChapterViewHolder holder, int position) {
-            holder.text.setText(data.get(position).getChapterName());
+//            holder.text.setText(data.get(position).getChapterName());
             if(currentChapter == position) {
                 holder.text.setTextColor(mContext.getResources().getColor(R.color.colorBlack));
             }else {

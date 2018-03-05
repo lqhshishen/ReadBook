@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Home.ui.ActivityHome;
 import com.liqihao.readbook.module.Login.bean.MobileReg;
@@ -156,7 +157,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @Override
     public void onRegister(MobileReg mobileReg) {
         if ("success".equals(mobileReg.getMsg())) {
-            ToastUtils.showShort(GetContext.getContext(),"注册成功,转回登录页面");
+            ToastUtils.showShort(App.AppContext,"注册成功,转回登录页面");
             finish();
         } else {
             ToastUtils.showShort(getApplicationContext(),"验证码输入有误或账号已经注册");

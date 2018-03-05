@@ -3,6 +3,7 @@ package com.liqihao.readbook.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.module.ReadPage.bean.Book;
 
 /**
@@ -11,10 +12,10 @@ import com.liqihao.readbook.module.ReadPage.bean.Book;
 
 public class SPHelper {
     private SharedPreferences config =
-            GetContext.getContext().getSharedPreferences("config", Context.MODE_PRIVATE);
+            App.AppContext.getSharedPreferences("config", Context.MODE_PRIVATE);
     private SharedPreferences.Editor configEditor = config.edit();
     private SharedPreferences bookmark =
-            GetContext.getContext().getSharedPreferences("bookmark",Context.MODE_PRIVATE);
+            App.AppContext.getSharedPreferences("bookmark",Context.MODE_PRIVATE);
     private SharedPreferences.Editor bookmarkEditor = bookmark.edit();
     private static SPHelper instance;
 

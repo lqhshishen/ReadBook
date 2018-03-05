@@ -1,6 +1,7 @@
 package com.liqihao.readbook.module.SearchDetail.presenter;
 
 import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.SearchDetail.bean.SearchBookBean;
 import com.liqihao.readbook.module.SearchDetail.contract.SearchDetailContract;
@@ -20,7 +21,7 @@ public class SearchDetailPresenter extends BasePresenter<SearchDetailActivity> i
 
     @Override
     public void search(String key) {
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .searchBook(key)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

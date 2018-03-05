@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Home.bean.ClassificationBean;
 import com.liqihao.readbook.module.Home.contract.ClassificationContract;
@@ -33,7 +34,7 @@ public class ClassificationPresenter extends BasePresenter<ClassificationFragmen
     @Override
     public void bindData() {
         data = new ArrayList<>();
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .getList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

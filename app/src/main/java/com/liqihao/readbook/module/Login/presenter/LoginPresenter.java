@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Login.bean.MobileLoginBean;
 import com.liqihao.readbook.module.Login.bean.UMLoginBean;
@@ -29,7 +30,7 @@ public class LoginPresenter extends BasePresenter<LoginActivity> implements Logi
 
     @Override
     public void doLogin(String mobile,String pass) {
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .login(mobile,pass)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -58,7 +59,7 @@ public class LoginPresenter extends BasePresenter<LoginActivity> implements Logi
 
     @Override
     public void getToken(Map<String, String> data, final View view1) {
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .UMLogin(data.get("screen_name"),data.get("openid"),data.get("province")
                         ,data.get("gender"),data.get("iconurl"))
                 .subscribeOn(Schedulers.io())

@@ -2,6 +2,7 @@ package com.liqihao.readbook.module.ReadPage.presenter;
 
 import android.util.Log;
 
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.module.ReadPage.bean.BookmarkBean;
 import com.liqihao.readbook.module.ReadPage.contract.ContentContract;
 import com.liqihao.readbook.module.ReadPage.View.PageFactory;
@@ -24,7 +25,7 @@ public class ContentPresenter extends BasePresenter<ContentContract.Content> imp
 
     @Override
     public List getBookmarkList() {
-        LitePal.initialize(GetContext.getContext());
+        LitePal.initialize(App.AppContext);
         data = DataSupport.findAll(BookmarkBean.class);
         Log.e("testBookMark",view.getClass().toString());
 //        DataSupport.deleteAll(BookmarkBean.class);

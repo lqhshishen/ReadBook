@@ -3,6 +3,7 @@ package com.liqihao.readbook.module.Home.presenter;
 import android.content.Context;
 
 import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Home.bean.HotSearchBean;
 import com.liqihao.readbook.module.Home.contract.SearchContract;
@@ -30,7 +31,7 @@ public class SearchPresenter extends BasePresenter<SearchActivity> implements Se
     @Override
     public List<String> getHistory() {
         List<String>historys = new ArrayList<>();
-        SharedPreferencesUtil.init(GetContext.getContext(),"searchHistory", Context.MODE_PRIVATE);
+        SharedPreferencesUtil.init(App.AppContext,"searchHistory", Context.MODE_PRIVATE);
         String history = SharedPreferencesUtil.getInstance()
                 .getString("searchHistory", null);
         String[]all;
@@ -56,7 +57,7 @@ public class SearchPresenter extends BasePresenter<SearchActivity> implements Se
 
     @Override
     public void getHotSearch() {
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .hotSearch()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

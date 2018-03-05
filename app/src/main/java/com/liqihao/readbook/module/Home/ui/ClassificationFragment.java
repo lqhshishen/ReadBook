@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BaseFragment;
 import com.liqihao.readbook.module.Home.adapter.ClassificationAdapter;
 import com.liqihao.readbook.module.Home.bean.ClassificationBean;
@@ -47,6 +48,8 @@ public class ClassificationFragment extends BaseFragment<ClassificationPresenter
 
     @Override
     public void bindView(View view) {
+
+        Log.e("分类tooken", App.token);
         unbinder = ButterKnife.bind(this, view);
 
         classicRecycle.setLayoutManager(new GridLayoutManager(getContext(),2));

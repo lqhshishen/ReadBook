@@ -1,5 +1,6 @@
 package com.liqihao.readbook.module.ReadPage.presenter;
 
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.module.ReadPage.ui.Content;
 import com.liqihao.readbook.module.ReadPage.bean.BookmarkBean;
 import com.liqihao.readbook.module.ReadPage.bean.Book;
@@ -41,7 +42,7 @@ public class PagePresenter extends BasePresenter<PageContract.MainView> implemen
 
     @Override
     public void saveBookmark(String head,String body,String time,int position) {
-        LitePal.initialize(GetContext.getContext());
+        LitePal.initialize(App.AppContext);
         BookmarkBean bookmarkBean = new BookmarkBean();
         bookmarkBean.setBookmarkbyteposition(position);
         bookmarkBean.setBookmarkText(body);
@@ -57,7 +58,7 @@ public class PagePresenter extends BasePresenter<PageContract.MainView> implemen
     }
     @Override
     public List<Integer> getMark(){
-        LitePal.initialize(GetContext.getContext());
+        LitePal.initialize(App.AppContext);
         List<Integer> aa = new ArrayList<>();
         List<BookmarkBean> bmb = DataSupport.findAll(BookmarkBean.class);
         for(int a=  0 ;a < bmb.size(); a++){

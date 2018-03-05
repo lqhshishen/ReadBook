@@ -1,6 +1,7 @@
 package com.liqihao.readbook.module.User.presenter;
 
 import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.User.bean.MyBookList;
 import com.liqihao.readbook.module.User.contract.MyBookListContract;
@@ -20,7 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MyBookListPresenter extends BasePresenter<MyBookListActivity> implements MyBookListContract.Presenter {
     @Override
     public void getBookList(String auth, String page) {
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .getMyBookList(auth, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

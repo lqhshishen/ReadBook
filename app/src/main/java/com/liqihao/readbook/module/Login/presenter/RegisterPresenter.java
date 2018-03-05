@@ -1,6 +1,7 @@
 package com.liqihao.readbook.module.Login.presenter;
 
 import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Login.bean.MobileReg;
 import com.liqihao.readbook.module.Login.bean.SendCodeBean;
@@ -21,7 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 public class RegisterPresenter extends BasePresenter<RegisterActivity> implements RegisterContract.presenter {
     @Override
     public void getCode(String mobile) {
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .senCode(mobile)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -50,7 +51,7 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> implement
 
     @Override
     public void doRegister(String mobile, String pass, String vcode) {
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .mobileRegist(mobile,pass,vcode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

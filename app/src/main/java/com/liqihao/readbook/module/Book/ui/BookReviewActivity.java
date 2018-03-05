@@ -100,7 +100,7 @@ public class BookReviewActivity extends BaseActivity<BookReviewPresenter> implem
     public void initData() {
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
-        event = (BookBean) bundle.get("book");
+        event = (BookBean) bundle.get("name");
         bookId = event.getId();
         presenter.getComment(event.getId(),"1");
         bookReviewBookName.setText(event.getBookname());

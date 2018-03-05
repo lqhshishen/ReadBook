@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/classicBookName"
         android:textSize="12sp"
         tools:text="第XXXX章 的卡萨机读卡机山东矿机"
-        android:layout_marginTop="28dp"/>
+        android:layout_marginTop="28dp" />
 
     <View
         android:layout_width="match_parent"

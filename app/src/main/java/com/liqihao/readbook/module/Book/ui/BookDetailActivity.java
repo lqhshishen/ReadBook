@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -243,11 +245,13 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     }
 
 //    List<String>booId = new ArrayList<>();
+
     @Override
     public void onReceiveBookList(MyBookList myBookList) {
 //        booId.clear();
+        Log.e("dsadasds", String.valueOf(myBookList.getResult().size()));
         for (int i = 0;i < myBookList.getResult().size();i++) {
-            if (Objects.equals(event.getId(), myBookList.getResult().get(i).getNid()))
+            if (event.getId().equals(myBookList.getResult().get(i).getNid()))
                 bookDetailAddToBookshelf.setText("已在书架");
         }
     }
@@ -340,3 +344,4 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
                 .withMedia(web).share();
     }
 }
+

@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.module.ReadPage.bean.Chapter;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.module.ReadPage.bean.Book;
@@ -290,7 +291,7 @@ public class PageFactory {
     @SuppressLint("ResourceAsColor")
     public void printPage() {
         if (content.size() > 0) {
-            int y = (int)(GetContext.getContext().getResources().getDisplayMetrics().density * 50);
+            int y = (int)(App.AppContext.getResources().getDisplayMetrics().density * 50);
             mCanvas.drawColor(mContext.getResources().getColor(R.color.colorDay));
             for(String line : content) {
                 y += fontSize+lineSpace;
@@ -332,14 +333,14 @@ public class PageFactory {
             /*
              /绘制章节头部
              */
-            for(int i = 0;i < alist.size();i ++) {
-                if (begin < alist.get(i).getChapterBytePosition() && i > 0){
-                    head = alist.get(i - 1).getChapterName();
-//                    Log.e("末尾位置", String.valueOf(end));
-//                    Log.e("列表位置", String.valueOf(alist.get(i).getChapterBytePosition()));
-                    break;
-                }
-            }
+//            for(int i = 0;i < alist.size();i ++) {
+//                if (begin < alist.get(i).getChapterBytePosition() && i > 0){
+//                    head = alist.get(i - 1).getChapterName();
+////                    Log.e("末尾位置", String.valueOf(end));
+////                    Log.e("列表位置", String.valueOf(alist.get(i).getChapterBytePosition()));
+//                    break;
+//                }
+//            }
             mCanvas.drawText(head,Util.getPXWithDP(20),Util.getPXWithDP(35),mBatteryPait);
         }
         mView.invalidate();

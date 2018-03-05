@@ -88,9 +88,9 @@ public class ContentFactory {
             while ((temp = reader.readLine()) != null) {
                 if(temp.contains("第") && temp.contains(keyword)) {
                     chapter = new Chapter();
-                    chapter.setChapterName(temp);
+//                    chapter.setChapterName(temp);
                     chapter.setName(book.getName());
-                    chapter.setChapterParagraphPsition(i);
+//                    chapter.setChapterParagraphPsition(i);
                     chapters.add(chapter);
                 }
                 i++;
@@ -111,8 +111,8 @@ public class ContentFactory {
                 Log.e("start", "insert data");
                 for (int a = 0; a < chapters.size(); a++) {
                     chapter = chapters.get(a);
-                    chapter.setChapterBytePosition
-                            (positions.get(Math.max(chapter.getChapterParagraphPsition()-1,0)));
+//                    chapter.setChapterBytePosition
+//                            (positions.get(Math.max(chapter.getChapterParagraphPsition()-1,0)));
                 }
             }
             Log.e("insert","completely");

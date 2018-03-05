@@ -3,6 +3,7 @@ package com.liqihao.readbook.module.Book.presenter;
 import android.util.Log;
 
 import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Book.bean.AddComment;
 import com.liqihao.readbook.module.Book.bean.CommentList;
@@ -26,7 +27,7 @@ public class BookReviewPresenter extends BasePresenter<BookReviewActivity> imple
     @Override
     public void getComment(String id, String page) {
         mPage = page;
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .ShowCommentList(id,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -59,7 +60,7 @@ public class BookReviewPresenter extends BasePresenter<BookReviewActivity> imple
 
     @Override
     public void postComment(String auth, String content, String id, String grade) {
-        BookApi.getInstance(GetContext.getContext())
+        BookApi.getInstance(App.AppContext)
                 .addComment(auth,content,id,grade)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

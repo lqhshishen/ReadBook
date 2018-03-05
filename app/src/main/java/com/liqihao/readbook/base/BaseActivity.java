@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.liqihao.readbook.utils.LogUtils;
+
 /**
  * Created by liqihao on 2017/12/25.
  */

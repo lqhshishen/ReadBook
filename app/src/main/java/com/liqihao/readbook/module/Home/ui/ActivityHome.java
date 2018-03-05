@@ -1,9 +1,6 @@
 package com.liqihao.readbook.module.Home.ui;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -19,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Home.contract.HomeContract;
 import com.liqihao.readbook.module.Home.presenter.HomePresenter;

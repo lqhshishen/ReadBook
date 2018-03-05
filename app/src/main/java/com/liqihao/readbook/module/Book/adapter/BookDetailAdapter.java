@@ -39,10 +39,10 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BookDetailAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.time.setText(mData.get(position).getDateline());
-        Log.e("time",mData.get(position).getDateline());
+
         holder.userName.setText(mData.get(position).getUser().getUsername());
         holder.comment.setText(mData.get(position).getContent());
-        Log.e("BookDetailAdapter"," "+position);
+
     }
 
     @Override

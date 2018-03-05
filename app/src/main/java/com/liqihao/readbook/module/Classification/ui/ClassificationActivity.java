@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Book.bean.BookBean;
 import com.liqihao.readbook.module.Classification.adapter.ClassicItemAdapter;

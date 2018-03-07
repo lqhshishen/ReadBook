@@ -14,12 +14,12 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.module.ReadPage.bean.Chapter;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.module.ReadPage.bean.Book;
 import com.liqihao.readbook.module.ReadPage.presenter.PagePresenter;
+import com.liqihao.readbook.utils.FileUtils;
 import com.liqihao.readbook.utils.GetContext;
 import com.liqihao.readbook.utils.SPHelper;
 import com.liqihao.readbook.utils.Util;
@@ -67,7 +67,7 @@ public class PageFactory {
     private Canvas mCanvas;
 
     private ArrayList<String> content = new ArrayList<>();
-//    private Book book;
+    private Book book;
 
     private SPHelper spHelper = SPHelper.getInstance();
 
@@ -77,24 +77,24 @@ public class PageFactory {
 
     private Paint xPaint;
 
-    MainActivity mainActivity;
+    private List<String>allChapter;
 
-    //一页中需要的长度
-    int pageLength;
+    private String bookId;
+
+    private String charset = "UTF-8";
 
     private PageFactory(PageView view){
-
         DisplayMetrics metrics = new DisplayMetrics();
         mContext = view.getContext();
         mView = view;
-        mainActivity = new MainActivity();
+
         ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(metrics);
         screenHeight = metrics.heightPixels;
         screenWidth = metrics.widthPixels;
         fontSize = spHelper.getFontSize();
-        pageHeight = screenHeight - margin * 2 - fontSize;
-        pageWidth = screenWidth - margin * 2;
-        lineNumber = (pageHeight /(fontSize + lineSpace))-1;
+        pageHeight = screenHeight - margin*2 - fontSize;
+        pageWidth = screenWidth - margin*2;
+        lineNumber = (pageHeight/(fontSize+lineSpace))-1;
 
         xPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         xPaint.setTextSize(15);
@@ -102,7 +102,6 @@ public class PageFactory {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setTextSize(fontSize);
         mPaint.setColor(mContext.getResources().getColor(R.color.dayModeTextColor));
-
 
         Bitmap bitmap = Bitmap.createBitmap(screenWidth,screenHeight,Bitmap.Config.ARGB_8888);
         mView.setBitmap(bitmap);
@@ -114,52 +113,59 @@ public class PageFactory {
         return instance;
     }
 
-    public static PageFactory getInstance(PageView view,String chapter,String chapterName) {
+    public static PageFactory getInstance(PageView view,String chapter, List<String>allChapter
+            , int[]position ,String bookId) {
         if(instance == null) {
             synchronized (PageFactory.class) {
                 if(instance == null) {
                     instance = new PageFactory(view);
-                    instance.openBook(chapter,chapterName);
+                    instance.openBook(chapter,position);
+                    instance.allChapter = allChapter;
+                    instance.bookId = bookId;
                 }
             }
         }
         return instance;
     }
 
-    String chapterDetail;
-    private void openBook(String chapterDetail,String chapterName) {
-//        this.book = book;
-        this.chapterDetail = chapterDetail;
-//        encoding = book.getEncoding();
-//        begin = spHelper.getBookmarkStart(book.getName());
-//        end = spHelper.getBookmarkEnd(book.getName());
-        begin = 0;
-        end = 0;
-//        File file = new File(book.getPath());
-        fileLength += chapterDetail.length();
-        this.head = chapterName;
+    public File getBookFile(String chapter) {
+        File file = FileUtils.getChapterFile(bookId,chapter);
+        if (file != null && file.length() > 10) {
+            charset = FileUtils.getCharset(file.getAbsolutePath());
+        }
+        Log.i("charset=",charset);
+        return file;
+    }
+
+    private void openBook(String chapter, int[] position) {
+        this.book = book;
+        encoding = book.getEncoding();
+        begin = spHelper.getBookmarkStart(book.getName());
+        end = spHelper.getBookmarkEnd(book.getName());
+        File file = new File(book.getPath());
+        fileLength = (int) file.length();
 //        Log.i("文件长度",String.valueOf(fileLength));
-//        try {
-//            randomFile = new RandomAccessFile(file,"r");
-//            mappedFile = randomFile.getChannel().map(FileChannel.MapMode.READ_ONLY,0,(long)fileLength);
-//            /*
-//           获取第一章章节名
-//            */
-//            InputStreamReader isr = new InputStreamReader
-//                    (new FileInputStream(new File(book.getPath())),encoding);
-//            BufferedReader reader = new BufferedReader(isr);
-//            String temp;
-//            while ((temp = reader.readLine()) != null) {
-//                if(temp.contains("第") && temp.contains("章")) {
-//                    head = temp;
-//                    break;
-//                }
-//            }
-//        } catch (Exception e) {
-//            Log.e("nmb",Log.getStackTraceString(e));
-//            Toast.makeText(mContext, "打开失败!", Toast.LENGTH_SHORT).show();
-//
-//        }
+        try {
+            randomFile = new RandomAccessFile(file,"r");
+            mappedFile = randomFile.getChannel().map(FileChannel.MapMode.READ_ONLY,0,(long)fileLength);
+            /*
+           获取第一章章节名
+            */
+            InputStreamReader isr = new InputStreamReader
+                    (new FileInputStream(new File(book.getPath())),encoding);
+            BufferedReader reader = new BufferedReader(isr);
+            String temp;
+            while ((temp = reader.readLine()) != null) {
+                if(temp.contains("第") && temp.contains("章")) {
+                    head = temp;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            Log.e("nmb",Log.getStackTraceString(e));
+            Toast.makeText(mContext, "打开失败!", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     //向后读取一个段落，返回bytes
@@ -220,25 +226,22 @@ public class PageFactory {
         }
         return buf;
     }
-    int textLength;
+
     int allPage;
     //下一页的内容
     private void pageDown() {
         String strParagraph = "";
         int length = 0;
-        while ((content.size() < lineNumber) && end < fileLength) {
-            int y = (int)(App.AppContext.getResources().getDisplayMetrics().density * 50);
-            textLength = ((pageWidth / (fontSize + lineSpace)) * lineNumber) - (y / fontSize + lineSpace);
+        while ((content.size() < lineNumber) && end <fileLength) {
             byte [] byteTemp = readParagraphForward(end);
-//            end += byteTemp.length;
-            end += textLength;
-            length += textLength;
-//            length += byteTemp.length;
-//            try {
-                 strParagraph = chapterDetail.substring(end - textLength,end);
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
+            end += byteTemp.length;
+            length += byteTemp.length;
+            try {
+                 strParagraph = new String(byteTemp,encoding);
+                 Log.i("下一页",strParagraph);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             strParagraph = strParagraph.replace("\r\n"," ");
             strParagraph = strParagraph.replace("\n"," ");
             while(strParagraph.length() > 0) {
@@ -250,11 +253,11 @@ public class PageFactory {
                 }
             }
             if(strParagraph.length() > 0) {
-//                try {
-                    end -= textLength;
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    end -= (strParagraph).getBytes(encoding).length;
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         }
         /*
@@ -270,13 +273,13 @@ public class PageFactory {
         String strParagraph="";
         List<String> tempList = new ArrayList<>();
         while (tempList.size() < lineNumber && begin > 0) {
-//            byte[] byteTemp = readParagraphBack(begin);
-            begin -= textLength;
-//            try {
-            strParagraph = chapterDetail.substring(begin,begin + textLength);
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
+            byte[] byteTemp = readParagraphBack(begin);
+            begin -= byteTemp.length;
+            try {
+                strParagraph = new String(byteTemp,encoding);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             strParagraph = strParagraph.replaceAll("\r\n","  ");
             strParagraph = strParagraph.replaceAll("\n","  ");
             while(strParagraph.length() > 0){
@@ -288,11 +291,11 @@ public class PageFactory {
                 }
             }
             if(strParagraph.length() > 0){
-//                try{
-                begin+= textLength;
-//                }catch (UnsupportedEncodingException u){
-//                    u.printStackTrace();
-//                }
+                try{
+                    begin+= strParagraph.getBytes(encoding).length;
+                }catch (UnsupportedEncodingException u){
+                    u.printStackTrace();
+                }
             }
         }
     }
@@ -345,8 +348,8 @@ public class PageFactory {
             /*
             页数
              */
-//            String now = "13/2048";
-//            mCanvas.drawText(now,screenWidth-Util.getPXWithDP(90),screenHeight-Util.getPXWithDP(18),mBatteryPait);
+            String now = "13/2048";
+            mCanvas.drawText(now,screenWidth-Util.getPXWithDP(90),screenHeight-Util.getPXWithDP(18),mBatteryPait);
             /*
              /绘制章节头部
              */
@@ -374,29 +377,28 @@ public class PageFactory {
         return batteryPower;
     }
 
-//    private int serchPositionByKey (int beginPos,String key) {
-//        int position = begin;
-//        try {
-//            randomFile.seek(beginPos);
-//            String keyString = new String(key.getBytes(encoding), StandardCharsets.ISO_8859_1);
-//            String temp;
-//            long pointer;
-//            for(;;) {
-//                pointer = randomFile.getFilePointer();
-//                temp = randomFile.readLine();
-//                if(temp != null && temp.contains(keyString)) {
-//                    position = (int) pointer;
-//                    break;
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return position;
-//    }
+    private int serchPositionByKey (int beginPos,String key) {
+        int position = begin;
+        try {
+            randomFile.seek(beginPos);
+            String keyString = new String(key.getBytes(encoding), StandardCharsets.ISO_8859_1);
+            String temp;
+            long pointer;
+            for(;;) {
+                pointer = randomFile.getFilePointer();
+                temp = randomFile.readLine();
+                if(temp != null && temp.contains(keyString)) {
+                    position = (int) pointer;
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return position;
+    }
     public void nextPage() {
         if (end >= fileLength) {
-            mainActivity.checkMoreChapter();
             return;
         }else{
             content.clear();
@@ -405,10 +407,8 @@ public class PageFactory {
         }
         printPage();
     }
-
     public void prePage() {
         if(begin <= 0) {
-            mainActivity.checkPreChapter();
             return;
         }else{
             content.clear();
@@ -418,27 +418,23 @@ public class PageFactory {
         }
         printPage();
     }
-//    public void saveBookmark() {
-//        SPHelper.getInstance().setBookmarkEnd(book.getName(),begin);
-//        SPHelper.getInstance().setBookmarkStart(book.getName(),begin);
-//    }
+    public void saveBookmark() {
+        SPHelper.getInstance().setBookmarkEnd(book.getName(),begin);
+        SPHelper.getInstance().setBookmarkStart(book.getName(),begin);
+    }
     public int getFileLength() {
         return fileLength;
     }
-
     public MappedByteBuffer getMappedFile() {
         return mappedFile;
     }
-
     public void setPosition(int position) {
         end = position;
         nextPage();
     }
-
     public int getProgress() {
         return begin * 100 / fileLength;
     }
-
     public int setProgress(int i) {
         int origin = begin;
         end = fileLength * i/100;
@@ -485,7 +481,7 @@ public class PageFactory {
         for(String line : content){
             aa += line;
         }
-//        Log.e("测试","dsadasdasdas");
+        Log.e("测试","dsadasdasdas");
         mPagePresenter.saveBookmark(head,aa,date,end);
 
     }

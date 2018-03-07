@@ -245,17 +245,17 @@ public class BookApi {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return service.deleteBookshelf(handleBody(jsonObject));
     }
 
-    public Observable<ChapterDetailBean>getChapterDetail(String nid,String id) {
+    public Observable<ChapterDetailBean>getChapterDetail(String nid,String id){
         try {
             jsonObject.put("nid",nid);
             jsonObject.put("id",id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return service.getChapterDetail(handleBody(jsonObject));
     }
 

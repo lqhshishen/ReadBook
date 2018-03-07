@@ -1,7 +1,5 @@
 package com.liqihao.readbook.module.ReadPage.presenter;
 
-import android.util.Log;
-
 import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.app.App;
@@ -13,7 +11,6 @@ import com.liqihao.readbook.module.ReadPage.bean.Book;
 import com.liqihao.readbook.module.ReadPage.contract.PageContract;
 import com.liqihao.readbook.utils.GetContext;
 import com.liqihao.readbook.base.BasePresenter;
-import com.liqihao.readbook.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
@@ -37,6 +34,10 @@ public class PagePresenter extends BasePresenter<MainActivity> implements PageCo
     Book book = new Book("chenxizhijian",
             "/storage/emulated/0/Download/晨曦之剑.txt","GB18030");
 //    Book book = new Book("chenxizhijian","/storage/emulated/0/电影/晨曦之剑.txt","GB18030");
+    Content content;
+    public void onCreate(){
+
+    }
 
     @Override
     public Book getBook() {
@@ -64,26 +65,38 @@ public class PagePresenter extends BasePresenter<MainActivity> implements PageCo
 //            Log.e("测试数据",bookmark.getBookmarkTitle());
 //        }
     }
+    @Override
+    public List<Integer> getMark(){
+        LitePal.initialize(App.AppContext);
+        List<Integer> aa = new ArrayList<>();
+        List<BookmarkBean> bmb = DataSupport.findAll(BookmarkBean.class);
+        for(int a=  0 ;a < bmb.size(); a++){
+            aa.add(bmb.get(a).getBookmarkbyteposition());
+//            Log.e("所有标签", String.valueOf(bmb.get(a).getBookmarkbyteposition()));
+        }
+        return aa;
+    }
 
     @Override
-    public void getChapter(String bid) {
+    public void getChapter(String bookId) {
         BookApi.getInstance(App.AppContext)
-                .getChapterList(bid)
+                .getChapterList(bookId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Chapter>() {
                     @Override
                     public void onSubscribe(Disposable d) {
+
                     }
 
                     @Override
                     public void onNext(Chapter chapter) {
-                        view.onGetFirstChapter(chapter);
+                        view.onGetChapterList(chapter);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.e("onError",e.toString());
+
                     }
 
                     @Override
@@ -94,7 +107,7 @@ public class PagePresenter extends BasePresenter<MainActivity> implements PageCo
     }
 
     @Override
-    public void getDetail(String bookId,String chapterId) {
+    public void getChapterDetail(String bookId, final String chapterId) {
         BookApi.getInstance(App.AppContext)
                 .getChapterDetail(bookId,chapterId)
                 .subscribeOn(Schedulers.io())
@@ -107,7 +120,7 @@ public class PagePresenter extends BasePresenter<MainActivity> implements PageCo
 
                     @Override
                     public void onNext(ChapterDetailBean chapterDetailBean) {
-                        view.onGetDetail(chapterDetailBean);
+                        view.showChapterRead(chapterDetailBean,chapterId);
                     }
 
                     @Override
@@ -121,18 +134,5 @@ public class PagePresenter extends BasePresenter<MainActivity> implements PageCo
                     }
                 });
     }
-
-//    @Override
-//    public List<Integer> getMark(){
-//        LitePal.initialize(App.AppContext);
-//        List<Integer> aa = new ArrayList<>();
-//        List<BookmarkBean> bmb = DataSupport.findAll(BookmarkBean.class);
-//        for(int a=  0 ;a < bmb.size(); a++){
-//            aa.add(bmb.get(a).getBookmarkbyteposition());
-////            Log.e("所有标签", String.valueOf(bmb.get(a).getBookmarkbyteposition()));
-//        }
-//        return aa;
-//    }
-
 
 }

@@ -13,9 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.liqihao.readbook.module.Book.adapter.WholeContentAdapter;
 import com.liqihao.readbook.module.Book.bean.BookBean;
-import com.liqihao.readbook.module.Book.presenter.WholeContentPresenter;
 import com.liqihao.readbook.module.Home.ui.ActivityHome;
 import com.liqihao.readbook.module.ReadPage.bean.Chapter;
 import com.liqihao.readbook.module.ReadPage.bean.ChapterDetailBean;
@@ -26,7 +24,7 @@ import com.liqihao.readbook.module.ReadPage.View.PageView;
 import com.liqihao.readbook.module.ReadPage.contract.PageContract;
 import com.liqihao.readbook.module.ReadPage.presenter.PagePresenter;
 import com.liqihao.readbook.base.BaseActivity;
-import com.liqihao.readbook.utils.SharedPreferencesUtil;
+import com.liqihao.readbook.utils.CacheManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,6 +68,13 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
     int a;
 
+    String currentChapter = "";
+
+
+    //是否开始阅读
+    boolean startRead = false;
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecieve(GetPositionEventBean positionEventBean) {
         a = positionEventBean.getI();
@@ -109,19 +114,13 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
+
     BookBean bookBean;
-    String bookmark;
     @Override
     public void initData() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        assert bundle != null;
         bookBean = (BookBean)bundle.get("name");
-        bookmark = SharedPreferencesUtil.getInstance().getString("bookmark",null);
-        if (bookmark == null) presenter.getChapter(bookBean.getId());
-        else presenter.getDetail(bookBean.getId(),bookmark);
-//        mPageFactory = PageFactory.getInstance(pageView,presenter.getBook());
-//        mPageFactory.nextPage();
 
     }
 
@@ -140,7 +139,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 //        bookmarkRed.setVisibility(View.GONE);
 //        bookmarkGrey.setVisibility(View.VISIBLE);
 //        for(int a = 0;a < bookmark.size();a++){
-//            Log.e("书签字节数", String.valueOf(bookmark.get(a)));
+//            Log.e("书签字节数", String.valueOf(dookmark.get(a)));
 //            if(b == bookmark.get(a)){
 //
 //                bookmarkRed.setVisibility(View.VISIBLE);
@@ -148,39 +147,17 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 //            }
 //        }
     }
-    String firstChapter;
-    String lastChapter;
-    List<String> allChapter;
+    List<String>allChapter;
     @Override
-    public void onGetFirstChapter(Chapter chapter) {
-        bookmark = chapter.getResult().get(0).getId();
-        firstChapter = chapter.getResult().get(0).getId();
-        lastChapter = chapter.getResult().get(chapter.getResult().size() - 1).getId();
-        for (int i = 0;i < chapter.getResult().size();i++)
+    public void onGetChapterList(Chapter chapter) {
+        for (int i = 0; i < chapter.getResult().size(); i++) {
             allChapter.add(chapter.getResult().get(i).getId());
-        presenter.getDetail(bookBean.getId(),chapter.getResult().get(0).getId());
+        }
+        currentChapter = allChapter.get(0);
+        readCurrentChapter();
     }
 
-    @Override
-    public void onGetDetail(ChapterDetailBean chapterDetailBean) {
 
-    }
-
-    @Override
-    public void checkMoreChapter() {
-        String nextChapter = String.valueOf(Integer.parseInt(bookmark) + 1);
-         if (Integer.parseInt(bookmark) < Integer.parseInt(lastChapter))
-           presenter.getDetail(bookBean.getId(),nextChapter);
-         bookmark = nextChapter;
-    }
-
-    @Override
-    public void checkPreChapter() {
-        String preChapter = String.valueOf(Integer.parseInt(bookmark) - 1);
-        if (Integer.parseInt(bookmark) > Integer.parseInt(firstChapter))
-            presenter.getDetail(bookBean.getId(),preChapter);
-        bookmark = preChapter;
-    }
 
     @Override
     public void onClick() {
@@ -214,6 +191,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         pageView.setOnClickCallback(new PageView.OnClickCallback() {
             @Override
             public void onLeftClick() {
+                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 }else{
@@ -230,6 +208,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
             }
             @Override
             public void onRightClick() {
+                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 }else{
@@ -240,6 +219,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         pageView.setOnScrollListener(new PageView.OnScrollListener() {
             @Override
             public void onLeftScroll() {
+                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 } else {
@@ -249,6 +229,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
             @Override
             public void onRightScroll() {
+                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 }else{
@@ -288,6 +269,27 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         topRela.setVisibility(View.VISIBLE);
         bottomView.setVisibility(View.VISIBLE);
         pageView.setSystemUiVisibility(View.VISIBLE);
+    }
+
+
+    public void readCurrentChapter() {
+        if (CacheManager.getInstance().getChapterFile(bookBean.getId(),currentChapter) != null)
+            showChapterRead(null,currentChapter);
+        else
+            presenter.getChapterDetail(bookBean.getId(),currentChapter);
+
+    }
+
+    public synchronized void showChapterRead(ChapterDetailBean data,String chapter) {
+        if (data != null) {
+            CacheManager.getInstance().saveChapterFile(bookBean.getId(),chapter,data);
+        }
+        if (!startRead) {
+            startRead = true;
+            currentChapter = chapter;
+            mPageFactory = PageFactory.getInstance(pageView,presenter.getBook());
+            mPageFactory.nextPage();
+        }
     }
 
     @Override

@@ -1,10 +1,12 @@
 package com.liqihao.readbook.module.ReadPage.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by liqihao on 2018/3/1.
  */
 
-public class ChapterDetailBean {
+public class ChapterDetailBean implements Serializable  {
     private String code;
 
     private String msg;

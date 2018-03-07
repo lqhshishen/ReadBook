@@ -161,7 +161,9 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
 
     @OnClick(R.id.bookDetail_read)
     public void onViewClicked() {
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        Intent intentToRead = new Intent(this,MainActivity.class);
+        intentToRead.putExtras(bundle);
+        startActivity(intentToRead);
     }
 
     @OnClick({R.id.back_btn,R.id.bookDetail_share,R.id.bookdetail_comment_more,R.id.bookDetail_addToBookshelf,R.id.bookDetail_wholeChapter})

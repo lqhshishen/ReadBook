@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
+import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -12,7 +13,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.liqihao.readbook.module.Book.adapter.WholeContentAdapter;
+import com.liqihao.readbook.module.Book.bean.BookBean;
+import com.liqihao.readbook.module.Book.presenter.WholeContentPresenter;
 import com.liqihao.readbook.module.Home.ui.ActivityHome;
+import com.liqihao.readbook.module.ReadPage.bean.Chapter;
+import com.liqihao.readbook.module.ReadPage.bean.ChapterDetailBean;
 import com.liqihao.readbook.module.ReadPage.bean.GetPositionEventBean;
 import com.liqihao.readbook.module.Login.ui.RegisterActivity;
 import com.liqihao.readbook.module.ReadPage.View.PageFactory;
@@ -20,10 +26,13 @@ import com.liqihao.readbook.module.ReadPage.View.PageView;
 import com.liqihao.readbook.module.ReadPage.contract.PageContract;
 import com.liqihao.readbook.module.ReadPage.presenter.PagePresenter;
 import com.liqihao.readbook.base.BaseActivity;
+import com.liqihao.readbook.utils.SharedPreferencesUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,10 +109,20 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
+    BookBean bookBean;
+    String bookmark;
     @Override
     public void initData() {
-        mPageFactory = PageFactory.getInstance(pageView,presenter.getBook());
-        mPageFactory.nextPage();
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        assert bundle != null;
+        bookBean = (BookBean)bundle.get("name");
+        bookmark = SharedPreferencesUtil.getInstance().getString("bookmark",null);
+        if (bookmark == null) presenter.getChapter(bookBean.getId());
+        else presenter.getDetail(bookBean.getId(),bookmark);
+//        mPageFactory = PageFactory.getInstance(pageView,presenter.getBook());
+//        mPageFactory.nextPage();
+
     }
 
     @Override
@@ -128,6 +147,39 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 //                bookmarkGrey.setVisibility(View.GONE);
 //            }
 //        }
+    }
+    String firstChapter;
+    String lastChapter;
+    List<String> allChapter;
+    @Override
+    public void onGetFirstChapter(Chapter chapter) {
+        bookmark = chapter.getResult().get(0).getId();
+        firstChapter = chapter.getResult().get(0).getId();
+        lastChapter = chapter.getResult().get(chapter.getResult().size() - 1).getId();
+        for (int i = 0;i < chapter.getResult().size();i++)
+            allChapter.add(chapter.getResult().get(i).getId());
+        presenter.getDetail(bookBean.getId(),chapter.getResult().get(0).getId());
+    }
+
+    @Override
+    public void onGetDetail(ChapterDetailBean chapterDetailBean) {
+
+    }
+
+    @Override
+    public void checkMoreChapter() {
+        String nextChapter = String.valueOf(Integer.parseInt(bookmark) + 1);
+         if (Integer.parseInt(bookmark) < Integer.parseInt(lastChapter))
+           presenter.getDetail(bookBean.getId(),nextChapter);
+         bookmark = nextChapter;
+    }
+
+    @Override
+    public void checkPreChapter() {
+        String preChapter = String.valueOf(Integer.parseInt(bookmark) - 1);
+        if (Integer.parseInt(bookmark) > Integer.parseInt(firstChapter))
+            presenter.getDetail(bookBean.getId(),preChapter);
+        bookmark = preChapter;
     }
 
     @Override
@@ -162,7 +214,6 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         pageView.setOnClickCallback(new PageView.OnClickCallback() {
             @Override
             public void onLeftClick() {
-                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 }else{
@@ -179,7 +230,6 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
             }
             @Override
             public void onRightClick() {
-                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 }else{
@@ -190,7 +240,6 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         pageView.setOnScrollListener(new PageView.OnScrollListener() {
             @Override
             public void onLeftScroll() {
-                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 } else {
@@ -200,7 +249,6 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
             @Override
             public void onRightScroll() {
-                checkBookmark();
                 if(isShowMenu()){
                     disMissState();
                 }else{

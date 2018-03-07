@@ -238,15 +238,24 @@ public class BookApi {
         return service.getChapterList(handleBody(jsonObject));
     }
 
-    public Observable<AddBookshelfBean>deleteBookshelf(String id,String auth) throws JSONException {
-        jsonObject.put("id",id);
-        jsonObject.put("auth",auth);
+    public Observable<AddBookshelfBean>deleteBookshelf(String id,String auth){
+        try {
+            jsonObject.put("id",id);
+            jsonObject.put("auth",auth);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return service.deleteBookshelf(handleBody(jsonObject));
     }
 
-    public Observable<ChapterDetailBean>gerChapterDetail(String nid,String id) throws JSONException {
-        jsonObject.put("nid",nid);
-        jsonObject.put("id",id);
+    public Observable<ChapterDetailBean>getChapterDetail(String nid,String id) {
+        try {
+            jsonObject.put("nid",nid);
+            jsonObject.put("id",id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return service.getChapterDetail(handleBody(jsonObject));
     }
 

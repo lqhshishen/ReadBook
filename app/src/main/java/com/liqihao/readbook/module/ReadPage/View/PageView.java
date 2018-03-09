@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -71,12 +72,17 @@ public class PageView extends View implements PageViewContract{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.save();
-        canvas.drawBitmap(bit,0,0,null);
+        if (null!=bit){
+            canvas.drawBitmap(bit,0,0,null);
+            Log.e("PageView","onDraw"+"77");
+        }
+        Log.e("PageView","onDraw"+"79");
         canvas.restore();
     }
 
     public void setBitmap(Bitmap bitmap) {
         bit = bitmap;
+        invalidate();
     }
 
     public void setOnClickCallback(OnClickCallback listener){

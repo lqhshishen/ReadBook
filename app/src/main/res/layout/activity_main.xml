@@ -11,6 +11,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/Ln_main">
+
         <com.liqihao.readbook.module.ReadPage.View.PageView
             android:id="@+id/pageview"
             android:layout_height="match_parent"
@@ -122,13 +123,13 @@
 
         </LinearLayout>
     </RelativeLayout>
-    <fragment
-        android:clickable="true"
-        android:name="com.liqihao.readbook.module.ReadPage.ui.Content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_gravity="start"
-        android:focusable="true">
-    </fragment>
+    <!--<fragment-->
+        <!--android:clickable="true"-->
+        <!--android:name="com.liqihao.readbook.module.ReadPage.ui.Content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:focusable="true">-->
+    <!--</fragment>-->
 </android.support.v4.widget.DrawerLayout>

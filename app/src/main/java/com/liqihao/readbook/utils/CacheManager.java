@@ -1,5 +1,7 @@
 package com.liqihao.readbook.utils;
 
+import android.util.Log;
+
 import com.liqihao.readbook.module.ReadPage.bean.ChapterDetailBean;
 
 import java.io.File;
@@ -25,7 +27,6 @@ public class CacheManager {
     public void saveChapterFile(String bookId, String chapter, ChapterDetailBean data) {
         File file = FileUtils.getChapterFile(bookId,chapter);
         FileUtils.writeFile(file.getAbsolutePath(),StringUtils.formatContent(data.getResult()),false);
-
     }
 
 }

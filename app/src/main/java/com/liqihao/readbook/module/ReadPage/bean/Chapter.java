@@ -73,6 +73,10 @@ private String code;
         String bid;
         String path;
 
+        public String toString() {
+            return "id:" + id + "bookname:" + bookname + "bookId" + bid + "path" + path;
+        }
+
         public String getId() {
             return id;
         }

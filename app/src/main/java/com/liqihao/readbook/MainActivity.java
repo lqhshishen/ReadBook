@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -30,7 +32,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -110,8 +114,8 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         mainBack = findViewById(R.id.main_back);
 
 //        预先读取侧滑数据
-        mDrawerLayout.openDrawer(GravityCompat.START);
-        mDrawerLayout.closeDrawer(GravityCompat.START);
+//        mDrawerLayout.openDrawer(GravityCompat.START);
+//        mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
 
@@ -121,7 +125,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         bookBean = (BookBean)bundle.get("name");
-
+        presenter.getChapter(bookBean.getId());
     }
 
     @Override
@@ -147,9 +151,10 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 //            }
 //        }
     }
-    List<String>allChapter;
+    List<String>allChapter = new ArrayList<>();
     @Override
     public void onGetChapterList(Chapter chapter) {
+        Log.e("chapter", String.valueOf(chapter.getResult().size()));
         for (int i = 0; i < chapter.getResult().size(); i++) {
             allChapter.add(chapter.getResult().get(i).getId());
         }
@@ -157,6 +162,20 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         readCurrentChapter();
     }
 
+    /**
+     * 当第一章为空时currentChapter+1并加载下一章
+     * @param chapterDetailBean
+     */
+    @RequiresApi(api = VERSION_CODES.KITKAT)
+    @Override
+    public void onGetNullChapter(ChapterDetailBean chapterDetailBean) {
+        for (int i = 0;i < allChapter.size();i++) {
+            if (Objects.equals(currentChapter, allChapter.get(i))) {
+                currentChapter = allChapter.get(i + 1);
+                presenter.getChapterDetail(bookBean.getId(),currentChapter);
+            }
+        }
+    }
 
 
     @Override
@@ -173,7 +192,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
             public void onClick(View v) {
                 bookmarkGrey.setVisibility(View.GONE);
                 bookmarkRed.setVisibility(View.VISIBLE);
-                mPageFactory.sendBookmark();
+//                mPageFactory.sendBookmark();
             }
         });
         content.setOnClickListener(new View.OnClickListener() {
@@ -279,15 +298,23 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
             presenter.getChapterDetail(bookBean.getId(),currentChapter);
 
     }
+    int chapterNumber = 1;
 
+    /**
+     * @param data 小说内容
+     * @param chapter 章节ID
+     * 章节列表allChapter.get[0]可能为空
+     */
     public synchronized void showChapterRead(ChapterDetailBean data,String chapter) {
         if (data != null) {
+            Log.e("ChapterDetailBean",data.getResult());
             CacheManager.getInstance().saveChapterFile(bookBean.getId(),chapter,data);
         }
         if (!startRead) {
             startRead = true;
             currentChapter = chapter;
-            mPageFactory = PageFactory.getInstance(pageView,presenter.getBook());
+            mPageFactory = PageFactory.getInstance(pageView,chapter,allChapter
+                    ,new int[]{0,0},bookBean.getId());
             mPageFactory.nextPage();
         }
     }

@@ -115,6 +115,12 @@ public class FileUtils {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
+    /**
+     * 递归创建文件夹
+     *
+     * @param file
+     * @return 创建失败返回""
+     */
     public static String createFile(File file) {
         try {
             if (file.getParentFile().exists()) {

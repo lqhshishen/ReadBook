@@ -67,7 +67,6 @@ public class PageFactory {
     private Canvas mCanvas;
 
     private ArrayList<String> content = new ArrayList<>();
-    private Book book;
 
     private SPHelper spHelper = SPHelper.getInstance();
 
@@ -77,7 +76,7 @@ public class PageFactory {
 
     private Paint xPaint;
 
-    private List<String>allChapter;
+    private List<String> allChapter = new ArrayList<>();
 
     private String bookId;
 
@@ -119,8 +118,9 @@ public class PageFactory {
             synchronized (PageFactory.class) {
                 if(instance == null) {
                     instance = new PageFactory(view);
-                    instance.openBook(chapter,position);
+
                     instance.allChapter = allChapter;
+                    instance.openBook(chapter,position);
                     instance.bookId = bookId;
                 }
             }
@@ -132,18 +132,41 @@ public class PageFactory {
         File file = FileUtils.getChapterFile(bookId,chapter);
         if (file != null && file.length() > 10) {
             charset = FileUtils.getCharset(file.getAbsolutePath());
+            Log.i("fileLength", String.valueOf(file.length()) + file.getPath());
         }
         Log.i("charset=",charset);
         return file;
     }
 
+    private String currentChapter;
+    private int chapterSize;
+
+    /**
+     * 读取文件的路径和保存文件的路径不一样，会重新创建一个空文件。
+     * @param chapter 章节ID
+     * @param position 读取位置
+     */
     private void openBook(String chapter, int[] position) {
-        this.book = book;
-        encoding = book.getEncoding();
-        begin = spHelper.getBookmarkStart(book.getName());
-        end = spHelper.getBookmarkEnd(book.getName());
-        File file = new File(book.getPath());
-        fileLength = (int) file.length();
+        Log.e("testOpenBook",chapter);
+//        this.book = book;
+
+        this.chapterSize = allChapter.size();
+        this.currentChapter = chapter;
+        Log.e("checkLength",currentChapter + " '' " + allChapter.get(chapterSize - 1));
+        if (Integer.parseInt(currentChapter) > Integer.parseInt(allChapter.get(chapterSize - 1)))
+            currentChapter = allChapter.get(chapterSize - 1);
+        String path = getBookFile(currentChapter).getPath();
+        Log.e("path",path);
+        File file = new File(path);
+        fileLength = (int)file.length();
+        Log.e("fileLength", String.valueOf(fileLength));
+        encoding = charset;
+        begin = position[0];
+        end = position[1];
+//        begin = spHelper.getBookmarkStart(book.getName());
+//        end = spHelper.getBookmarkEnd(book.getName());
+//        File file = new File(book.getPath());
+//        fileLength = (int) file.length();
 //        Log.i("文件长度",String.valueOf(fileLength));
         try {
             randomFile = new RandomAccessFile(file,"r");
@@ -151,16 +174,16 @@ public class PageFactory {
             /*
            获取第一章章节名
             */
-            InputStreamReader isr = new InputStreamReader
-                    (new FileInputStream(new File(book.getPath())),encoding);
-            BufferedReader reader = new BufferedReader(isr);
-            String temp;
-            while ((temp = reader.readLine()) != null) {
-                if(temp.contains("第") && temp.contains("章")) {
-                    head = temp;
-                    break;
-                }
-            }
+//            InputStreamReader isr = new InputStreamReader
+//                    (new FileInputStream(new File(book.getPath())),encoding);
+//            BufferedReader reader = new BufferedReader(isr);
+//            String temp;
+//            while ((temp = reader.readLine()) != null) {
+//                if(temp.contains("第") && temp.contains("章")) {
+//                    head = temp;
+//                    break;
+//                }
+//            }
         } catch (Exception e) {
             Log.e("nmb",Log.getStackTraceString(e));
             Toast.makeText(mContext, "打开失败!", Toast.LENGTH_SHORT).show();
@@ -313,7 +336,9 @@ public class PageFactory {
         if (content.size() > 0) {
             int y = (int)(App.AppContext.getResources().getDisplayMetrics().density * 50);
             mCanvas.drawColor(mContext.getResources().getColor(R.color.colorDay));
+
             for(String line : content) {
+                Log.e("drawText",line);
                 y += fontSize+lineSpace;
                 mCanvas.drawText(line,margin,y,mPaint);
 //                Log.e("小说内容",line);
@@ -377,26 +402,26 @@ public class PageFactory {
         return batteryPower;
     }
 
-    private int serchPositionByKey (int beginPos,String key) {
-        int position = begin;
-        try {
-            randomFile.seek(beginPos);
-            String keyString = new String(key.getBytes(encoding), StandardCharsets.ISO_8859_1);
-            String temp;
-            long pointer;
-            for(;;) {
-                pointer = randomFile.getFilePointer();
-                temp = randomFile.readLine();
-                if(temp != null && temp.contains(keyString)) {
-                    position = (int) pointer;
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return position;
-    }
+//    private int serchPositionByKey (int beginPos,String key) {
+//        int position = begin;
+//        try {
+//            randomFile.seek(beginPos);
+//            String keyString = new String(key.getBytes(encoding), StandardCharsets.ISO_8859_1);
+//            String temp;
+//            long pointer;
+//            for(;;) {
+//                pointer = randomFile.getFilePointer();
+//                temp = randomFile.readLine();
+//                if(temp != null && temp.contains(keyString)) {
+//                    position = (int) pointer;
+//                    break;
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return position;
+//    }
     public void nextPage() {
         if (end >= fileLength) {
             return;
@@ -418,10 +443,10 @@ public class PageFactory {
         }
         printPage();
     }
-    public void saveBookmark() {
+    /*public void saveBookmark() {
         SPHelper.getInstance().setBookmarkEnd(book.getName(),begin);
         SPHelper.getInstance().setBookmarkStart(book.getName(),begin);
-    }
+    }*/
     public int getFileLength() {
         return fileLength;
     }
@@ -471,19 +496,19 @@ public class PageFactory {
             instance = null;
         }
     }
-    PagePresenter mPagePresenter = new PagePresenter();
-    String aa ="";
+//    PagePresenter mPagePresenter = new PagePresenter();
+//    String aa ="";
 
-    public void sendBookmark() {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-DD hh:mm");
-        String date = formatter.format(new java.util.Date());
-        Log.e("date",date);
-        for(String line : content){
-            aa += line;
-        }
-        Log.e("测试","dsadasdasdas");
-        mPagePresenter.saveBookmark(head,aa,date,end);
-
-    }
+//    public void sendBookmark() {
+//        SimpleDateFormat formatter = new SimpleDateFormat("MM-DD hh:mm");
+//        String date = formatter.format(new java.util.Date());
+//        Log.e("date",date);
+//        for(String line : content){
+//            aa += line;
+//        }
+//        Log.e("测试","dsadasdasdas");
+//        mPagePresenter.saveBookmark(head,aa,date,end);
+//
+//    }
 
 }

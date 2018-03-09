@@ -251,7 +251,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     @Override
     public void onReceiveBookList(MyBookList myBookList) {
 //        booId.clear();
-        Log.e("dsadasds", String.valueOf(myBookList.getResult().size()));
         for (int i = 0;i < myBookList.getResult().size();i++) {
             if (event.getId().equals(myBookList.getResult().get(i).getNid()))
                 bookDetailAddToBookshelf.setText("已在书架");

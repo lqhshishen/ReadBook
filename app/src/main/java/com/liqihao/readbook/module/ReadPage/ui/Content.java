@@ -68,10 +68,10 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
 
     @Override
     public void initData() {
-        contentFactory = new ContentFactory();
+//        contentFactory = new ContentFactory();
         xAdapter = new BookmarkAdapter(App.AppContext,presenter.getBookmarkList(),R.layout.bookmark_item);
         mAdapter = new ChapterAdapter(App.AppContext);
-        loadChapters();
+//        loadChapters();
         recyclerView.setAdapter(mAdapter);
         xrectclerView.setAdapter(xAdapter);
     }
@@ -166,8 +166,8 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
         String key = ContentFactory.KETWORD_ZHANG;
         mAdapter.clearData();
         mAdapter.notifyDataSetChanged();
-        contentFactory.setKeyword(key);
-        contentFactory.getChapterFromFile(this);
+//        contentFactory.setKeyword(key);
+//        contentFactory.getChapterFromFile(this);
 }
 
     @Override

@@ -1,15 +1,16 @@
 package com.liqihao.readbook.module.ReadPage.presenter;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.module.ReadPage.bean.Chapter;
 import com.liqihao.readbook.module.ReadPage.bean.ChapterDetailBean;
-import com.liqihao.readbook.module.ReadPage.ui.Content;
 import com.liqihao.readbook.module.ReadPage.bean.BookmarkBean;
 import com.liqihao.readbook.module.ReadPage.bean.Book;
 import com.liqihao.readbook.module.ReadPage.contract.PageContract;
-import com.liqihao.readbook.utils.GetContext;
 import com.liqihao.readbook.base.BasePresenter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,18 +32,15 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PagePresenter extends BasePresenter<MainActivity> implements PageContract.Presenter{
 
-    Book book = new Book("chenxizhijian",
-            "/storage/emulated/0/Download/晨曦之剑.txt","GB18030");
+//    Book book = new Book("chenxizhijian",
+//            "/storage/emulated/0/Download/晨曦之剑.txt","GB18030");
 //    Book book = new Book("chenxizhijian","/storage/emulated/0/电影/晨曦之剑.txt","GB18030");
-    Content content;
-    public void onCreate(){
+//    Content content;
 
-    }
-
-    @Override
-    public Book getBook() {
-        return book;
-    }
+//    @Override
+//    public Book getBook() {
+//        return book;
+//    }
 
 //    String head;
 //    String body;
@@ -118,9 +116,14 @@ public class PagePresenter extends BasePresenter<MainActivity> implements PageCo
 
                     }
 
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onNext(ChapterDetailBean chapterDetailBean) {
-                        view.showChapterRead(chapterDetailBean,chapterId);
+                        if (chapterDetailBean.getResult() == null)
+                            view.onGetNullChapter(chapterDetailBean);
+                        else
+                            view.showChapterRead(chapterDetailBean,chapterId);
+
                     }
 
                     @Override

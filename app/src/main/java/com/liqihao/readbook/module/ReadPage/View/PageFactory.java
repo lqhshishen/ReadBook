@@ -72,8 +72,6 @@ public class PageFactory {
 
     private static PageFactory instance;
 
-    private String head;
-
     private Paint xPaint;
 
     private List<String> allChapter = new ArrayList<>();

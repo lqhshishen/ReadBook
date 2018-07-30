@@ -21,7 +21,9 @@ import java.io.OutputStreamWriter;
 public class FileUtils {
 
     public static String getChapterPath(String bookId, String chapter) {
+
         return Constant.PATH_TXT + bookId + File.separator + chapter + ".txt";
+
     }
 
     public static File getChapterFile(String bookId, String chapter) {

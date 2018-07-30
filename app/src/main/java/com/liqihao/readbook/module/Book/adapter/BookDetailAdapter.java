@@ -47,7 +47,6 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BookDetailAdapter.Vi
 
     @Override
     public int getItemCount() {
-        Log.e("BookDetailAdapter","getItemCount"+mData.size());
         return mData.size();
     }
 

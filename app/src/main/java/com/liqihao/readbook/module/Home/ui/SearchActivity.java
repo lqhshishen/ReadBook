@@ -88,7 +88,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
                  * 点击搜索时
                  */
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    Log.e("IME_ACTION_SEARCH","click");
                     String result = searchEdtinputtel.getText().toString();
                     result.replaceAll(" ", "");
                     /**

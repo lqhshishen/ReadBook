@@ -150,8 +150,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     public void onGetMsg(SendCodeBean sendCodeBean) {
-        Log.e("getMsg", sendCodeBean.getResult().getVcode());
-        Log.e("getMsg", sendCodeBean.getCode() + sendCodeBean.getSuccess());
     }
 
     @Override

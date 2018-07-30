@@ -33,6 +33,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -137,24 +138,11 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
     @Override
     public void checkBookmark() {
-//        int b = PageFactory.getInstance().getCurrentEnd();
-//        Log.e("当前末尾字节数", String.valueOf(b));
-//        bookmark = mPagePresenter.getMark();
-//        bookmarkRed.setVisibility(View.GONE);
-//        bookmarkGrey.setVisibility(View.VISIBLE);
-//        for(int a = 0;a < bookmark.size();a++){
-//            Log.e("书签字节数", String.valueOf(dookmark.get(a)));
-//            if(b == bookmark.get(a)){
-//
-//                bookmarkRed.setVisibility(View.VISIBLE);
-//                bookmarkGrey.setVisibility(View.GONE);
-//            }
-//        }
+
     }
     List<String>allChapter = new ArrayList<>();
     @Override
     public void onGetChapterList(Chapter chapter) {
-        Log.e("chapter", String.valueOf(chapter.getResult().size()));
         for (int i = 0; i < chapter.getResult().size(); i++) {
             allChapter.add(chapter.getResult().get(i).getId());
         }
@@ -202,11 +190,6 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
                 mDrawerLayout.setClickable(true);
             }
         });
-//        aa.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//            }
-//        });
         pageView.setOnClickCallback(new PageView.OnClickCallback() {
             @Override
             public void onLeftClick() {
@@ -214,6 +197,10 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
                 if(isShowMenu()){
                     disMissState();
                 }else{
+                    if (mPageFactory.isHavePreContent()) {
+
+                    }
+                    else
                     mPageFactory.prePage();
                 }
             }
@@ -296,7 +283,6 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
             showChapterRead(null,currentChapter);
         else
             presenter.getChapterDetail(bookBean.getId(),currentChapter);
-
     }
     int chapterNumber = 1;
 

@@ -56,7 +56,6 @@ public class SearchDetailActivity extends BaseActivity<SearchDetailPresenter> im
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         key = intent.getStringExtra("list");
-        Log.e("key",key);
         assert bundle != null;
         presenter.search(key);
         adapter = new SearchDetailAdapter(data,this);
@@ -87,7 +86,6 @@ public class SearchDetailActivity extends BaseActivity<SearchDetailPresenter> im
 
     @Override
     public void onSearch(SearchBookBean searchBookBean) {
-        Log.e("onSearch",searchBookBean.getMsg() + searchBookBean.getCode());
         data = searchBookBean.getResult();
         adapter.notifyDataSetChanged();
     }

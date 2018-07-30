@@ -48,8 +48,6 @@ public class ClassificationFragment extends BaseFragment<ClassificationPresenter
 
     @Override
     public void bindView(View view) {
-
-        Log.e("分类tooken", App.token);
         unbinder = ButterKnife.bind(this, view);
 
         classicRecycle.setLayoutManager(new GridLayoutManager(getContext(),2));

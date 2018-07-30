@@ -74,9 +74,7 @@ public class PageView extends View implements PageViewContract{
         canvas.save();
         if (null!=bit){
             canvas.drawBitmap(bit,0,0,null);
-            Log.e("PageView","onDraw"+"77");
         }
-        Log.e("PageView","onDraw"+"79");
         canvas.restore();
     }
 

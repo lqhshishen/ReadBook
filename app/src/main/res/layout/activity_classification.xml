@@ -54,10 +54,10 @@
     </android.support.design.widget.TabLayout>
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/classify_recycle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:id="@+id/classify_recycle">
+        android:layout_margin="20dp">
     </com.jcodecraeer.xrecyclerview.XRecyclerView>
 
 </LinearLayout>

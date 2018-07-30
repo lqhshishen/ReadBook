@@ -132,6 +132,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         //presenter.getComment(event.getId(),"1");
         assert event != null;
         id=event.getId();
+        Log.e("testimg",event.getIcon());
         bookDetailBookName.setText(event.getBookname());
         bookDetailAuthor.setText(event.getAuthor());
         Glide.with(this)
@@ -190,25 +191,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
                 break;
         }
     }
-/*
-
-        @Subscribe(sticky = true , threadMode = ThreadMode.MAIN)
-        public void onStickyEvent(BookBean event) {
-            Log.e("test","4");
-            presenter.getComment(event.getId(),"1");
-            bookDetailBookName.setText(event.getBookname());
-            bookDetailAuthor.setText(event.getAuthor());
-            Glide.with(this)
-                    .load(event.getIcon())
-                    .into(bookDetailBookImg);
-            bookDetailClassify.setText(event.getClassify());
-            bookDetailBrief.setText(event.getBrief());
-            Log.e("test","5");
-//        Log.e("wordcount",event.getStatus() + event.getWordcount());
-//        Log.e("bookLink",event.getUrl());
-
-    }
-*/
 
     @Override
     protected void onDestroy() {

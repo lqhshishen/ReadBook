@@ -9,7 +9,6 @@ import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.module.ReadPage.bean.Chapter;
 import com.liqihao.readbook.module.ReadPage.bean.ChapterDetailBean;
 import com.liqihao.readbook.module.ReadPage.bean.BookmarkBean;
-import com.liqihao.readbook.module.ReadPage.bean.Book;
 import com.liqihao.readbook.module.ReadPage.contract.PageContract;
 import com.liqihao.readbook.base.BasePresenter;
 
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -32,20 +30,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PagePresenter extends BasePresenter<MainActivity> implements PageContract.Presenter{
 
-//    Book book = new Book("chenxizhijian",
-//            "/storage/emulated/0/Download/晨曦之剑.txt","GB18030");
-//    Book book = new Book("chenxizhijian","/storage/emulated/0/电影/晨曦之剑.txt","GB18030");
-//    Content content;
-
-//    @Override
-//    public Book getBook() {
-//        return book;
-//    }
-
-//    String head;
-//    String body;
-//    String time;
-//    int position;
 
     @Override
     public void saveBookmark(String head,String body,String time,int position) {
@@ -58,10 +42,6 @@ public class PagePresenter extends BasePresenter<MainActivity> implements PageCo
         bookmarkBean.save();
         EventBus.getDefault().post("create success");
 
-//        List<BookmarkBean> book = DataSupport.findAll(BookmarkBean.class);
-//        for(BookmarkBean bookmark : book){
-//            Log.e("测试数据",bookmark.getBookmarkTitle());
-//        }
     }
     @Override
     public List<Integer> getMark(){

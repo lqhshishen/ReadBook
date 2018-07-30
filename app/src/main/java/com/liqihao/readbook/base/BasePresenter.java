@@ -12,7 +12,6 @@ public abstract class BasePresenter<V extends BaseView> {
 
     public void attachView(V view) {
         this.view    = view;
-        Log.e("test",view.toString());
     }
 
     public void detachView() {

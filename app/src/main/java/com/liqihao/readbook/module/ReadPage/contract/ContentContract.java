@@ -17,17 +17,18 @@ public interface ContentContract {
 //        加载章节
         void loadChapters();
 
-//        获取章节数
-        int getChapterNumber(int position,List<Chapter> list);
-
 //        点击目录的时候
         void clickContent();
 
 //        点击书签的时候
         void clickBookmark();
+
+        void onShow(Chapter chapter);
     }
 
     interface presenter {
+        void getChapterList(String id);
+
         List<BookmarkBean> getBookmarkList();
 
         void setBookMark();

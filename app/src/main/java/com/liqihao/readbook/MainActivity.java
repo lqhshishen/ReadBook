@@ -6,34 +6,36 @@ import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.liqihao.readbook.module.Book.bean.BookBean;
-import com.liqihao.readbook.module.Home.ui.ActivityHome;
 import com.liqihao.readbook.module.ReadPage.bean.Chapter;
 import com.liqihao.readbook.module.ReadPage.bean.ChapterDetailBean;
 import com.liqihao.readbook.module.ReadPage.bean.GetPositionEventBean;
-import com.liqihao.readbook.module.Login.ui.RegisterActivity;
 import com.liqihao.readbook.module.ReadPage.View.PageFactory;
 import com.liqihao.readbook.module.ReadPage.View.PageView;
 import com.liqihao.readbook.module.ReadPage.contract.PageContract;
 import com.liqihao.readbook.module.ReadPage.presenter.PagePresenter;
 import com.liqihao.readbook.base.BaseActivity;
+import com.liqihao.readbook.module.ReadPage.ui.Content;
 import com.liqihao.readbook.utils.CacheManager;
+import com.liqihao.readbook.utils.ProtectTooClicks;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,9 +73,13 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
     private DrawerLayout mDrawerLayout;
 
+    private FrameLayout flContent;
+
     int a;
 
     String currentChapter = "";
+
+    int chapterNumber = 0;
 
 
     //是否开始阅读
@@ -113,6 +119,12 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         relativeLayout = findViewById(R.id.Ln_main);
         pageView = findViewById(R.id.pageview);
         mainBack = findViewById(R.id.main_back);
+        flContent = findViewById(R.id.fl_content);
+
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment content = new Content();
+        fm.beginTransaction().replace(R.id.fl_content,content).commit();
+
 
 //        预先读取侧滑数据
 //        mDrawerLayout.openDrawer(GravityCompat.START);
@@ -121,10 +133,12 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
 
     BookBean bookBean;
+    Bundle bundle;
+    Intent intent;
     @Override
     public void initData() {
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
+        intent = getIntent();
+        bundle = intent.getExtras();
         bookBean = (BookBean)bundle.get("name");
         presenter.getChapter(bookBean.getId());
     }
@@ -138,15 +152,15 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
     @Override
     public void checkBookmark() {
-
     }
     List<String>allChapter = new ArrayList<>();
+
     @Override
     public void onGetChapterList(Chapter chapter) {
         for (int i = 0; i < chapter.getResult().size(); i++) {
             allChapter.add(chapter.getResult().get(i).getId());
         }
-        currentChapter = allChapter.get(0);
+        currentChapter = allChapter.get(chapterNumber);
         readCurrentChapter();
     }
 
@@ -198,7 +212,6 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
                     disMissState();
                 }else{
                     if (mPageFactory.isHavePreContent()) {
-
                     }
                     else
                     mPageFactory.prePage();
@@ -217,9 +230,12 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
                 checkBookmark();
                 if(isShowMenu()){
                     disMissState();
-                }else{
-                    mPageFactory.nextPage();
-                }
+                }else if (ProtectTooClicks.isDoubleClick()
+                        && mPageFactory.isFinish()
+                        && chapterNumber + 1 < allChapter.size()){
+                    currentChapter = allChapter.get(chapterNumber++);
+                    readCurrentChapter();
+                }else mPageFactory.nextPage();
             }
         });
         pageView.setOnScrollListener(new PageView.OnScrollListener() {
@@ -238,9 +254,12 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
                 checkBookmark();
                 if(isShowMenu()){
                     disMissState();
-                }else{
-                    mPageFactory.prePage();
-                }
+                }else if (ProtectTooClicks.isDoubleClick()
+                        && mPageFactory.isFinish()
+                        && chapterNumber + 1 < allChapter.size()){
+                    currentChapter = allChapter.get(chapterNumber++);
+                    readCurrentChapter();
+                }else mPageFactory.nextPage();
             }
         });
         mainBack.setOnClickListener(new View.OnClickListener() {
@@ -284,7 +303,6 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         else
             presenter.getChapterDetail(bookBean.getId(),currentChapter);
     }
-    int chapterNumber = 1;
 
     /**
      * @param data 小说内容
@@ -293,21 +311,36 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
      */
     public synchronized void showChapterRead(ChapterDetailBean data,String chapter) {
         if (data != null) {
-            Log.e("ChapterDetailBean",data.getResult());
+            Log.e(TAG,"saveCache");
             CacheManager.getInstance().saveChapterFile(bookBean.getId(),chapter,data);
         }
         if (!startRead) {
+            Log.e(TAG,"firstRead");
             startRead = true;
             currentChapter = chapter;
             mPageFactory = PageFactory.getInstance(pageView,chapter,allChapter
                     ,new int[]{0,0},bookBean.getId());
             mPageFactory.nextPage();
+            chapterNumber++;
+        } else {
+            Log.e(TAG,"secondRead");
+            mPageFactory.openBook(currentChapter,new int[]{0,0});
+            mPageFactory.nextPage();
         }
+    }
+
+    public int getChapterNumber(){
+        return chapterNumber;
+    }
+
+    public String bookId(){
+        return bookBean.getId();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mPageFactory.close();
         EventBus.getDefault().unregister(this);
     }
 }

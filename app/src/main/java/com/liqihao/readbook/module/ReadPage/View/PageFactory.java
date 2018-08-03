@@ -142,11 +142,12 @@ public class PageFactory {
     private int chapterSize;
 
     /**
-     * 读取文件的路径和保存文件的路径不一样，会重新创建一个空文件。
+     *
      * @param chapter 章节ID
      * @param position 读取位置
      */
-    private void openBook(String chapter, int[] position) {
+    public void openBook(String chapter, int[] position) {
+        Log.e("test","testOpenBoos");
 //        this.book = book;
         this.chapterSize = allChapter.size();
         this.currentChapter = chapter;
@@ -404,7 +405,7 @@ public class PageFactory {
 //                    break;
 //                }
 //            }
-//            mCanvas.drawText(head,Util.getPXWithDP(20),Util.getPXWithDP(35),mBatteryPait);
+            mCanvas.drawText(currentChapter,Util.getPXWithDP(20),Util.getPXWithDP(35),mBatteryPait);
         }
         mView.invalidate();
     }
@@ -428,8 +429,14 @@ public class PageFactory {
         return begin <= 0;
     }
 
+    private boolean isFinish = false;
+    public boolean isChapterFinsh(){
+        return isFinish;
+    }
+
     public void nextPage() {
         if (end >= fileLength) {
+
             return;
         }else{
             content.clear();
@@ -493,7 +500,7 @@ public class PageFactory {
         return begin;
     }
 
-    public static void close() {
+    public void close() {
         if(instance != null) {
             try {
                 instance.randomFile.close();

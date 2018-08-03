@@ -9,6 +9,7 @@ import java.util.List;
  */
 
 public class Chapter extends Book {
+
 private String code;
     private String msg;
     private List<Result>result;

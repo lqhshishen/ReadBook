@@ -171,8 +171,6 @@ public class BookReviewActivity extends BaseActivity<BookReviewPresenter> implem
             mData.addAll(commentList.getResult().getData());
             adapter.notifyDataSetChanged();
 //            mData.addAll(commentList.getResult().getData());
-//            Log.e("test",commentList.getResult().getData().get(0).getContent());
-//            Log.e("test",commentList.getResult().getData().get(0).getUser().getUsername());
             bookReviewNumber.setText(commentList.getResult().getTotal() + "条书评");
             bookReviewNoComment.setVisibility(View.GONE);
             bookReviewNumber.setVisibility(View.VISIBLE);

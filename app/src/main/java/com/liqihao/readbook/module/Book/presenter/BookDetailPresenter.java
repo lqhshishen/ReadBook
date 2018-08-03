@@ -36,18 +36,15 @@ public class BookDetailPresenter extends BasePresenter<BookDetailActivity> imple
                 .subscribe(new Observer<CommentList>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        Log.e("onSubscribe","startSubscribe");
                     }
 
                     @Override
                     public void onNext(CommentList commentList) {
                         view.onReceiveComment(commentList);
-                        Log.e("onNext",commentList.toString());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("onError",e.toString());
                     }
 
                     @Override

@@ -31,6 +31,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -52,7 +56,14 @@ public class BookApi {
 
     private JSONObject jsonObject = new JSONObject();
 
+    private Observable ob;
+
     RequestBody body;
+
+    public BookApiService getService() {
+        return service;
+    }
+
     public BookApi(Context context) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.API_BASE_URL)
@@ -88,8 +99,6 @@ public class BookApi {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("timetamp",timestamp);
-
     }
 
     public static BookApi getInstance(Context context) {
@@ -103,7 +112,7 @@ public class BookApi {
                 ,jsonObject1.toString());
     }
 
-    public Observable<TestBean>getMsg(String tel,String auth,String vCode) {
+    public Observable<TestBean> getMsg (String tel,String auth,String vCode) {
         try {
             jsonObject.put("auth",auth);
             jsonObject.put("mobile",tel);
@@ -125,6 +134,10 @@ public class BookApi {
             e.printStackTrace();
         }
         return service.sendCode(handleBody(jsonObject));
+    }
+
+    public Observable CommonOb(BookApiService ob){
+        return ob.addComment(handleBody(jsonObject));
     }
 
 

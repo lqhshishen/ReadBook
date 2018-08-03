@@ -6,14 +6,9 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.nfc.Tag;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -46,7 +41,6 @@ import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -132,7 +126,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
         //presenter.getComment(event.getId(),"1");
         assert event != null;
         id=event.getId();
-        Log.e("testimg",event.getIcon());
         bookDetailBookName.setText(event.getBookname());
         bookDetailAuthor.setText(event.getAuthor());
         Glide.with(this)
@@ -180,7 +173,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
                 sharePopup();
                 break;
             case R.id.bookdetail_comment_more:
-                Intent intent=new Intent(this, BookReviewActivity.class);
+                Intent intent = new Intent(this, BookReviewActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -205,16 +198,10 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
             bookDetailComment.setVisibility(View.GONE);
             textView1.setVisibility(View.VISIBLE);
         } else {
-            Log.e("test","1");
-            //mData.clear();
-            //mData = commentList.getResult().getData();
-            Log.e("onReceiveComment"," "+commentList.getResult().getData().size());
             mData.addAll(commentList.getResult().getData());
             adapter.notifyDataSetChanged();
             textView1.setVisibility(View.GONE);
             bookDetailComment.setVisibility(View.VISIBLE);
-            Log.e("test","3");
-
         }
     }
 

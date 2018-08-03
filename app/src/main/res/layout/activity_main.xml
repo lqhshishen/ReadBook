@@ -123,13 +123,13 @@
 
         </LinearLayout>
     </RelativeLayout>
-    <!--<fragment-->
-        <!--android:clickable="true"-->
-        <!--android:name="com.liqihao.readbook.module.ReadPage.ui.Content"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_gravity="start"-->
-        <!--android:focusable="true">-->
-    <!--</fragment>-->
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="start"
+        android:focusable="true">
+    </FrameLayout>
 </android.support.v4.widget.DrawerLayout>

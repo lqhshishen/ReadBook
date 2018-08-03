@@ -1,24 +1,22 @@
 package com.liqihao.readbook.module.ReadPage.ui;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.app.App;
-import com.liqihao.readbook.module.ReadPage.Adapter.BookmarkAdapter;
 import com.liqihao.readbook.module.ReadPage.Adapter.ChapterAdapter;
 import com.liqihao.readbook.module.ReadPage.View.ContentFactory;
-import com.liqihao.readbook.module.ReadPage.bean.BookmarkBean;
 import com.liqihao.readbook.module.ReadPage.bean.Chapter;
-import com.liqihao.readbook.module.ReadPage.bean.GetPositionEventBean;
 import com.liqihao.readbook.module.ReadPage.contract.ContentContract;
 import com.liqihao.readbook.module.ReadPage.presenter.ContentPresenter;
-import com.liqihao.readbook.module.ReadPage.View.PageFactory;
 import com.liqihao.readbook.R;
-import com.liqihao.readbook.utils.GetContext;
 import com.liqihao.readbook.base.BaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,7 +28,7 @@ import java.util.List;
  * Created by liqihao on 2017/11/15.
  */
 
-public class Content extends BaseFragment<ContentPresenter> implements ContentContract.Content,ContentFactory.LoadCallback {
+public class Content extends BaseFragment<ContentPresenter> implements ContentContract.Content {
 
     ImageView contentImageGrey;
     ImageView contentImageRed;
@@ -41,10 +39,10 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
 
 
     private ChapterAdapter mAdapter;
-    private ContentFactory contentFactory;
+//    private ContentFactory contentFactory;
     private RecyclerView recyclerView;
-    private RecyclerView xrectclerView;
-    private BookmarkAdapter xAdapter;
+//    private RecyclerView xrectclerView;
+//    private BookmarkAdapter xAdapter;
 
     @Override
     public int getLayout() {
@@ -61,19 +59,18 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
         bookMarkImageRed = view.findViewById(R.id.bookmark_red);
         bookMark = view.findViewById(R.id.bookmark);
         recyclerView = view.findViewById(R.id.content_re);
-        xrectclerView = view.findViewById(R.id.bookmark_re);
+//        xrectclerView = view.findViewById(R.id.bookmark_re);
         recyclerView.setLayoutManager(new LinearLayoutManager(App.AppContext));
-        xrectclerView.setLayoutManager(new LinearLayoutManager(App.AppContext));
+//        xrectclerView.setLayoutManager(new LinearLayoutManager(App.AppContext));
     }
 
+    String bookid;
+    int ChapterNumber;
     @Override
     public void initData() {
-//        contentFactory = new ContentFactory();
-        xAdapter = new BookmarkAdapter(App.AppContext,presenter.getBookmarkList(),R.layout.bookmark_item);
         mAdapter = new ChapterAdapter(App.AppContext);
-//        loadChapters();
         recyclerView.setAdapter(mAdapter);
-        xrectclerView.setAdapter(xAdapter);
+        presenter.getChapterList(bookid);
     }
 
     @Override
@@ -91,7 +88,7 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
 
     @Override
     public void onClick() {
-        contentWord.setOnClickListener(new View.OnClickListener() {
+           contentWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickContent();
@@ -115,21 +112,6 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
                 clickBookmark();
             }
         });
-
-//        mAdapter.setOnItemClickListener(new ChapterAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(Chapter chapter) {
-//                EventBus.getDefault().post(new
-//                        GetPositionEventBean(chapter.getChapterBytePosition()));
-//            }
-//        });
-//        xAdapter.setOnItemClickListener(new BookmarkAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(BookmarkBean bookmarkBean) {
-//                EventBus.getDefault().post(new
-//                        GetPositionEventBean(bookmarkBean.getBookmarkbyteposition()));
-//            }
-//        });
     }
 
     @Override
@@ -143,8 +125,8 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
         bookMarkImageRed.setVisibility(View.GONE);
         bookMarkImageGrey.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
-        xrectclerView.setVisibility(View.GONE);
-        presenter.setBookMark();
+//        xrectclerView.setVisibility(View.GONE);
+//        presenter.setBookMark();
     }
 
     @Override
@@ -158,7 +140,13 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
         bookMark.setTextColor
                 (App.AppContext.getResources().getColor(R.color.colorRed));
         recyclerView.setVisibility(View.GONE);
-        xrectclerView.setVisibility(View.VISIBLE);
+//        xrectclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onShow(Chapter chapter) {
+        mAdapter.addData(chapter.getResult());
+        recyclerView.scrollToPosition(ChapterNumber);
     }
 
     @Override
@@ -170,56 +158,14 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
 //        contentFactory.getChapterFromFile(this);
 }
 
-    @Override
-    public int getChapterNumber(int position, List<Chapter> list) {
-        return 0;
-    }
 
     @Override
-    public void onFinishLoad(List<Chapter> List) {
-        int chapterNumber = getChapterNumber(PageFactory.getInstance().getCurrentEnd(),List);
-        mAdapter.setCurrentChapter(chapterNumber);
-        mAdapter.clearData();
-        mAdapter.addData(List);
-        PageFactory.getInstance().setList(List);
-        /*
-        滚到chapterNumber的章节
-         */
-        recyclerView.scrollToPosition(chapterNumber);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        bookid = ((MainActivity)activity).bookId();
+        ChapterNumber = ((MainActivity)activity).getChapterNumber();
     }
 
-    @Override
-    public void onNotFound() {
-        Toast.makeText(App.AppContext, "未发现章节",
-                Toast.LENGTH_SHORT).show();
-    }
-
-//    @Override
-//    public int getChapterNumber(int position,List<Chapter> list) {
-//        position -= 2;
-//        int begin = 0;
-//        int end = list.size()-1;
-//        while (begin <= end) {
-//            int middle = begin + (end - begin)/2;
-//            if(middle == 0 && list.get(middle).getChapterBytePosition() >= position) {
-//                return 0;
-//            }
-//            if(middle == list.size() -1 &&
-//                    list.get(list.size() -1).getChapterBytePosition() <= position) {
-//                return list.size() -1;
-//            }
-//            if(list.get(middle).getChapterBytePosition() <= position  && list.get(middle+1).getChapterBytePosition() > position){
-//                return middle;
-//            }else if (list.get(middle).getChapterBytePosition() > position && list.get(middle-1).getChapterBytePosition() <= position){
-//                return middle -1;
-//            }else if(list.get(middle).getChapterBytePosition() < position && list.get(middle+1).getChapterBytePosition() < position){
-//                begin = middle+1;
-//            }else if(list.get(middle).getChapterBytePosition() > position && list.get(middle-1).getChapterBytePosition() > position){
-//                end = middle-1;
-//            }
-//        }
-//        return 0;
-//    }
 
     @Override
     public void onDestroy() {

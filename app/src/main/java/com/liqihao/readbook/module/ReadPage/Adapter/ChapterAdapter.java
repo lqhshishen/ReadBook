@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.ChapterViewHolder> {
-    private List<Chapter> data = new ArrayList<>();
+    private List<Chapter.Result> data = new ArrayList<>();
 
     private OnItemClickListener mListener;
     private int currentChapter = -1;
@@ -35,7 +35,7 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
 
     @Override
     public void onBindViewHolder(ChapterViewHolder holder, int position) {
-//            holder.text.setText(data.get(position).getChapterName());
+            holder.text.setText(data.get(position).getChapter_name());
             if(currentChapter == position) {
                 holder.text.setTextColor(mContext.getResources().getColor(R.color.colorBlack));
             }else {
@@ -67,7 +67,7 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
-    public void addData(List<Chapter> list) {
+    public void addData(List<Chapter.Result> list) {
         data.addAll(list);
         notifyDataSetChanged();
     }
@@ -78,6 +78,6 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
         currentChapter = number;
     }
     public interface OnItemClickListener {
-        void onItemClick(Chapter chapter);
+        void onItemClick(Chapter.Result chapter);
     }
 }

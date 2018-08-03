@@ -72,31 +72,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void initData() {
         umShareAPI = UMShareAPI.get(this);
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                //.addConverterFactory(GsonConverterFactory.create())
-//                .baseUrl("http://dtds.oss-cn-hangzhou.aliyuncs.com/")
-//                .build();
-//       BookApiService bookApiService = retrofit.create(BookApiService.class);
-//       Call<ResponseBody> call=bookApiService.getIndex();
-//       call.enqueue(new Callback<ResponseBody>() {
-//           @Override
-//           public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//             BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(response.body().byteStream()));
-//               try {
-//                   String result=bufferedReader.readLine();
-//                   Log.e("LoginActivity",result);
-//               } catch (IOException e) {
-//                   e.printStackTrace();
-//               }
-//           }
-//
-//           @Override
-//           public void onFailure(Call<ResponseBody> call, Throwable t) {
-//               Log.e("LoginActivity","onFailure"+t.getMessage());
-//           }
-//       });
-
     }
 
     @Override

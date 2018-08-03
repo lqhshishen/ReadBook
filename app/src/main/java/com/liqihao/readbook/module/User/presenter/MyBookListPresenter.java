@@ -1,12 +1,19 @@
 package com.liqihao.readbook.module.User.presenter;
 
+import com.google.gson.JsonObject;
 import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.api.BookApiService;
 import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.BasePresenter;
+import com.liqihao.readbook.module.ReadPage.bean.Book;
 import com.liqihao.readbook.module.User.bean.MyBookList;
 import com.liqihao.readbook.module.User.contract.MyBookListContract;
 import com.liqihao.readbook.module.User.ui.MyBookListActivity;
 import com.liqihao.readbook.utils.GetContext;
+import com.liqihao.readbook.utils.HandleRequestBody;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;

@@ -32,9 +32,9 @@ public interface PageContract {
 
 //            Book getBook();
 
-            void saveBookmark(String head,String body,String time,int position);
-
-            List<Integer> getMark();
+//            void saveBookmark(String head,String body,String time,int position);
+//
+//            List<Integer> getMark();
 
             void getChapter(String bookId);
 

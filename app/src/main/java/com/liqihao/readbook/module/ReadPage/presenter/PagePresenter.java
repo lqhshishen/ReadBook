@@ -30,31 +30,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PagePresenter extends BasePresenter<MainActivity> implements PageContract.Presenter{
 
-
-    @Override
-    public void saveBookmark(String head,String body,String time,int position) {
-        LitePal.initialize(App.AppContext);
-        BookmarkBean bookmarkBean = new BookmarkBean();
-        bookmarkBean.setBookmarkbyteposition(position);
-        bookmarkBean.setBookmarkText(body);
-        bookmarkBean.setBookmarkTime(time);
-        bookmarkBean.setBookmarkTitle(head);
-        bookmarkBean.save();
-        EventBus.getDefault().post("create success");
-
-    }
-    @Override
-    public List<Integer> getMark(){
-        LitePal.initialize(App.AppContext);
-        List<Integer> aa = new ArrayList<>();
-        List<BookmarkBean> bmb = DataSupport.findAll(BookmarkBean.class);
-        for(int a=  0 ;a < bmb.size(); a++){
-            aa.add(bmb.get(a).getBookmarkbyteposition());
-//            Log.e("所有标签", String.valueOf(bmb.get(a).getBookmarkbyteposition()));
-        }
-        return aa;
-    }
-
     @Override
     public void getChapter(String bookId) {
         BookApi.getInstance(App.AppContext)

@@ -73,17 +73,17 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
     private DrawerLayout mDrawerLayout;
 
-    private FrameLayout flContent;
-
     int a;
 
-    String currentChapter = "";
+    String currentChapter = "";//请求章节的ID?
 
-    int chapterNumber = 0;
+    int chapterNumber = 0;//章节在列表中的序列。
 
 
     //是否开始阅读
     boolean startRead = false;
+
+    boolean nextPage = true;
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -119,7 +119,6 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         relativeLayout = findViewById(R.id.Ln_main);
         pageView = findViewById(R.id.pageview);
         mainBack = findViewById(R.id.main_back);
-        flContent = findViewById(R.id.fl_content);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment content = new Content();
@@ -152,6 +151,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
     @Override
     public void checkBookmark() {
+
     }
     List<String>allChapter = new ArrayList<>();
 
@@ -211,7 +211,14 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
                 if(isShowMenu()){
                     disMissState();
                 }else{
-                    if (mPageFactory.isHavePreContent()) {
+                    if (mPageFactory.isHavePreContent()
+                            && ProtectTooClicks.isDoubleClick()
+                            && chapterNumber - 2 >= 0) {
+                        chapterNumber -= 2;
+                        currentChapter = allChapter.get(chapterNumber);
+                        chapterNumber++;
+                        nextPage = false;
+                        readCurrentChapter();
                     }
                     else
                     mPageFactory.prePage();
@@ -234,6 +241,7 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
                         && mPageFactory.isFinish()
                         && chapterNumber + 1 < allChapter.size()){
                     currentChapter = allChapter.get(chapterNumber++);
+                    nextPage = true;
                     readCurrentChapter();
                 }else mPageFactory.nextPage();
             }
@@ -325,7 +333,8 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
         } else {
             Log.e(TAG,"secondRead");
             mPageFactory.openBook(currentChapter,new int[]{0,0});
-            mPageFactory.nextPage();
+            if (nextPage) mPageFactory.nextPage();
+            else mPageFactory.preChapterLastPage();
         }
     }
 

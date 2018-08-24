@@ -60,7 +60,7 @@ public class PageFactory {
     private MappedByteBuffer mappedFile;//映射到内存中的文件
     private RandomAccessFile randomFile;//关闭random流时使用
 
-    private String encoding;
+    private String encoding;//字节码
     private Context mContext;
 
     private PageView mView;
@@ -96,6 +96,7 @@ public class PageFactory {
         xPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         xPaint.setTextSize(15);
         xPaint.setColor(mContext.getResources().getColor(R.color.colorGrey));
+
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setTextSize(fontSize);
         mPaint.setColor(mContext.getResources().getColor(R.color.dayModeTextColor));
@@ -234,12 +235,6 @@ public class PageFactory {
     }
 
     int number = 0;
-    boolean judge(String str) {
-        boolean x = true;
-        if (!str.contains("<br/>") && !str.contains("br/>") && !str.contains("r/>") && !str.contains("/>") && !str.contains(">"))
-            x = false;
-        return x;
-    }
 
 //    void getNumber(String str) {
 //        if (str.contains("<br/>")) {
@@ -397,14 +392,6 @@ public class PageFactory {
             /*
              /绘制章节头部
              */
-//            for(int i = 0;i < alist.size();i ++) {
-//                if (begin < alist.get(i).getChapterBytePosition() && i > 0){
-//                    head = alist.get(i - 1).getChapterName();
-////                    Log.e("末尾位置", String.valueOf(end));
-////                    Log.e("列表位置", String.valueOf(alist.get(i).getChapterBytePosition()));
-//                    break;
-//                }
-//            }
             mCanvas.drawText(currentChapter,Util.getPXWithDP(20),Util.getPXWithDP(35),mBatteryPait);
         }
         mView.invalidate();
@@ -434,9 +421,23 @@ public class PageFactory {
         return isFinish;
     }
 
+    /**
+     * 读取前一章最后页
+     */
+    public void preChapterLastPage() {
+        while (end < fileLength) {
+            content.clear();
+            pageDown();
+            begin = end;
+        }
+        printPage();
+    }
+
+    /**
+     * 下一页
+     */
     public void nextPage() {
         if (end >= fileLength) {
-
             return;
         }else{
             content.clear();
@@ -446,6 +447,9 @@ public class PageFactory {
         printPage();
     }
 
+    /**
+     * 上一页
+     */
     public void prePage() {
         if(begin <= 0) {
             return;
@@ -457,10 +461,6 @@ public class PageFactory {
         }
         printPage();
     }
-    /*public void saveBookmark() {
-        SPHelper.getInstance().setBookmarkEnd(book.getName(),begin);
-        SPHelper.getInstance().setBookmarkStart(book.getName(),begin);
-    }*/
     public int getFileLength() {
         return fileLength;
     }

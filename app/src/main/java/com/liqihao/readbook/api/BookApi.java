@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
+import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.BaseModle;
 import com.liqihao.readbook.contents.Constant;
 import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
 import com.liqihao.readbook.module.Book.bean.AddComment;
@@ -30,10 +31,14 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
@@ -44,8 +49,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by liqihao on 2018/1/10.
  */
 
-
 public class BookApi {
+
     public static BookApi instance;
 
     private BookApiService service;
@@ -56,28 +61,27 @@ public class BookApi {
 
     private JSONObject jsonObject = new JSONObject();
 
-    private Observable ob;
-
-    RequestBody body;
+    private Retrofit retrofit;
 
     public BookApiService getService() {
         return service;
     }
 
-    public BookApi(Context context) {
-        Retrofit retrofit = new Retrofit.Builder()
+    @Inject
+    public BookApi(Context context){
+        retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.API_BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         service = retrofit.create(BookApiService.class);
-        mContext = context;
+        mContext = App.AppContext;
         TelephonyManager TelephonyMgr = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-        PackageManager pm = context.getPackageManager();
+        PackageManager pm = App.AppContext.getPackageManager();
         PackageInfo pi = null;
         try {
-            pi = pm.getPackageInfo(context.getPackageName(), 0);
+            pi = pm.getPackageInfo(App.AppContext.getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -99,6 +103,9 @@ public class BookApi {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public BookApi() {
     }
 
     public static BookApi getInstance(Context context) {
@@ -271,7 +278,6 @@ public class BookApi {
         }
         return service.getChapterDetail(handleBody(jsonObject));
     }
-
 
 
 

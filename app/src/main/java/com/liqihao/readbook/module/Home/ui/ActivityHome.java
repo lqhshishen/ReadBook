@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppActivity;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Home.contract.HomeContract;
 import com.liqihao.readbook.module.Home.presenter.HomePresenter;
@@ -29,8 +30,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.android.support.DaggerFragment;
 
-public class ActivityHome extends BaseActivity<HomePresenter> implements HomeContract.View {
+
+public class ActivityHome extends AppActivity<HomePresenter> implements HomeContract.View {
 
     @BindView(R.id.home_navView)
     ImageView homeNavView;
@@ -53,7 +56,7 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
 
     private List<String> title;
 
-    private List<Fragment> fragments;
+    private List<DaggerFragment> fragments;
 
     int previousIndex;
 
@@ -75,7 +78,7 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
         title.add("排行");
         title.add("社区");
         fragments.clear();
-        fragments.add(new BookCityFragment());
+        fragments.add(BookCityFragment.newInstance());
         fragments.add(new ClassificationFragment());
         fragments.add(new RankFragment());
         fragments.add(new CommunityFragment());
@@ -111,9 +114,7 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void setPresenter(HomePresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new HomePresenter();
-        }
+
     }
 
     @OnClick({R.id.home_navView, R.id.home_bookCity, R.id.home_classification, R.id.home_rank, R.id.community, R.id.home_navSearch})
@@ -170,8 +171,8 @@ public class ActivityHome extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void showFragment(int showIndex, int hideIndex) {
-        Fragment showFragment = fragments.get(showIndex);
-        Fragment hideFragment = fragments.get(hideIndex);
+        DaggerFragment showFragment = fragments.get(showIndex);
+        DaggerFragment hideFragment = fragments.get(hideIndex);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (!showFragment.isAdded()) {
             ft.add(R.id.home_frame,showFragment);

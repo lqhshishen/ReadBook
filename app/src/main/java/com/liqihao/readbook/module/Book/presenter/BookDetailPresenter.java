@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppPresenter;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
 import com.liqihao.readbook.module.Book.bean.CommentList;
@@ -13,6 +14,8 @@ import com.liqihao.readbook.module.User.bean.MyBookList;
 import com.liqihao.readbook.module.User.presenter.MyBookListPresenter;
 import com.liqihao.readbook.utils.GetContext;
 
+
+import javax.inject.Inject;
 
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
@@ -25,17 +28,23 @@ import retrofit2.http.GET;
  * Created by liqihao on 2017/12/28.
  */
 
-public class BookDetailPresenter extends BasePresenter<BookDetailActivity> implements BookDetailContract.Presenter{
+public class BookDetailPresenter extends AppPresenter<BookDetailActivity> implements BookDetailContract.Presenter{
+
+    @Inject
+    public BookDetailPresenter(BookDetailActivity bookDetailActivity,BookApi bookApi) {
+        view = bookDetailActivity;
+        api = bookApi;
+    }
 
     @Override
     public void getComment(String id, String page) {
-        BookApi.getInstance(App.AppContext)
-                .ShowCommentList(id,page)
+        api.ShowCommentList(id,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<CommentList>() {
                     @Override
                     public void onSubscribe(Disposable d) {
+                        addSubscription(d);
                     }
 
                     @Override
@@ -56,8 +65,7 @@ public class BookDetailPresenter extends BasePresenter<BookDetailActivity> imple
 
     @Override
     public void AddBookshelf(String id, String auth) {
-        BookApi.getInstance(App.AppContext)
-                .addToBookshelf(id,auth)
+        api.addToBookshelf(id,auth)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AddBookshelfBean>() {
@@ -85,8 +93,7 @@ public class BookDetailPresenter extends BasePresenter<BookDetailActivity> imple
 
     @Override
     public void getMyBookList(String auth, String page) {
-        BookApi.getInstance(App.AppContext)
-                .getMyBookList(auth, page)
+        api.getMyBookList(auth, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MyBookList>() {

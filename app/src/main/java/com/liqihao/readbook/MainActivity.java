@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.liqihao.readbook.base.AppActivity;
 import com.liqihao.readbook.module.Book.bean.BookBean;
 import com.liqihao.readbook.module.ReadPage.bean.Chapter;
 import com.liqihao.readbook.module.ReadPage.bean.ChapterDetailBean;
@@ -42,7 +43,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity<PagePresenter> implements PageContract.MainView{
+public class MainActivity extends AppActivity<PagePresenter> implements PageContract.MainView{
 
     @BindView(R.id.bottom_view)
     View bottomView;
@@ -102,7 +103,6 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //            //this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);}
         }
-
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         mDrawerLayout = findViewById(R.id.side_content);
@@ -144,10 +144,9 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
 
     @Override
     public void setPresenter(PagePresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new PagePresenter();
-        }
+
     }
+
 
     @Override
     public void checkBookmark() {
@@ -318,12 +317,9 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
      * 章节列表allChapter.get[0]可能为空
      */
     public synchronized void showChapterRead(ChapterDetailBean data,String chapter) {
-        if (data != null) {
-            Log.e(TAG,"saveCache");
+        if (data != null)
             CacheManager.getInstance().saveChapterFile(bookBean.getId(),chapter,data);
-        }
         if (!startRead) {
-            Log.e(TAG,"firstRead");
             startRead = true;
             currentChapter = chapter;
             mPageFactory = PageFactory.getInstance(pageView,chapter,allChapter
@@ -331,7 +327,6 @@ public class MainActivity extends BaseActivity<PagePresenter> implements PageCon
             mPageFactory.nextPage();
             chapterNumber++;
         } else {
-            Log.e(TAG,"secondRead");
             mPageFactory.openBook(currentChapter,new int[]{0,0});
             if (nextPage) mPageFactory.nextPage();
             else mPageFactory.preChapterLastPage();

@@ -20,6 +20,7 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppActivity;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Book.adapter.BookReviewAdapter;
 import com.liqihao.readbook.module.Book.bean.AddComment;
@@ -44,7 +45,7 @@ import butterknife.OnClick;
  * Created by liqihao on 2017/12/28.
  */
 
-public class BookReviewActivity extends BaseActivity<BookReviewPresenter> implements BookReviewContract.view {
+public class BookReviewActivity extends AppActivity<BookReviewPresenter> implements BookReviewContract.view {
 
     @BindView(R.id.back_btn)
     ImageView backBtn;
@@ -72,11 +73,10 @@ public class BookReviewActivity extends BaseActivity<BookReviewPresenter> implem
     String bookId;
 
     List<CommentList.Result.Data> mData;
+
     @Override
     public void setPresenter(BookReviewPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new BookReviewPresenter();
-        }
+
     }
 
     BookBean event;

@@ -1,19 +1,30 @@
 package com.liqihao.readbook.module.Home.presenter;
 
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.api.BookApi;
+import com.liqihao.readbook.base.AppPresenter;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Home.bean.CommunityBean;
 import com.liqihao.readbook.module.Home.contract.CommunityContract;
 import com.liqihao.readbook.module.Home.ui.CommunityFragment;
+import com.liqihao.readbook.module.ReadPage.bean.Book;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by liqihao on 2017/12/27.
  */
 
-public class CommunityPresenter extends BasePresenter<CommunityFragment> implements CommunityContract.Presenter{
+public class CommunityPresenter extends AppPresenter<CommunityFragment> implements CommunityContract.Presenter{
+
+    @Inject
+    public CommunityPresenter(CommunityFragment fragment, BookApi bookApi) {
+        view = fragment;
+        api = bookApi;
+    }
 
     public List<CommunityBean>data;
     @Override

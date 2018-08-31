@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppFragment;
 import com.liqihao.readbook.base.BaseFragment;
 import com.liqihao.readbook.module.Home.adapter.ClassificationAdapter;
 import com.liqihao.readbook.module.Home.bean.ClassificationBean;
@@ -28,7 +29,7 @@ import butterknife.Unbinder;
  * Created by liqihao on 2017/12/27.
  */
 
-public class ClassificationFragment extends BaseFragment<ClassificationPresenter> implements ClassificationContract.View {
+public class ClassificationFragment extends AppFragment<ClassificationPresenter> implements ClassificationContract.View {
 
     @BindView(R.id.classic_recycle)
     RecyclerView classicRecycle;
@@ -36,9 +37,7 @@ public class ClassificationFragment extends BaseFragment<ClassificationPresenter
 
     @Override
     public void setPresenter(ClassificationPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new ClassificationPresenter();
-        }
+
     }
 
     @Override
@@ -49,7 +48,6 @@ public class ClassificationFragment extends BaseFragment<ClassificationPresenter
     @Override
     public void bindView(View view) {
         unbinder = ButterKnife.bind(this, view);
-
         classicRecycle.setLayoutManager(new GridLayoutManager(getContext(),2));
     }
 

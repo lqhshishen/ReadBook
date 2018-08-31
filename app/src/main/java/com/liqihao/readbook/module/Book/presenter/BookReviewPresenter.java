@@ -4,12 +4,15 @@ import android.util.Log;
 
 import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppPresenter;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Book.bean.AddComment;
 import com.liqihao.readbook.module.Book.bean.CommentList;
 import com.liqihao.readbook.module.Book.contract.BookReviewContract;
 import com.liqihao.readbook.module.Book.ui.BookReviewActivity;
 import com.liqihao.readbook.utils.GetContext;
+
+import javax.inject.Inject;
 
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
@@ -22,13 +25,19 @@ import retrofit2.http.GET;
  * Created by liqihao on 2017/12/28.
  */
 
-public class BookReviewPresenter extends BasePresenter<BookReviewActivity> implements BookReviewContract.presenter {
+public class BookReviewPresenter extends AppPresenter<BookReviewActivity> implements BookReviewContract.presenter {
     private String mPage;
+
+    @Inject
+    public BookReviewPresenter(BookReviewActivity activity,BookApi api) {
+        view = activity;
+        this.api = api;
+    }
+
     @Override
     public void getComment(String id, String page) {
         mPage = page;
-        BookApi.getInstance(App.AppContext)
-                .ShowCommentList(id,page)
+        api.ShowCommentList(id,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<CommentList>() {
@@ -60,8 +69,7 @@ public class BookReviewPresenter extends BasePresenter<BookReviewActivity> imple
 
     @Override
     public void postComment(String auth, String content, String id, String grade) {
-        BookApi.getInstance(App.AppContext)
-                .addComment(auth,content,id,grade)
+        api.addComment(auth,content,id,grade)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AddComment>() {

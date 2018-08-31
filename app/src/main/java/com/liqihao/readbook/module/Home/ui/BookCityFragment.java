@@ -2,11 +2,14 @@ package com.liqihao.readbook.module.Home.ui;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppFragment;
 import com.liqihao.readbook.base.BaseFragment;
 import com.liqihao.readbook.module.Home.adapter.BookCityAdapter;
 import com.liqihao.readbook.module.Home.contract.BookCityContract;
@@ -16,11 +19,19 @@ import com.oragee.banners.BannerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.greenrobot.eventbus.EventBus.TAG;
+
 /**
  * Created by liqihao on 2017/12/27.
  */
 
-public class BookCityFragment extends BaseFragment<BookCityPresenter> implements BookCityContract.View {
+public class BookCityFragment extends AppFragment<BookCityPresenter> implements BookCityContract.View {
+
+
+    public static BookCityFragment newInstance(){
+        return new BookCityFragment();
+    }
+
     BannerView bannerView;
 
     private ImageView imageView;
@@ -30,11 +41,10 @@ public class BookCityFragment extends BaseFragment<BookCityPresenter> implements
     private RecyclerView recyclerView;
 
     BookCityAdapter bookCityAdapter;
+
     @Override
     public void setPresenter(BookCityPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new BookCityPresenter();
-        }
+
     }
 
     @Override
@@ -46,30 +56,30 @@ public class BookCityFragment extends BaseFragment<BookCityPresenter> implements
     public void bindView(View view) {
         bannerView = view.findViewById(R.id.bookCity_banner);
         recyclerView = view.findViewById(R.id.bookCity_recycle);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
     public void initData() {
-        imageView = new ImageView(getContext());
+        imageView = new ImageView(getActivity());
         imageList = new ArrayList<>();
 
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(getContext())
+        Glide.with(getActivity())
                 .load(R.mipmap.cat)
                 .into(imageView);
         imageList.add(imageView);
 
-        imageView = new ImageView(getContext());
+        imageView = new ImageView(getActivity());
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(getContext())
+        Glide.with(getActivity())
                 .load(R.mipmap.site)
                 .into(imageView);
         imageList.add(imageView);
 
-        imageView = new ImageView(getContext());
+        imageView = new ImageView(getActivity());
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(getContext())
+        Glide.with(getActivity())
                 .load(R.mipmap.mainpic)
                 .into(imageView);
         imageList.add(imageView);
@@ -78,8 +88,14 @@ public class BookCityFragment extends BaseFragment<BookCityPresenter> implements
         bannerView.startLoop(true);
 
         presenter.getBean();
-        bookCityAdapter = new BookCityAdapter(getContext(),presenter.bookCityBeanList);
+        bookCityAdapter = new BookCityAdapter(getActivity(),presenter.bookCityBeanList);
         recyclerView.setAdapter(bookCityAdapter);
+
+        presenter.getBanner();
+    }
+
+    public void onVoid(String msg){
+        Log.e(TAG,msg);
     }
 
     @Override

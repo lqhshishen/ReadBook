@@ -10,6 +10,8 @@ import com.liqihao.readbook.module.Book.presenter.ShareBookPresenter;
  */
 
 public class ShareBookActivity extends BaseActivity<ShareBookPresenter> implements ShareBookContract.view {
+
+
     @Override
     public void setPresenter(ShareBookPresenter presenter) {
         if (this.presenter == null) {

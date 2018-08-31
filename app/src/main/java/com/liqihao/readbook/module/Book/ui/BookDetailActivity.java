@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -23,7 +24,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppActivity;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Book.adapter.BookDetailAdapter;
 import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
@@ -42,6 +45,8 @@ import com.umeng.socialize.media.UMWeb;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -50,7 +55,9 @@ import butterknife.OnClick;
  * Created by liqihao on 2017/12/28.
  */
 
-public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implements BookDetailContract.View {
+public class BookDetailActivity extends AppActivity<BookDetailPresenter> implements BookDetailContract.View {
+
+
     @BindView(R.id.bookDetail_read)
     ImageView bookDetailRead;
     @BindView(R.id.back_btn)
@@ -97,15 +104,11 @@ public class BookDetailActivity extends BaseActivity<BookDetailPresenter> implem
     List<CommentList.Result.Data>mData;
     @Override
     public void setPresenter(BookDetailPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new BookDetailPresenter();
-        }
     }
 
     @Override
     public void bindView() {
         ButterKnife.bind(this);
-        //EventBus.getDefault().register(this);
         textView.setText(null);
         textView1.setVisibility(View.GONE);
         bookDetailComment.setVisibility(View.VISIBLE);

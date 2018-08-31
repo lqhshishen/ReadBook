@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.base.AppActivity;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Book.adapter.WholeContentAdapter;
 import com.liqihao.readbook.module.Book.bean.BookBean;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by liqihao on 2017/12/28.
  */
 
-public class WholeContentActivity extends BaseActivity<WholeContentPresenter> implements WholeContentContract.view {
+public class WholeContentActivity extends AppActivity<WholeContentPresenter> implements WholeContentContract.view {
 
 
     @BindView(R.id.back_btn)
@@ -44,9 +45,6 @@ public class WholeContentActivity extends BaseActivity<WholeContentPresenter> im
 
     @Override
     public void setPresenter(WholeContentPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new WholeContentPresenter();
-        }
     }
 
     @Override

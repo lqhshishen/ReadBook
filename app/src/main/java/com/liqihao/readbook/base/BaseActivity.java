@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.liqihao.readbook.api.ApiService;
 import com.liqihao.readbook.utils.LogUtils;
 
 /**

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -27,23 +26,25 @@ import butterknife.OnClick;
 
 public class SearchDetailActivity extends BaseActivity<SearchDetailPresenter> implements SearchDetailContract.view {
 
+
     @BindView(R.id.back_btn)
-    ImageView backBtn;
+    ImageView mBackBtn;
     @BindView(R.id.textView)
-    TextView textView;
+    TextView mTextView;
     @BindView(R.id.searchDetail_recycle)
-    RecyclerView searchDetailRecycle;
+    RecyclerView mSearchDetailRecycle;
     @BindView(R.id.searchDetail_progress)
-    ProgressBar searchDetailProgress;
+    ProgressBar mSearchDetailProgress;
     @BindView(R.id.searchDetail_noData)
-    TextView searchDetailNoData;
+    TextView mSearchDetailNoData;
 
     @Override
     public void bindView() {
-        searchDetailRecycle.setVisibility(View.GONE);
         ButterKnife.bind(this);
-        searchDetailRecycle.setLayoutManager(new LinearLayoutManager(this));
-        textView.setText("搜索结果");
+        mSearchDetailRecycle.setVisibility(View.GONE);
+        ButterKnife.bind(this);
+        mSearchDetailRecycle.setLayoutManager(new LinearLayoutManager(this));
+        mTextView.setText("搜索结果");
     }
 
     List<BookBean> data = new ArrayList<>();
@@ -58,8 +59,8 @@ public class SearchDetailActivity extends BaseActivity<SearchDetailPresenter> im
         key = intent.getStringExtra("list");
         assert bundle != null;
         presenter.search(key);
-        adapter = new SearchDetailAdapter(data,this);
-        searchDetailRecycle.setAdapter(adapter);
+        adapter = new SearchDetailAdapter(data, this);
+        mSearchDetailRecycle.setAdapter(adapter);
     }
 
     @Override
@@ -92,10 +93,11 @@ public class SearchDetailActivity extends BaseActivity<SearchDetailPresenter> im
 
     @Override
     public void finishSearch() {
-        searchDetailProgress.setVisibility(View.GONE);
-        if (data == null || data.size()==0) {
-            searchDetailNoData.setVisibility(View.VISIBLE);
+        mSearchDetailProgress.setVisibility(View.GONE);
+        if (data == null || data.size() == 0) {
+            mSearchDetailProgress.setVisibility(View.VISIBLE);
         } else
-            searchDetailRecycle.setVisibility(View.VISIBLE);
+            mSearchDetailProgress.setVisibility(View.VISIBLE);
     }
+
 }

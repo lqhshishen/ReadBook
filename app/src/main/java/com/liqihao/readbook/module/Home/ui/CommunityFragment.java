@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.base.AppFragment;
 import com.liqihao.readbook.base.BaseFragment;
 import com.liqihao.readbook.module.Home.adapter.CommunityAdapter;
 import com.liqihao.readbook.module.Home.contract.CommunityContract;
@@ -21,16 +22,13 @@ import butterknife.Unbinder;
  * Created by liqihao on 2017/12/27.
  */
 
-public class CommunityFragment extends BaseFragment<CommunityPresenter> implements CommunityContract.View {
+public class CommunityFragment extends AppFragment<CommunityPresenter> implements CommunityContract.View {
     @BindView(R.id.community_recycle)
     RecyclerView communityRecycle;
     Unbinder unbinder;
 
     @Override
     public void setPresenter(CommunityPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new CommunityPresenter();
-        }
     }
 
     @Override

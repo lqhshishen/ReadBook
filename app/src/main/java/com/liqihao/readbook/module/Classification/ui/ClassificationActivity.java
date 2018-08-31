@@ -14,6 +14,8 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppActivity;
+import com.liqihao.readbook.base.AppPresenter;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Book.bean.BookBean;
 import com.liqihao.readbook.module.Classification.adapter.ClassicItemAdapter;
@@ -26,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ClassificationActivity extends BaseActivity<ClassicPresenter> implements ClassicContract.view {
+public class ClassificationActivity extends AppActivity<ClassicPresenter> implements ClassicContract.view {
 
 
     @BindView(R.id.textView)
@@ -148,9 +150,6 @@ public class ClassificationActivity extends BaseActivity<ClassicPresenter> imple
 
     @Override
     public void setPresenter(ClassicPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new ClassicPresenter();
-        }
     }
 
     @OnClick({R.id.back_btn})

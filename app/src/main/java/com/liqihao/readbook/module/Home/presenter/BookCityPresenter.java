@@ -1,6 +1,9 @@
 package com.liqihao.readbook.module.Home.presenter;
 
+import android.util.Log;
+
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.base.AppPresenter;
 import com.liqihao.readbook.base.BaseFragment;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Home.bean.BookCityBean;
@@ -10,19 +13,27 @@ import com.liqihao.readbook.module.Home.ui.BookCityFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by liqihao on 2017/12/27.
  */
 
-public class BookCityPresenter extends BasePresenter<BookCityFragment> implements BookCityContract.Presenter {
+public class BookCityPresenter extends AppPresenter<BookCityFragment> implements BookCityContract.Presenter {
 
     public List<BookCityBean> bookCityBeanList;
 
     public List<BookCityBean.BookCityBookBean> bookCityBookBeans;
 
+    @Inject
+    public BookCityPresenter(BookCityFragment bookCityFragment) {
+        view = bookCityFragment;
+    }
+
     @Override
     public void getBanner() {
-
+        Log.e(TAG,"test");
+        view.onVoid("测试");
     }
 
     @Override

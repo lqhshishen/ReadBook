@@ -8,6 +8,7 @@ import com.liqihao.readbook.module.Home.presenter.BookCityPresenter;
  */
 
 public interface BookCityContract{
+
     interface View extends BaseView<BookCityPresenter> {
 
     }

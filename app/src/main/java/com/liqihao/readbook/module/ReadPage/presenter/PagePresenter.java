@@ -2,22 +2,17 @@ package com.liqihao.readbook.module.ReadPage.presenter;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppPresenter;
 import com.liqihao.readbook.module.ReadPage.bean.Chapter;
 import com.liqihao.readbook.module.ReadPage.bean.ChapterDetailBean;
-import com.liqihao.readbook.module.ReadPage.bean.BookmarkBean;
 import com.liqihao.readbook.module.ReadPage.contract.PageContract;
-import com.liqihao.readbook.base.BasePresenter;
 
-import org.greenrobot.eventbus.EventBus;
-import org.litepal.LitePal;
-import org.litepal.crud.DataSupport;
-
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,18 +23,24 @@ import io.reactivex.schedulers.Schedulers;
  * Created by liqihao on 2017/11/23.
  */
 
-public class PagePresenter extends BasePresenter<MainActivity> implements PageContract.Presenter{
+public class PagePresenter extends AppPresenter<MainActivity> implements PageContract.Presenter{
+
+
+    @Inject
+    public PagePresenter(MainActivity activity,BookApi bookApi) {
+        api = bookApi;
+        view = activity;
+    }
 
     @Override
     public void getChapter(String bookId) {
-        BookApi.getInstance(App.AppContext)
-                .getChapterList(bookId)
+        api.getChapterList(bookId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Chapter>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        addSubscription(d);
                     }
 
                     @Override
@@ -49,7 +50,7 @@ public class PagePresenter extends BasePresenter<MainActivity> implements PageCo
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e(TAG,e.toString());
                     }
 
                     @Override
@@ -61,8 +62,7 @@ public class PagePresenter extends BasePresenter<MainActivity> implements PageCo
 
     @Override
     public void getChapterDetail(String bookId, final String chapterId) {
-        BookApi.getInstance(App.AppContext)
-                .getChapterDetail(bookId,chapterId)
+        api.getChapterDetail(bookId,chapterId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ChapterDetailBean>() {

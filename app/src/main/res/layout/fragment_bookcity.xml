@@ -5,18 +5,4 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_marginTop="24dp">
-    <com.oragee.banners.BannerView
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:background="@drawable/banner"
-        android:id="@+id/bookCity_banner">
-    </com.oragee.banners.BannerView>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/bookCity_recycle"
-        android:layout_marginTop="10dp">
-    </android.support.v7.widget.RecyclerView>
-
 </LinearLayout>

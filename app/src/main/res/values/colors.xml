@@ -22,4 +22,6 @@
     <color name="communityName">#565966</color>
     <color name="communitySmall">#B7BBCC</color>
     <color name="edtBackground">#F1F1F1</color>
+    <color name="gray">#999999</color>
+    <color name="bgcolor">#F9F9F9</color>
 </resources>

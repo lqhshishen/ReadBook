@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.api.BookApiService;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppPresenter;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.ReadPage.bean.Book;
 import com.liqihao.readbook.module.User.bean.MyBookList;
@@ -15,6 +16,8 @@ import com.liqihao.readbook.utils.HandleRequestBody;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,7 +28,14 @@ import io.reactivex.schedulers.Schedulers;
  * Created by liqihao on 2017/12/28.
  */
 
-public class MyBookListPresenter extends BasePresenter<MyBookListActivity> implements MyBookListContract.Presenter {
+public class MyBookListPresenter extends AppPresenter<MyBookListActivity> implements MyBookListContract.Presenter {
+
+    @Inject
+    public MyBookListPresenter(MyBookListActivity activity,BookApi api) {
+        view = activity;
+        this.api = api;
+    }
+
     @Override
     public void getBookList(String auth, String page) {
         BookApi.getInstance(App.AppContext)

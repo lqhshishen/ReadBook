@@ -11,5 +11,4 @@ public interface BaseView<P> {
 
     void initData();
 
-    void setPresenter(P presenter);
 }

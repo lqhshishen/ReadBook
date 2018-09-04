@@ -4,8 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <!--<item name="android:windowFullscreen">true</item>-->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/bookBackground</item>
+        <item name="colorPrimaryDark">@color/bookBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="AppDayTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -24,6 +24,7 @@
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:textColor">@color/homeTextNotChecked</item>
     </style>
+
     <style name="anim_pop_top">
         <item name="android:windowEnterAnimation">@anim/pop_in</item>
         <item name="android:windowExitAnimation">@anim/pop_away</item>
@@ -57,6 +58,19 @@
         <!-- 指定显示的动画xml  -->
         <item name="android:windowExitAnimation">@anim/popshow_anim_exit</item>
         <!-- 指定消失的动画xml  -->
+    </style>
+
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+
+    <style name="CustomProgressDialog" parent="@style/CustomDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
 </resources>

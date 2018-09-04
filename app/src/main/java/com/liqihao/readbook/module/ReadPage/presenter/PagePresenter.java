@@ -41,6 +41,7 @@ public class PagePresenter extends AppPresenter<MainActivity> implements PageCon
                     @Override
                     public void onSubscribe(Disposable d) {
                         addSubscription(d);
+                        view.showWaitDialog("正在加载");
                     }
 
                     @Override
@@ -55,7 +56,8 @@ public class PagePresenter extends AppPresenter<MainActivity> implements PageCon
 
                     @Override
                     public void onComplete() {
-
+                        view.hideWaitDialog();
+                        view.disMissState();
                     }
                 });
     }
@@ -68,7 +70,7 @@ public class PagePresenter extends AppPresenter<MainActivity> implements PageCon
                 .subscribe(new Observer<ChapterDetailBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        view.showWaitDialog("正在加载");
                     }
 
                     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -88,7 +90,8 @@ public class PagePresenter extends AppPresenter<MainActivity> implements PageCon
 
                     @Override
                     public void onComplete() {
-
+                        view.hideWaitDialog();
+                        view.disMissState();
                     }
                 });
     }

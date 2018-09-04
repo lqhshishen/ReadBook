@@ -27,11 +27,6 @@ import static org.greenrobot.eventbus.EventBus.TAG;
 
 public class BookCityFragment extends AppFragment<BookCityPresenter> implements BookCityContract.View {
 
-
-    public static BookCityFragment newInstance(){
-        return new BookCityFragment();
-    }
-
     BannerView bannerView;
 
     private ImageView imageView;
@@ -42,10 +37,7 @@ public class BookCityFragment extends AppFragment<BookCityPresenter> implements 
 
     BookCityAdapter bookCityAdapter;
 
-    @Override
-    public void setPresenter(BookCityPresenter presenter) {
 
-    }
 
     @Override
     public int getLayout() {
@@ -54,44 +46,11 @@ public class BookCityFragment extends AppFragment<BookCityPresenter> implements 
 
     @Override
     public void bindView(View view) {
-        bannerView = view.findViewById(R.id.bookCity_banner);
-        recyclerView = view.findViewById(R.id.bookCity_recycle);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
     public void initData() {
-        imageView = new ImageView(getActivity());
-        imageList = new ArrayList<>();
 
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(getActivity())
-                .load(R.mipmap.cat)
-                .into(imageView);
-        imageList.add(imageView);
-
-        imageView = new ImageView(getActivity());
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(getActivity())
-                .load(R.mipmap.site)
-                .into(imageView);
-        imageList.add(imageView);
-
-        imageView = new ImageView(getActivity());
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(getActivity())
-                .load(R.mipmap.mainpic)
-                .into(imageView);
-        imageList.add(imageView);
-
-        bannerView.setViewList(imageList);
-        bannerView.startLoop(true);
-
-        presenter.getBean();
-        bookCityAdapter = new BookCityAdapter(getActivity(),presenter.bookCityBeanList);
-        recyclerView.setAdapter(bookCityAdapter);
-
-        presenter.getBanner();
     }
 
     public void onVoid(String msg){
@@ -100,11 +59,5 @@ public class BookCityFragment extends AppFragment<BookCityPresenter> implements 
 
     @Override
     public void onClick() {
-        bookCityAdapter.setOnItemClickListener(new BookCityAdapter.MyItemClickListener() {
-            @Override
-            public void setOnItemClickListener(View itemView, View view, int postion) {
-
-            }
-        });
     }
 }

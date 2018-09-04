@@ -25,7 +25,6 @@ public abstract class BaseActivity<P extends BasePresenter>extends AppCompatActi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
-        setPresenter(presenter);
         if (presenter != null) {
             this.presenter.attachView(this);
         } else {

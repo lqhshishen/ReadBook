@@ -1,6 +1,7 @@
 package com.liqihao.readbook.module.Setting.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -8,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.liqihao.readbook.R;
-import com.liqihao.readbook.base.BaseActivity;
+import com.liqihao.readbook.base.AppActivity;
 import com.liqihao.readbook.module.Setting.contract.SettingContract;
 import com.liqihao.readbook.module.Setting.presenter.SettingPresenter;
 
@@ -20,13 +21,8 @@ import butterknife.OnClick;
  * Created by liqihao on 2017/12/28.
  */
 
-public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingContract.view {
+public class SettingActivity extends AppActivity<SettingPresenter> implements SettingContract.view {
 
-
-    @BindView(R.id.back_btn)
-    ImageView backBtn;
-    @BindView(R.id.textView)
-    TextView textView;
     @BindView(R.id.activity_setting_kaiqi)
     TextView activitySettingKaiqi;
     @BindView(R.id.setting_message_push)
@@ -39,18 +35,16 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     LinearLayout settingFeedback;
     @BindView(R.id.setting_signOut)
     Button settingSignOut;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.myFrontTextView3)
+    TextView mMyFrontTextView3;
 
-    @Override
-    public void setPresenter(SettingPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new SettingPresenter();
-        }
-    }
 
     @Override
     public void bindView() {
         ButterKnife.bind(this);
-        textView.setText(R.string.setting);
+        initToolBar(mToolbar,true,"设置");
     }
 
     @Override
@@ -68,12 +62,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         return R.layout.activity_setting;
     }
 
-    @OnClick({R.id.back_btn, R.id.setting_message_push, R.id.setting_bindTel, R.id.setting_clear_cache, R.id.setting_feedback, R.id.setting_signOut})
+    @OnClick({ R.id.setting_message_push, R.id.setting_bindTel, R.id.setting_clear_cache, R.id.setting_feedback, R.id.setting_signOut})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.back_btn:
-                finish();
-                break;
             case R.id.setting_message_push:
                 break;
             case R.id.setting_bindTel:
@@ -86,4 +77,5 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 break;
         }
     }
+
 }

@@ -9,7 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -24,10 +24,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.R;
-import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.app.App;
 import com.liqihao.readbook.base.AppActivity;
-import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Book.adapter.BookDetailAdapter;
 import com.liqihao.readbook.module.Book.bean.AddBookshelfBean;
 import com.liqihao.readbook.module.Book.bean.BookBean;
@@ -45,8 +43,6 @@ import com.umeng.socialize.media.UMWeb;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -60,10 +56,6 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
 
     @BindView(R.id.bookDetail_read)
     ImageView bookDetailRead;
-    @BindView(R.id.back_btn)
-    ImageView backBtn;
-    @BindView(R.id.textView)
-    TextView textView;
     @BindView(R.id.bookDetail_bookImg)
     ImageView bookDetailBookImg;
     @BindView(R.id.bookDetail_bookName)
@@ -84,7 +76,7 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
     TextView bookDetailNumber;
     @BindView(R.id.bookDetail_classify)
     TextView bookDetailClassify;
-//    @BindView(R.id.bookDetail_addToBookshelf)
+    //    @BindView(R.id.bookDetail_addToBookshelf)
 //    ImageView bookDetailAddToBookshelf;
     @BindView(R.id.bookDetail_share)
     ImageView bookDetailShare;
@@ -101,25 +93,27 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
     @BindView(R.id.bookDetail_wholeChapter)
     TextView bookDetailWholeChapter;
 
-    List<CommentList.Result.Data>mData;
-    @Override
-    public void setPresenter(BookDetailPresenter presenter) {
-    }
+    List<CommentList.Result.Data> mData;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
 
     @Override
     public void bindView() {
         ButterKnife.bind(this);
-        textView.setText(null);
+        initToolBar(mToolbar,true,"");
         textView1.setVisibility(View.GONE);
         bookDetailComment.setVisibility(View.VISIBLE);
         bookDetailComment.setLayoutManager(new LinearLayoutManager(this));
         mData = new ArrayList<>();
-        adapter = new BookDetailAdapter(mData,this);
+        adapter = new BookDetailAdapter(mData, this);
         bookDetailComment.setAdapter(adapter);
     }
+
     String id;
     BookBean event;
     Bundle bundle;
+
     @Override
     public void initData() {
         Intent intent = getIntent();
@@ -128,7 +122,7 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
         event = (BookBean) bundle.get("name");
         //presenter.getComment(event.getId(),"1");
         assert event != null;
-        id=event.getId();
+        id = event.getId();
         bookDetailBookName.setText(event.getBookname());
         bookDetailAuthor.setText(event.getAuthor());
         Glide.with(this)
@@ -139,8 +133,8 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
         /**
          * page:页数
          */
-        presenter.getComment(event.getId(),"1");
-        presenter.getMyBookList(App.token,"1");
+        presenter.getComment(event.getId(), "1");
+        presenter.getMyBookList(App.token, "1");
        /* CommentList commentList=new Gson().fromJson(Contents.AD,CommentList.class);
         mData.clear();
         mData .addAll(commentList.getResult().getData());*/
@@ -163,12 +157,9 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
         startActivity(goToRead);
     }
 
-    @OnClick({R.id.back_btn,R.id.bookDetail_share,R.id.bookdetail_comment_more,R.id.bookDetail_addToBookshelf,R.id.bookDetail_wholeChapter})
+    @OnClick({ R.id.bookDetail_share, R.id.bookdetail_comment_more, R.id.bookDetail_addToBookshelf, R.id.bookDetail_wholeChapter})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.back_btn:
-                finish();
-                break;
             case R.id.bookDetail_addToBookshelf:
                 presenter.AddBookshelf(id, App.token);
                 break;
@@ -181,7 +172,7 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
                 startActivity(intent);
                 break;
             case R.id.bookDetail_wholeChapter:
-                Intent intent1 = new Intent(this,WholeContentActivity.class);
+                Intent intent1 = new Intent(this, WholeContentActivity.class);
                 intent1.putExtras(bundle);
                 startActivity(intent1);
                 break;
@@ -194,6 +185,7 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
     }
 
     BookDetailAdapter adapter;
+
     @Override
     public void onReceiveComment(CommentList commentList) {
 
@@ -210,12 +202,11 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
 
     @Override
     public void onAddToBookshelf(AddBookshelfBean addBookshelfBean) {
-        if ("0".equals(addBookshelfBean.getCode())){
-            ToastUtils.showShort(this,"加入书架成功");
+        if ("0".equals(addBookshelfBean.getCode())) {
+            ToastUtils.showShort(this, "加入书架成功");
             bookDetailAddToBookshelf.setText("已在书架");
-        }
-        else
-            ToastUtils.showShort(this,"添加失败");
+        } else
+            ToastUtils.showShort(this, "添加失败");
     }
 
 //    List<String>booId = new ArrayList<>();
@@ -223,11 +214,12 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
     @Override
     public void onReceiveBookList(MyBookList myBookList) {
 //        booId.clear();
-        for (int i = 0;i < myBookList.getResult().size();i++) {
+        for (int i = 0; i < myBookList.getResult().size(); i++) {
             if (event.getId().equals(myBookList.getResult().get(i).getNid()))
                 bookDetailAddToBookshelf.setText("已在书架");
         }
     }
+
     LinearLayout QQ;
     LinearLayout kongjian;
     LinearLayout pengyou;
@@ -237,12 +229,12 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
     @Override
     public void sharePopup() {
         View pop;
-        pop = getLayoutInflater().inflate(R.layout.pop_share,null);
+        pop = getLayoutInflater().inflate(R.layout.pop_share, null);
         popupWindow = new PopupWindow(pop, ActionBar.LayoutParams.WRAP_CONTENT
-        ,ActionBar.LayoutParams.WRAP_CONTENT,true);
+                , ActionBar.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(),(Bitmap)null));
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
 //        popupWindow.setAnimationStyle(R.style.anim_pop_top);
         popupWindow.update();
         popupWindow.showAsDropDown(bookDetailShare);
@@ -265,11 +257,12 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
     }
 
     private AlertDialog sharedialog;
+
     public void shareDialog(Activity activity) {
-        Animation animation = AnimationUtils.loadAnimation(activity,R.anim.img_animation);
+        Animation animation = AnimationUtils.loadAnimation(activity, R.anim.img_animation);
         LinearInterpolator lin = new LinearInterpolator();
         animation.setInterpolator(lin);
-        sharedialog = new AlertDialog.Builder(activity,R.style.TransDialogStyle).create();
+        sharedialog = new AlertDialog.Builder(activity, R.style.TransDialogStyle).create();
         if (!activity.isFinishing()) {
             sharedialog.show();
         }
@@ -287,25 +280,25 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
-            ToastUtils.showShort(getApplicationContext(),"分享成功");
+            ToastUtils.showShort(getApplicationContext(), "分享成功");
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
             sharedialog.dismiss();
-            ToastUtils.showShort(getApplicationContext(),"分享失败");
+            ToastUtils.showShort(getApplicationContext(), "分享失败");
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
             sharedialog.dismiss();
-            ToastUtils.showShort(getApplicationContext(),"分项取消");
+            ToastUtils.showShort(getApplicationContext(), "分项取消");
         }
     };
 
     @Override
     public void shareFriend(SHARE_MEDIA share_media) {
-        UMImage thumb = new UMImage(this,event.getIcon());
+        UMImage thumb = new UMImage(this, event.getIcon());
         String url = "www.baidu.com";
         UMWeb web = new UMWeb(url);
         web.setTitle(event.getBookname());
@@ -315,6 +308,13 @@ public class BookDetailActivity extends AppActivity<BookDetailPresenter> impleme
                 .setPlatform(share_media)
                 .setCallback(umShareListener)
                 .withMedia(web).share();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
 

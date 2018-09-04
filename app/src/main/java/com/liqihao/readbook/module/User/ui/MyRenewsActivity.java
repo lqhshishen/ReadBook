@@ -1,6 +1,7 @@
 package com.liqihao.readbook.module.User.ui;
 
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.base.AppActivity;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.User.contract.MyRenewsContract;
 import com.liqihao.readbook.module.User.presenter.MyRenewsPresenter;
@@ -9,14 +10,8 @@ import com.liqihao.readbook.module.User.presenter.MyRenewsPresenter;
  * Created by liqihao on 2017/12/28.
  */
 
-public class MyRenewsActivity extends BaseActivity<MyRenewsPresenter> implements MyRenewsContract.View{
+public class MyRenewsActivity extends AppActivity<MyRenewsPresenter> implements MyRenewsContract.View{
 
-    @Override
-    public void setPresenter(MyRenewsPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new MyRenewsPresenter();
-        }
-    }
 
     @Override
     public void bindView() {

@@ -74,11 +74,13 @@ public class PageFactory {
 
     private Paint xPaint;
 
-    private List<String> allChapter = new ArrayList<>();
+    private List<Chapter.Result> allChapter = new ArrayList<>();
 
     private String bookId;
 
     private String charset = "UTF-8";
+
+    String chapterName = "";
 
     private PageFactory(PageView view){
         DisplayMetrics metrics = new DisplayMetrics();
@@ -111,15 +113,14 @@ public class PageFactory {
         return instance;
     }
 
-    public static PageFactory getInstance(PageView view,String chapter, List<String>allChapter
+    public static PageFactory getInstance(PageView view,String chapter,String chapterName
             , int[]position ,String bookId) {
         if(instance == null) {
             synchronized (PageFactory.class) {
                 if(instance == null) {
                     instance = new PageFactory(view);
-                    instance.allChapter = allChapter;
                     instance.bookId = bookId;
-                    instance.openBook(chapter,position);
+                    instance.openBook(chapter,position,chapterName);
                 }
             }
         }
@@ -140,26 +141,27 @@ public class PageFactory {
     }
 
     private String currentChapter;
-    private int chapterSize;
+//    private int chapterSize;
 
     /**
      *
      * @param chapter 章节ID
      * @param position 读取位置
      */
-    public void openBook(String chapter, int[] position) {
+    public void openBook(String chapter, int[] position,String chapterName) {
         Log.e("test","testOpenBoos");
 //        this.book = book;
-        this.chapterSize = allChapter.size();
+//        this.chapterSize = allChapter.size();
         this.currentChapter = chapter;
-        if (Integer.parseInt(currentChapter) > Integer.parseInt(allChapter.get(chapterSize - 1)))
-            currentChapter = allChapter.get(chapterSize - 1);
+//        if (Integer.parseInt(currentChapter) > Integer.parseInt(allChapter.get(chapterSize - 1)))
+//            currentChapter = allChapter.get(chapterSize - 1);
         String path = getBookFile(currentChapter).getPath();
         File file = new File(path);
         fileLength = (int)file.length();
         encoding = charset;
         begin = position[0];
         end = position[1];
+        this.chapterName = chapterName;
 //        begin = spHelper.getBookmarkStart(book.getName());
 //        end = spHelper.getBookmarkEnd(book.getName());
 //        File file = new File(book.getPath());
@@ -392,7 +394,7 @@ public class PageFactory {
             /*
              /绘制章节头部
              */
-            mCanvas.drawText(currentChapter,Util.getPXWithDP(20),Util.getPXWithDP(35),mBatteryPait);
+            mCanvas.drawText(chapterName,Util.getPXWithDP(20),Util.getPXWithDP(35),mBatteryPait);
         }
         mView.invalidate();
     }

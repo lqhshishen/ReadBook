@@ -57,7 +57,7 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
                 @Override
                 public void onClick(View v) {
                     if (mListener != null) {
-                        mListener.onItemClick(data.get(getAdapterPosition()));
+                        mListener.onItemClick(getAdapterPosition());
                     }
                 }
             });
@@ -78,6 +78,6 @@ public class ChapterAdapter extends RecyclerView.Adapter <ChapterAdapter.Chapter
         currentChapter = number;
     }
     public interface OnItemClickListener {
-        void onItemClick(Chapter.Result chapter);
+        void onItemClick(int pos);
     }
 }

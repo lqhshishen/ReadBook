@@ -1,16 +1,19 @@
 package com.liqihao.readbook.module.ReadPage.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liqihao.readbook.MainActivity;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppFragment;
 import com.liqihao.readbook.module.ReadPage.Adapter.ChapterAdapter;
 import com.liqihao.readbook.module.ReadPage.View.ContentFactory;
 import com.liqihao.readbook.module.ReadPage.bean.Chapter;
@@ -28,7 +31,8 @@ import java.util.List;
  * Created by liqihao on 2017/11/15.
  */
 
-public class Content extends BaseFragment<ContentPresenter> implements ContentContract.Content {
+public class Content extends AppFragment<ContentPresenter> implements ContentContract.Content {
+
 
     ImageView contentImageGrey;
     ImageView contentImageRed;
@@ -66,19 +70,23 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
 
     String bookid;
     int ChapterNumber;
+
+    private showMsgListener msgListener;
     @Override
     public void initData() {
+
         mAdapter = new ChapterAdapter(App.AppContext);
         recyclerView.setAdapter(mAdapter);
         presenter.getChapterList(bookid);
+        mAdapter.setOnItemClickListener(new ChapterAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                ((MainActivity)getActivity()).setChapterNumber(pos);
+                Log.e(TAG,"testClick");
+            }
+        });
     }
 
-    @Override
-    public void setPresenter(ContentPresenter presenter) {
-        if (presenter == null) {
-            this.presenter = new ContentPresenter();
-        }
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecieve(String word) {
@@ -164,8 +172,17 @@ public class Content extends BaseFragment<ContentPresenter> implements ContentCo
         super.onAttach(activity);
         bookid = ((MainActivity)activity).bookId();
         ChapterNumber = ((MainActivity)activity).getChapterNumber();
+        Log.e(TAG,ChapterNumber + "");
     }
 
+    public interface showMsgListener{
+        void onClickChapter(Chapter.Result chapter);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
 
     @Override
     public void onDestroy() {

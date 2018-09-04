@@ -63,6 +63,7 @@ public class ActivityHome extends AppActivity<HomePresenter> implements HomeCont
     @Override
     public void bindView() {
         ButterKnife.bind(this);
+        hideStatue();
         previousIndex = 0;
         title = new ArrayList<>();
         fragments = new ArrayList<>();
@@ -78,7 +79,7 @@ public class ActivityHome extends AppActivity<HomePresenter> implements HomeCont
         title.add("排行");
         title.add("社区");
         fragments.clear();
-        fragments.add(BookCityFragment.newInstance());
+        fragments.add(new BookCityFragment());
         fragments.add(new ClassificationFragment());
         fragments.add(new RankFragment());
         fragments.add(new CommunityFragment());
@@ -112,10 +113,7 @@ public class ActivityHome extends AppActivity<HomePresenter> implements HomeCont
         return R.layout.activity_home;
     }
 
-    @Override
-    public void setPresenter(HomePresenter presenter) {
 
-    }
 
     @OnClick({R.id.home_navView, R.id.home_bookCity, R.id.home_classification, R.id.home_rank, R.id.community, R.id.home_navSearch})
     public void onViewClicked(View view) {

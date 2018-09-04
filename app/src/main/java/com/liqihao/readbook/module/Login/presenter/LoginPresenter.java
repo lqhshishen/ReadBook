@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppPresenter;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Login.bean.MobileLoginBean;
 import com.liqihao.readbook.module.Login.bean.UMLoginBean;
@@ -14,6 +15,8 @@ import com.liqihao.readbook.module.ReadPage.bean.Book;
 import com.liqihao.readbook.utils.GetContext;
 
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
@@ -26,12 +29,17 @@ import retrofit2.http.GET;
  * Created by liqihao on 2018/1/18.
  */
 
-public class LoginPresenter extends BasePresenter<LoginActivity> implements LoginContract.presenter {
+public class LoginPresenter extends AppPresenter<LoginActivity> implements LoginContract.presenter {
+
+    @Inject
+    public LoginPresenter(LoginActivity activity,BookApi bookApi) {
+        view = activity;
+        api = bookApi;
+    }
 
     @Override
     public void doLogin(String mobile,String pass) {
-        BookApi.getInstance(App.AppContext)
-                .login(mobile,pass)
+        api.login(mobile,pass)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MobileLoginBean>() {
@@ -59,8 +67,7 @@ public class LoginPresenter extends BasePresenter<LoginActivity> implements Logi
 
     @Override
     public void getToken(Map<String, String> data, final View view1) {
-        BookApi.getInstance(App.AppContext)
-                .UMLogin(data.get("screen_name"),data.get("openid"),data.get("province")
+        api.UMLogin(data.get("screen_name"),data.get("openid"),data.get("province")
                         ,data.get("gender"),data.get("iconurl"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

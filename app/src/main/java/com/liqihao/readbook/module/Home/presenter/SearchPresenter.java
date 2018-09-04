@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppPresenter;
 import com.liqihao.readbook.base.BasePresenter;
 import com.liqihao.readbook.module.Home.bean.HotSearchBean;
 import com.liqihao.readbook.module.Home.contract.SearchContract;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -26,7 +29,13 @@ import io.reactivex.schedulers.Schedulers;
  * Created by liqihao on 2017/12/28.
  */
 
-public class SearchPresenter extends BasePresenter<SearchActivity> implements SearchContract.Presenter {
+public class SearchPresenter extends AppPresenter<SearchActivity> implements SearchContract.Presenter {
+
+    @Inject
+    public SearchPresenter(SearchActivity view,BookApi bookApi) {
+        this.view = view;
+        this.api = bookApi;
+    }
 
     @Override
     public List<String> getHistory() {
@@ -57,8 +66,7 @@ public class SearchPresenter extends BasePresenter<SearchActivity> implements Se
 
     @Override
     public void getHotSearch() {
-        BookApi.getInstance(App.AppContext)
-                .hotSearch()
+        api.hotSearch()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HotSearchBean>() {

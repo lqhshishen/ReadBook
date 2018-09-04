@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -43,9 +44,6 @@ public class ClassificationAdapter extends RecyclerView.Adapter<ClassificationAd
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.className.setText(data.get(position).getClassify());
-        Glide.with(context)
-                .load(R.mipmap.site)
-                .into(holder.img);
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,15 +60,12 @@ public class ClassificationAdapter extends RecyclerView.Adapter<ClassificationAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
-        ImageView img;
-        TextView className,number;
+        LinearLayout cardView;
+        TextView className;
         public ViewHolder(View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.classic_card);
-            img = itemView.findViewById(R.id.classic_img);
             className = itemView.findViewById(R.id.classic_name);
-            number = itemView.findViewById(R.id.classic_number);
         }
     }
 }

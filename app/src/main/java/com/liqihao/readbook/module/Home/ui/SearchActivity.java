@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.liqihao.readbook.R;
+import com.liqihao.readbook.base.AppActivity;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Home.adapter.HotSearchAdapter;
 import com.liqihao.readbook.module.Home.adapter.SearchBookAdapter;
@@ -41,7 +42,8 @@ import butterknife.OnClick;
  * Created by liqihao on 2017/12/28.
  */
 
-public class SearchActivity extends BaseActivity<SearchPresenter> implements SearchContract.View {
+public class SearchActivity extends AppActivity<SearchPresenter> implements SearchContract.View {
+
     @BindView(R.id.search_edtinputtel)
     EditText searchEdtinputtel;
     @BindView(R.id.search_hotRecycle)
@@ -51,12 +53,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @BindView(R.id.search_clear)
     LinearLayout searchClear;
 
-    @Override
-    public void setPresenter(SearchPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new SearchPresenter();
-        }
-    }
+
 
     @Override
     public void bindView() {

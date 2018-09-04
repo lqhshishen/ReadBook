@@ -30,10 +30,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(getLayout(),container,false);
-        setPresenter(presenter);
-        if (presenter != null) {
-            this.presenter.attachView(this);
-        }
         bindView();
         initData();
         return view;

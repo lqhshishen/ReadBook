@@ -1,11 +1,12 @@
 package com.liqihao.readbook.module.Login.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.AppBarLayout;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,13 +16,11 @@ import android.widget.Toast;
 
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.app.App;
-import com.liqihao.readbook.base.BaseActivity;
-import com.liqihao.readbook.module.Home.ui.ActivityHome;
+import com.liqihao.readbook.base.AppActivity;
 import com.liqihao.readbook.module.Login.bean.MobileReg;
 import com.liqihao.readbook.module.Login.bean.SendCodeBean;
 import com.liqihao.readbook.module.Login.contract.RegisterContract;
 import com.liqihao.readbook.module.Login.presenter.RegisterPresenter;
-import com.liqihao.readbook.utils.GetContext;
 import com.liqihao.readbook.utils.ToastUtils;
 
 import java.util.Timer;
@@ -32,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 @SuppressLint("Registered")
-public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterContract.view {
+public class RegisterActivity extends AppActivity<RegisterPresenter> implements RegisterContract.view {
 
 
     @BindView(R.id.register_edtinputtel)
@@ -45,16 +44,16 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     Button registerBtnregister;
     @BindView(R.id.register_edtinputPass)
     EditText registerEdtinputPass;
-    @BindView(R.id.back_btn)
-    ImageView backBtn;
-    @BindView(R.id.textView)
-    TextView textView;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.AppBarLayout01)
+    AppBarLayout mAppBarLayout01;
 
 
     @Override
     public void bindView() {
         ButterKnife.bind(this);
-        textView.setText("注册页面");
+        initToolBar(mToolbar,true,"注册页面");
     }
 
     @Override
@@ -72,14 +71,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         return R.layout.activity_register;
     }
 
-    @Override
-    public void setPresenter(RegisterPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new RegisterPresenter();
-        }
-    }
 
-    @OnClick({R.id.register_edtinputtel, R.id.register_edtinputPass, R.id.register_inputnumber, R.id.register_edtbutton, R.id.register_btnregister,R.id.back_btn})
+    @OnClick({R.id.register_edtinputtel, R.id.register_edtinputPass, R.id.register_inputnumber, R.id.register_edtbutton, R.id.register_btnregister})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 //            case R.id.register_edtinputtel:
@@ -103,11 +96,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                 break;
             case R.id.register_btnregister:
                 presenter.doRegister(registerEdtinputtel.getText().toString()
-                ,registerEdtinputPass.getText().toString()
-                ,edtInputnumber.getText().toString());
-                break;
-            case R.id.back_btn:
-                finish();
+                        , registerEdtinputPass.getText().toString()
+                        , edtInputnumber.getText().toString());
                 break;
         }
     }
@@ -155,12 +145,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @Override
     public void onRegister(MobileReg mobileReg) {
         if ("success".equals(mobileReg.getMsg())) {
-            ToastUtils.showShort(App.AppContext,"注册成功,转回登录页面");
+            ToastUtils.showShort(App.AppContext, "注册成功,转回登录页面");
             finish();
         } else {
-            ToastUtils.showShort(getApplicationContext(),"验证码输入有误或账号已经注册");
+            ToastUtils.showShort(getApplicationContext(), "验证码输入有误或账号已经注册");
         }
     }
-
 
 }

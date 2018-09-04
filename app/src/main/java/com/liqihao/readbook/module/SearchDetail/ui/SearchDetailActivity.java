@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.liqihao.readbook.R;
-import com.liqihao.readbook.base.BaseActivity;
+import com.liqihao.readbook.base.AppActivity;
 import com.liqihao.readbook.module.Book.bean.BookBean;
 import com.liqihao.readbook.module.SearchDetail.adapter.SearchDetailAdapter;
 import com.liqihao.readbook.module.SearchDetail.bean.SearchBookBean;
@@ -24,27 +25,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SearchDetailActivity extends BaseActivity<SearchDetailPresenter> implements SearchDetailContract.view {
+public class SearchDetailActivity extends AppActivity<SearchDetailPresenter> implements SearchDetailContract.view {
 
-
-    @BindView(R.id.back_btn)
-    ImageView mBackBtn;
-    @BindView(R.id.textView)
-    TextView mTextView;
     @BindView(R.id.searchDetail_recycle)
     RecyclerView mSearchDetailRecycle;
     @BindView(R.id.searchDetail_progress)
     ProgressBar mSearchDetailProgress;
     @BindView(R.id.searchDetail_noData)
     TextView mSearchDetailNoData;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     @Override
     public void bindView() {
         ButterKnife.bind(this);
+        initToolBar(mToolbar,true,"搜索结果");
         mSearchDetailRecycle.setVisibility(View.GONE);
         ButterKnife.bind(this);
         mSearchDetailRecycle.setLayoutManager(new LinearLayoutManager(this));
-        mTextView.setText("搜索结果");
     }
 
     List<BookBean> data = new ArrayList<>();
@@ -63,12 +61,6 @@ public class SearchDetailActivity extends BaseActivity<SearchDetailPresenter> im
         mSearchDetailRecycle.setAdapter(adapter);
     }
 
-    @Override
-    public void setPresenter(SearchDetailPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new SearchDetailPresenter();
-        }
-    }
 
     @Override
     public void onClick() {
@@ -80,10 +72,6 @@ public class SearchDetailActivity extends BaseActivity<SearchDetailPresenter> im
         return R.layout.activity_search_detail;
     }
 
-    @OnClick(R.id.back_btn)
-    public void onViewClicked() {
-        finish();
-    }
 
     @Override
     public void onSearch(SearchBookBean searchBookBean) {
@@ -100,4 +88,10 @@ public class SearchDetailActivity extends BaseActivity<SearchDetailPresenter> im
             mSearchDetailProgress.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

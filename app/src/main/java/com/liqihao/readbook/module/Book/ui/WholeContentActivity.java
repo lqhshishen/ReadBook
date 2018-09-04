@@ -4,14 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.liqihao.readbook.R;
 import com.liqihao.readbook.base.AppActivity;
-import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.module.Book.adapter.WholeContentAdapter;
 import com.liqihao.readbook.module.Book.bean.BookBean;
 import com.liqihao.readbook.module.Book.contract.WholeContentContract;
@@ -28,10 +27,6 @@ import butterknife.ButterKnife;
 public class WholeContentActivity extends AppActivity<WholeContentPresenter> implements WholeContentContract.view {
 
 
-    @BindView(R.id.back_btn)
-    ImageView backBtn;
-    @BindView(R.id.textView)
-    TextView textView;
     @BindView(R.id.wholecontent_bookimg)
     ImageView wholecontentBookimg;
     @BindView(R.id.wholecontent_bookname)
@@ -42,19 +37,18 @@ public class WholeContentActivity extends AppActivity<WholeContentPresenter> imp
     TextView wholecontentBookchapter;
     @BindView(R.id.wholecontent_rv)
     RecyclerView wholecontentRv;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
-    @Override
-    public void setPresenter(WholeContentPresenter presenter) {
-    }
 
     @Override
     public void bindView() {
         ButterKnife.bind(this);
-        textView.setText("完整目录");
-
+        initToolBar(mToolbar,true,"完整目录");
     }
 
     BookBean event;
+
     @Override
     public void initData() {
         Intent intent = getIntent();
@@ -81,11 +75,13 @@ public class WholeContentActivity extends AppActivity<WholeContentPresenter> imp
     }
 
     WholeContentAdapter adapter;
+
     @Override
     public void onGetChapter(Chapter chapter) {
-        adapter = new WholeContentAdapter(this,chapter.getResult());
+        adapter = new WholeContentAdapter(this, chapter.getResult());
         wholecontentRv.setLayoutManager(new LinearLayoutManager(this));
         wholecontentRv.setAdapter(adapter);
         wholecontentBookchapter.setText("共" + chapter.getResult().size() + "章");
     }
+
 }

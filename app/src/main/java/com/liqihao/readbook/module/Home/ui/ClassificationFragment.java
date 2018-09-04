@@ -35,10 +35,7 @@ public class ClassificationFragment extends AppFragment<ClassificationPresenter>
     RecyclerView classicRecycle;
     Unbinder unbinder;
 
-    @Override
-    public void setPresenter(ClassificationPresenter presenter) {
 
-    }
 
     @Override
     public int getLayout() {

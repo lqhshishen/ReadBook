@@ -16,6 +16,7 @@ import com.liqihao.readbook.R;
 import com.liqihao.readbook.api.BookApi;
 import com.liqihao.readbook.api.BookApiService;
 import com.liqihao.readbook.app.App;
+import com.liqihao.readbook.base.AppActivity;
 import com.liqihao.readbook.base.BaseActivity;
 import com.liqihao.readbook.contents.Constant;
 import com.liqihao.readbook.module.Home.ui.ActivityHome;
@@ -47,7 +48,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.view {
+public class LoginActivity extends AppActivity<LoginPresenter> implements LoginContract.view {
 
     @BindView(R.id.login_edtinputtel)
     EditText loginEdtinputtel;
@@ -111,12 +112,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         return R.layout.activity_login;
     }
 
-    @Override
-    public void setPresenter(LoginPresenter presenter) {
-        if (this.presenter == null) {
-            this.presenter = new LoginPresenter();
-        }
-    }
 
     UMShareAPI umShareAPI;
     @OnClick({R.id.login_btnlogin, R.id.login_qq, R.id.login_wechat,R.id.login_register})

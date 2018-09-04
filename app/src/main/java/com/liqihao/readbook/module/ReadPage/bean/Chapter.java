@@ -2,6 +2,7 @@ package com.liqihao.readbook.module.ReadPage.bean;
 
 import com.liqihao.readbook.module.ReadPage.bean.Book;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ private String code;
         this.result = result;
     }
 
-    public class Result {
+    public class Result implements Serializable {
         String id;
         String bookname;
         String link;

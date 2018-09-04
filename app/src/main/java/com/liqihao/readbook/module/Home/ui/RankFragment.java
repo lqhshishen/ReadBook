@@ -13,9 +13,7 @@ import com.liqihao.readbook.module.Home.presenter.RankPresenter;
  */
 
 public class RankFragment extends AppFragment<RankPresenter> implements RankContract.View {
-    @Override
-    public void setPresenter(RankPresenter presenter) {
-    }
+
 
     @Override
     public int getLayout() {

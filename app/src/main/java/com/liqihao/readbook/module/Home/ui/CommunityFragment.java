@@ -27,9 +27,7 @@ public class CommunityFragment extends AppFragment<CommunityPresenter> implement
     RecyclerView communityRecycle;
     Unbinder unbinder;
 
-    @Override
-    public void setPresenter(CommunityPresenter presenter) {
-    }
+
 
     @Override
     public int getLayout() {
